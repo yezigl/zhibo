@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>orion</groupId>
+        <artifactId>orion-web</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.orion.zhibo</groupId>
+    <artifactId>zhibo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>zhibo666</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>orion</groupId>
+            <artifactId>orion-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <logging.path>/opt/logs/${project.name}</logging.path>
+                <upload.path>/opt/data/upload/</upload.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <logging.path>/data/logs/${project.name}</logging.path>
+                <upload.path>/data/upload/</upload.path>
+            </properties>
+        </profile>
+    </profiles>
+</project>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+#parse("head.vm")
+<title>约个球</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <img class="center-block" src="/img/share_qrcode.png" alt="分享二维码" />
+        </div>
+        <br>
+        <div class="row text-center">
+            <a class="btn btn-primary" href="http://www.yueqiua.com/download/mobile/iphone?form=index">iPhone</a>
+            &nbsp;&nbsp;
+            <a class="btn btn-primary" href="http://www.yueqiua.com/download/mobile/android?form=index">Android</a>
+        </div>
+    </div>
+
+    #parse("footer.vm")
+</body>
+</html>
