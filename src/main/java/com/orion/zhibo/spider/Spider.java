@@ -11,4 +11,6 @@ package com.orion.zhibo.spider;
  */
 public interface Spider {
 
+    void run();
+    
 }

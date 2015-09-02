@@ -2,19 +2,63 @@
 <html>
 <head>
 #parse("head.vm")
-<title>约个球</title>
+<title>爱看直播</title>
 </head>
 <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-lg-10 col-lg-offset-1">
+
+                    <!-- Branding and mobile menu button -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/falcor/"> <img class="img-plain navbar-logo"
+                            src="/img/logo.png" alt="logo">
+                        </a>
+                    </div>
+
+                    <!-- Main navigation links -->
+                    <div class="navbar-collapse collapse site-navigation">
+
+                        <!-- Link to the project's GitHub repo & Twitter profile -->
+                        <ul class="nav navbar-nav navbar-right navbar-links">
+                            <li><a href="https://github.com/Netflix/falcor">登录</a></li>
+                            <li><a href="https://twitter.com/falcorjs">注册</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="banner" class="container"></div>
 
     <div class="container">
-        <div class="row">
-            <img class="center-block" src="/img/share_qrcode.png" alt="分享二维码" />
+        <div class="row col-lg-offset-1">
+            <div class="col-sm-1 col-md-1">平台：</div>
+            <ul class="list-inline">
+                #foreach ($platform in $platforms)
+                <li #if ($currentPlatform == $platform.abbr)class="text-primary"#end>
+                    <a href="/s/$platform.abbr">$platform.name</a>
+                <li>
+                #end
+            </ul>
         </div>
-        <br>
-        <div class="row text-center">
-            <a class="btn btn-primary" href="http://www.yueqiua.com/download/mobile/iphone?form=index">iPhone</a>
-            &nbsp;&nbsp;
-            <a class="btn btn-primary" href="http://www.yueqiua.com/download/mobile/android?form=index">Android</a>
+        <div class="row col-lg-offset-1">
+            <div class="col-sm-1 col-md-1">游戏：</div>
+            <ul class="list-inline">
+                #foreach ($game in $games)
+                <li #if ($currentGame == $game.abbr)class="text-primary"#end>
+                    <a href="/s/$currentPlatform/$game.abbr">$game.name</a>
+                <li>
+                #end
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row col-lg-offset-1">
         </div>
     </div>
 

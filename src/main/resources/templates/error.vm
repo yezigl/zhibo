@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+#parse("head.vm")
+<title>约个球</title>
+</head>
+<body>
+    ${exception}
+</body>
+</html>

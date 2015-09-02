@@ -1,5 +1,12 @@
 @CHARSET "UTF-8";
 
+body {
+    padding-top: 70px;
+}
+
+#banner {
+    height: 20px;   
+}
 .delete {
     position: absolute;
     top: -2px;
