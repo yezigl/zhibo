@@ -24,11 +24,14 @@ public class SpiderTask {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     
-//    @Autowired
-//    List<Spider> spiders;
+    @Autowired
+    List<Spider> spiders;
     
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void run() {
         logger.info("spider run");
+        for (Spider spider : spiders) {
+            spider.run();
+        }
     }
 }

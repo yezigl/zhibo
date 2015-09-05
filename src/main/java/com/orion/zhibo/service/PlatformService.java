@@ -6,6 +6,7 @@ package com.orion.zhibo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Platform;
@@ -24,7 +25,13 @@ public class PlatformService extends BasicService {
         if (list == null) {
             list = new ArrayList<>();
         }
-        list.add(Platform.ALL);
+        list.add(0, Platform.ALL);
         return list;
+    }
+    
+    public Platform getByAbbr(String abbr) {
+        Query<Platform> query = platformDao.createQuery();
+        query.field("abbr").equal(abbr);
+        return query.get();
     }
 }

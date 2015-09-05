@@ -4,6 +4,7 @@
 package com.orion.zhibo.dao;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,16 @@ public class PlatformDao extends AbstractEntityDao<Platform> {
     @Autowired
     public PlatformDao(Datastore datastore) {
         super(datastore);
+    }
+
+    /**
+     * @param string
+     * @return
+     */
+    public Platform getByAbbr(String abbr) {
+        Query<Platform> query = createQuery();
+        query.field("abbr").equal(abbr);
+        return query.get();
     }
 
 }

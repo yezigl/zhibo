@@ -7,6 +7,12 @@ body {
 #banner {
     height: 20px;   
 }
+
+a, a:link {
+    text-decoration: none;
+}
+
+
 .delete {
     position: absolute;
     top: -2px;

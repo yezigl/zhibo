@@ -3,11 +3,15 @@
  */
 package com.orion.zhibo.dao;
 
+import java.util.List;
+
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.orion.zhibo.entity.Game;
+import com.orion.zhibo.entity.Platform;
 
 import orion.mongodb.dao.AbstractEntityDao;
 
@@ -26,6 +30,12 @@ public class GameDao extends AbstractEntityDao<Game> {
     @Autowired
     public GameDao(Datastore datastore) {
         super(datastore);
+    }
+    
+    public List<Game> listByPlatform(Platform platform) {
+        Query<Game> query = createQuery();
+        query.field("platform").equal(platform);
+        return query.asList();
     }
 
 }

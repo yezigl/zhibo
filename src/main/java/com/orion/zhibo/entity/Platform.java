@@ -21,8 +21,7 @@ public class Platform extends AbstractEntity {
     private String name;
     private String abbr;
     private String url;
-    private String playerNamePattern;
-    private String playerAvatarPattern;
+    private String host;
 
     /**
      * 
@@ -59,20 +58,12 @@ public class Platform extends AbstractEntity {
         this.url = url;
     }
 
-    public String getPlayerNamePattern() {
-        return playerNamePattern;
+    public String getHost() {
+        return host;
     }
 
-    public void setPlayerNamePattern(String playerNamePattern) {
-        this.playerNamePattern = playerNamePattern;
-    }
-
-    public String getPlayerAvatarPattern() {
-        return playerAvatarPattern;
-    }
-
-    public void setPlayerAvatarPattern(String playerAvatarPattern) {
-        this.playerAvatarPattern = playerAvatarPattern;
+    public void setHost(String host) {
+        this.host = host;
     }
 
 }
