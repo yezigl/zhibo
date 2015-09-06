@@ -35,8 +35,9 @@ public class GameDaoTest {
         game.setName("英雄联盟");
         game.setAlias("LOL");
         game.setAbbr("lol");
-        game.setPlatformUrl("http://www.douyutv.com/directory/game/LOL");
-        game.setPlatform(platformDao.getByAbbr("douyu"));
+        game.setPlatformUrl("http://www.zhanqi.tv/games/lol");
+        game.setPlatform(platformDao.getByAbbr("zhanqi"));
+        game.setIcon(GameCate.LOL.getIcon());
         String id = gameDao.create(game);
         System.out.println(id);
     }

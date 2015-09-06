@@ -148,10 +148,12 @@ public class LiveRoom extends AbstractEntity {
         ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
         builder.append("uid", uid);
         builder.append("name", name);
+        builder.append("avatar", avatar);
+        builder.append("roomId", roomId);
         builder.append("title", title);
         builder.append("url", url);
         builder.append("thumbnail", thumbnail);
-        builder.append("avatar", avatar);
+        builder.append("views", views);
         builder.append("number", number);
         return builder.toString();
     }

@@ -43,4 +43,18 @@ public class LiveRoomDaoTest {
         liveRoomDao.delete(id);
     }
 
+    @Test
+    public void testOK() {
+        List<LiveRoom> list = liveRoomDao.getAll();
+        for (LiveRoom liveRoom : list) {
+            if ((System.currentTimeMillis() - liveRoom.getUpdateTime().getTime()) > 3600000) {
+                System.out.println(liveRoom.getName() + " " + liveRoom.getNumber());
+                liveRoomDao.delete(liveRoom);
+            }
+            if (liveRoom.getNumber() < 1000) {
+                System.out.println(liveRoom.getName() + " " + liveRoom.getNumber());
+                liveRoomDao.delete(liveRoom);
+            }
+        }
+    }
 }
