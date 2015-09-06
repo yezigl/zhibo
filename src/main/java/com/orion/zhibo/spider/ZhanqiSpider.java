@@ -101,7 +101,6 @@ public class ZhanqiSpider extends AbstractSpider {
                 } catch (Exception e) {
                     logger.error("parse error", e);
                 }
-                break;
             }
         }
     }
