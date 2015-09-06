@@ -31,10 +31,10 @@ public class GameDaoTest {
     @Test
     public void testCreate() {
         Game game = new Game();
-        game.setName("DOTA2");
-        game.setAlias("DotA2");
-        game.setAbbr("dota2");
-        game.setPlatformUrl("http://www.douyutv.com/directory/game/DOTA2");
+        game.setName("英雄联盟");
+        game.setAlias("LOL");
+        game.setAbbr("lol");
+        game.setPlatformUrl("http://www.douyutv.com/directory/game/LOL");
         game.setPlatform(platformDao.getByAbbr("douyu"));
         String id = gameDao.create(game);
         System.out.println(id);

@@ -39,6 +39,9 @@
             <embed width="100%" height="auto" allownetworking="all" allowscriptaccess="always" src="http://staticlive.douyutv.com/common/share/play.swf?room_id=58428" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
         </div>
         <div class="row">
+            <p>
+                $liveroom.description
+            </p>
         </div>
     </div>
     

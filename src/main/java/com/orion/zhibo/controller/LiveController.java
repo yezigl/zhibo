@@ -21,7 +21,7 @@ import com.orion.zhibo.entity.Platform;
 @Controller
 public class LiveController extends BasicController {
 
-    @RequestMapping("/live/{platform}/${game}/{uid}")
+    @RequestMapping("/live/{platform}/{game}/{uid}")
     public String liveroom(@PathVariable String platform, @PathVariable String game, @PathVariable String uid,
             Model model) {
         Platform p = platformService.getByAbbr(platform);
