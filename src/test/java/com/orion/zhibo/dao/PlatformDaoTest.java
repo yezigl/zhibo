@@ -28,9 +28,11 @@ public class PlatformDaoTest {
     @Test
     public void testCreate() {
         Platform p = new Platform();
-        p.setName("斗鱼");
-        p.setAbbr("douyu");
-        p.setUrl("http://www.douyutv.com/");
+        p.setName("战旗");
+        p.setAbbr("zhanqi");
+        p.setUrl("http://www.zhanqi.tv/");
+        p.setHost("www.zhanqi.tv");
+        p.setIcon("http://www.zhanqi.tv/favicon.ico");
         platformDao.create(p);
     }
     
@@ -38,6 +40,7 @@ public class PlatformDaoTest {
     public void updatePlatform() {
         Platform p = platformDao.get("55e85ec20e37de20d024f49b");
         p.setHost("www.douyutv.com");
+        p.setIcon("http://www.douyutv.com/favicon.ico");
         System.out.println(p);
         platformDao.update(p);
     }

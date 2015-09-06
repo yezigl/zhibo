@@ -45,12 +45,13 @@ public class DouyuSpider extends AbstractSpider {
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.replace("/", "");
                     LiveRoom liveRoom = liveRooms.get(url);
+                    Element views = element.select("p.moreMes .view").first();
+                    int number = Utils.parseViews(views.text());
                     if (liveRoom != null) {
                         Element thumbnail = element.select("img.lazy").first();
-                        Element views = element.select("p.moreMes .view").first();
                         liveRoom.setTitle(element.attr("title"));
                         liveRoom.setThumbnail(thumbnail.attr("data-original"));
-                        liveRoom.setNumber(Utils.parseViews(views.text()));
+                        liveRoom.setNumber(number);
                         liveRoom.setViews(views.text());
                         liveRoom.setUrl(url);
                         liveRoom.setStatus(LiveStatus.LIVING);
@@ -61,6 +62,7 @@ public class DouyuSpider extends AbstractSpider {
                         liveRoom.setPlatform(platform);
                         liveRoom.setGame(game);
                         liveRoom.setStatus(LiveStatus.LIVING);
+                        liveRoom.setNumber(number);
                         document = Jsoup.parse(HttpUtils.get(url, header, "UTF-8"));
                         Elements scripts = document.select("script");
                         Element avatar = document.select(".room_mes .h_tx img").first();

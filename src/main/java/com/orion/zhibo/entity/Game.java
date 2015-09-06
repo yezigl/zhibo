@@ -16,7 +16,7 @@ import orion.mongodb.entity.AbstractEntity;
  */
 @Entity("game")
 public class Game extends AbstractEntity {
-    
+
     public static Game ALL = new Game("全部", "all");
 
     private String name; // 名字，如英雄联盟 DOTA2
@@ -25,18 +25,19 @@ public class Game extends AbstractEntity {
     private String platformUrl; // 游戏在平台的地址
     @Reference
     private Platform platform;
-    
+    private String icon;
+
     /**
      * 
      */
     public Game() {
     }
-    
+
     public Game(String name, String abbr) {
         this.name = name;
         this.abbr = abbr;
     }
- 
+
     public String getName() {
         return name;
     }
@@ -75,6 +76,14 @@ public class Game extends AbstractEntity {
 
     public void setPlatform(Platform platform) {
         this.platform = platform;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
 }

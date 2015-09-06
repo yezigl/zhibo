@@ -70,6 +70,10 @@
                                 <span>$liveRoom.views</span>&nbsp;&nbsp;
                                 <span>$liveRoom.name</span>
                             </span>
+                            <span class="pull-right">
+                                <img src="$liveRoom.platform.icon" />&nbsp;
+                                <img src="$liveRoom.game.icon" />
+                            </span>
                         </div>
                     </div>
                 </a>

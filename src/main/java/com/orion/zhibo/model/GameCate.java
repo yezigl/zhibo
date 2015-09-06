@@ -16,17 +16,24 @@ import com.orion.zhibo.entity.Game;
  */
 public enum GameCate {
 
-    ALL("全部", "all"), DOTA2("DOTA2", "dota2"), LOL("英雄联盟", "lol");
+    ALL("全部", "all", ""), DOTA2("DOTA2", "dota2", "http://www.dota2.com/favicon.ico"), LOL("英雄联盟", "lol",
+            "http://lol.qq.com/favicon.ico");
 
     String name;
     String abbr;
+    String icon;
 
     /**
      * 
      */
-    private GameCate(String name, String abbr) {
+    private GameCate(String name, String abbr, String icon) {
         this.name = name;
         this.abbr = abbr;
+        this.icon = icon;
+    }
+    
+    public String getIcon() {
+        return icon;
     }
 
     public static List<Game> toList() {

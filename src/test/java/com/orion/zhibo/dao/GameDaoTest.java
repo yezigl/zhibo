@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.orion.zhibo.TestConfig;
 import com.orion.zhibo.dao.GameDao;
 import com.orion.zhibo.entity.Game;
+import com.orion.zhibo.model.GameCate;
 
 /**
  * description here
@@ -43,5 +44,15 @@ public class GameDaoTest {
     @Test
     public void testDelete() {
         gameDao.delete("55e8519c0e37de20a10542b3");
+    }
+    
+    @Test
+    public void testUpdate() {
+        Game dota2 = gameDao.get("55e8606e0e37de20d263fa9d");
+        dota2.setIcon(GameCate.DOTA2.getIcon());
+        gameDao.update(dota2);
+        Game lol = gameDao.get("55eb90440e37de26a24bd9be");
+        lol.setIcon(GameCate.LOL.getIcon());
+        gameDao.update(lol);
     }
 }

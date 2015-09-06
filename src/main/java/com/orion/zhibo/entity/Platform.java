@@ -22,6 +22,7 @@ public class Platform extends AbstractEntity {
     private String abbr;
     private String url;
     private String host;
+    private String icon;
 
     /**
      * 
@@ -64,6 +65,14 @@ public class Platform extends AbstractEntity {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
 }

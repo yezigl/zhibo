@@ -160,7 +160,7 @@ public class LiveRoom extends AbstractEntity {
      * @return
      */
     public boolean isAvaliable() {
-        return uid != null && url != null;
+        return uid != null && url != null && number >= 1000;
     }
 
 }
