@@ -10,8 +10,9 @@ import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
+import org.mongodb.morphia.annotations.Transient;
 
-import orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.AbstractEntity;
 
 /**
  * description here
@@ -38,6 +39,8 @@ public class LiveRoom extends AbstractEntity {
     private String views;
     private int number;
     private int status;
+    @Transient
+    private String shareUrl;
 
     public Platform getPlatform() {
         return platform;
@@ -141,6 +144,15 @@ public class LiveRoom extends AbstractEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getShareUrl() {
+        this.shareUrl = String.format(platform.getSharePattern(), this.roomId);
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 
     @Override

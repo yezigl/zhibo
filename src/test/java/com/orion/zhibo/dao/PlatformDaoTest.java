@@ -39,8 +39,7 @@ public class PlatformDaoTest {
     @Test
     public void updatePlatform() {
         Platform p = platformDao.get("55e85ec20e37de20d024f49b");
-        p.setHost("www.douyutv.com");
-        p.setIcon("http://www.douyutv.com/favicon.ico");
+        p.setSharePattern("http://staticlive.douyutv.com/common/share/play.swf?room_id=%s");
         System.out.println(p);
         platformDao.update(p);
     }

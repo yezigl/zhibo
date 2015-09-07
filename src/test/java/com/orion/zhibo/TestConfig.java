@@ -17,7 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource(value = { "classpath:application.properties", "classpath:mongodb.properties" })
 @ImportResource("classpath:applicationContext.xml")
-@ComponentScan(value = { "orion.mongodb", "com.orion.zhibo.dao", "com.orion.zhibo.spider" })
+@ComponentScan(value = { "com.orion.mongodb", "com.orion.zhibo.dao", "com.orion.zhibo.spider" })
 public class TestConfig {
 
 }
