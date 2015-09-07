@@ -5,13 +5,37 @@ body {
 }
 
 #banner {
-    height: 20px;   
+    height: 20px;
 }
 
 a, a:link {
     text-decoration: none;
 }
 
+.zb-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.zb-info {
+    margin-bottom: 40px;
+}
+
+.zb-avatar {
+    width: 60px;
+    height: 60px;
+}
+
+.zb-title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.zb-name {
+    margin: 0;
+    margin-top: 10px;
+}
 
 .delete {
     position: absolute;
