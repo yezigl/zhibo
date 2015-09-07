@@ -37,6 +37,11 @@ a, a:link {
     margin-top: 10px;
 }
 
+.zb-ico {
+    width: 16px;
+    height: 16px;
+}
+
 .delete {
     position: absolute;
     top: -2px;

@@ -71,8 +71,8 @@
                                 <span>$liveRoom.name</span>
                             </span>
                             <span class="pull-right">
-                                <img src="$liveRoom.platform.icon" title="$liveRoom.platform.name" />&nbsp;
-                                <img src="$liveRoom.game.icon" title="$liveRoom.game.name" />
+                                <img class="zb-ico" src="$liveRoom.platform.icon" title="$liveRoom.platform.name" />&nbsp;
+                                <img class="zb-ico" src="$liveRoom.game.icon" title="$liveRoom.game.name" />
                             </span>
                         </div>
                     </div>
