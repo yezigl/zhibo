@@ -12,7 +12,7 @@ a, a:link {
     text-decoration: none;
 }
 
-.zb-title {
+.card-title {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
