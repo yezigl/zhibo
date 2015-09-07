@@ -10,10 +10,9 @@ import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.orion.mongodb.dao.AbstractEntityDao;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
-
-import orion.mongodb.dao.AbstractEntityDao;
 
 /**
  * description here
@@ -40,6 +39,13 @@ public class LiveRoomDao extends AbstractEntityDao<LiveRoom> {
         Query<LiveRoom> query = createQuery();
         query.field("platform").equal(platform);
         return query.asList();
+    }
+    
+    public LiveRoom getByPlatformAndUid(Platform platform, String uid) {
+        Query<LiveRoom> query = createQuery();
+        query.field("platform").equal(platform);
+        query.field("uid").equal(uid);
+        return query.get();
     }
 
 }

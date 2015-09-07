@@ -27,7 +27,7 @@ import com.orion.zhibo.entity.Platform;
  * @since 2015年9月3日
  */
 public abstract class AbstractSpider implements Spider, InitializingBean {
-    
+
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -36,13 +36,13 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     LiveRoomDao liveRoomDao;
     @Autowired
     PlatformDao platfromDao;
-    
+
     Platform platform;
-    
+
     Map<String, String> header = new HashMap<>();
-    
+
     Map<String, LiveRoom> liveRooms = new ConcurrentHashMap<>();
-    
+
     @Override
     public void afterPropertiesSet() throws Exception {
         platform = platfromDao.getByAbbr(customPlatform());
@@ -53,13 +53,31 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         logger.info("load live room count {}", list.size());
         customHeader();
     }
-    
+
     protected abstract String customPlatform();
-    
+
     protected void customHeader() {
-        header.put(HttpHeaders.USER_AGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.13 Safari/537.36");
+        header.put(HttpHeaders.USER_AGENT,
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.13 Safari/537.36");
         header.put(HttpHeaders.HOST, platform.getHost());
         header.put(HttpHeaders.REFERER, platform.getUrl());
     }
 
+    protected void updateRoom(LiveRoom liveRoom) {
+        liveRoomDao.update(liveRoom);
+        logger.info("update room {}", liveRoom);
+    }
+
+    protected void createRoom(LiveRoom liveRoom) {
+        LiveRoom temp = liveRoomDao.getByPlatformAndUid(platform, liveRoom.getUid());
+        if (temp != null) {
+            liveRooms.put(temp.getUrl(), temp);
+        } else {
+            if (liveRoom.isAvaliable()) {
+                liveRoomDao.create(liveRoom);
+                liveRooms.put(liveRoom.getUrl(), liveRoom);
+                logger.info("create new room {}", liveRoom);
+            }
+        }
+    }
 }

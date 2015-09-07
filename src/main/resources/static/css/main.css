@@ -12,6 +12,24 @@ a, a:link {
     text-decoration: none;
 }
 
+.zb-info {
+    margin-bottom: 40px;
+}
+
+.zb-avatar {
+    width: 60px;
+    height: 60px;
+}
+
+.zb-title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.zb-name {
+    margin: 0;
+    margin-top: 10px;
+}
 
 .delete {
     position: absolute;

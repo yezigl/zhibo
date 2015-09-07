@@ -13,12 +13,11 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.utils.Utils;
-
-import orion.core.utils.HttpUtils;
 
 /**
  * description here
@@ -55,8 +54,7 @@ public class DouyuSpider extends AbstractSpider {
                         liveRoom.setViews(views.text());
                         liveRoom.setUrl(url);
                         liveRoom.setStatus(LiveStatus.LIVING);
-                        liveRoomDao.update(liveRoom);
-                        logger.info("update room {}", liveRoom);
+                        updateRoom(liveRoom);
                     } else {
                         liveRoom = new LiveRoom();
                         liveRoom.setPlatform(platform);
@@ -88,11 +86,7 @@ public class DouyuSpider extends AbstractSpider {
                                 break;
                             }
                         }
-                        if (liveRoom.isAvaliable()) {
-                            liveRoomDao.create(liveRoom);
-                            liveRooms.put(liveRoom.getUrl(), liveRoom);
-                            logger.info("create new room {}", liveRoom);
-                        }
+                        createRoom(liveRoom);
                     }
                 } catch (Exception e) {
                     logger.error("parse error", e);

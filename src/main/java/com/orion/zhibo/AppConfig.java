@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @Configuration
 @PropertySource(value = { "classpath:application.properties", "classpath:mongodb.properties" })
-@ComponentScan(value = { "orion.mongodb" })
+@ComponentScan(value = { "com.orion.mongodb" })
 @EnableScheduling
 public class AppConfig {
 

@@ -6,7 +6,7 @@ package com.orion.zhibo.entity;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
-import orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.AbstractEntity;
 
 /**
  * description here

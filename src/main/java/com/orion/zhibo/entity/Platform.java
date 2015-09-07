@@ -3,9 +3,11 @@
  */
 package com.orion.zhibo.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.mongodb.morphia.annotations.Entity;
 
-import orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.AbstractEntity;
 
 /**
  * description here
@@ -24,6 +26,7 @@ public class Platform extends AbstractEntity {
     private String host;
     private String icon;
     private String logo;
+    private String sharePattern;
 
     /**
      * 
@@ -82,6 +85,26 @@ public class Platform extends AbstractEntity {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getSharePattern() {
+        return sharePattern;
+    }
+
+    public void setSharePattern(String sharePattern) {
+        this.sharePattern = sharePattern;
+    }
+
+    @Override
+    public String toString() {
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
+        builder.append("name", name);
+        builder.append("abbr", abbr);
+        builder.append("url", url);
+        builder.append("host", host);
+        builder.append("icon", icon);
+        builder.append("logo", logo);
+        return builder.toString();
     }
 
 }
