@@ -65,7 +65,7 @@
                     <div class="thumbnail">
                       <img src="$liveRoom.thumbnail" alt="$esc.html($liveRoom.title)">
                         <div class="caption">
-                            <p class="card-title" title="$liveRoom.title">$liveRoom.title</p>
+                            <p class="zb-title" title="$liveRoom.title">$liveRoom.title</p>
                             <span class="text-muted">
                                 <span>$liveRoom.views</span>&nbsp;&nbsp;
                                 <span>$liveRoom.name</span>

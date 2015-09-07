@@ -32,12 +32,12 @@ public class GameDaoTest {
     @Test
     public void testCreate() {
         Game game = new Game();
-        game.setName("英雄联盟");
-        game.setAlias("LOL");
-        game.setAbbr("lol");
-        game.setPlatformUrl("http://www.zhanqi.tv/games/lol");
-        game.setPlatform(platformDao.getByAbbr("zhanqi"));
-        game.setIcon(GameCate.LOL.getIcon());
+        game.setName("炉石传说");
+        game.setAlias("HearthStone");
+        game.setAbbr("hearthstone");
+        game.setPlatformUrl("http://www.douyutv.com/directory/game/How");
+        game.setPlatform(platformDao.getByAbbr("douyu"));
+        game.setIcon(GameCate.HEARTHSTONE.getIcon());
         String id = gameDao.create(game);
         System.out.println(id);
     }
