@@ -34,4 +34,11 @@ public class PlatformService extends BasicService {
         query.field("abbr").equal(abbr);
         return query.get();
     }
+
+    /**
+     * @param platform
+     */
+    public void create(Platform platform) {
+        platformDao.create(platform);
+    }
 }

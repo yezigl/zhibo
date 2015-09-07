@@ -27,4 +27,11 @@ public class GameService extends BasicService {
         return query.get();
     }
 
+    /**
+     * @param game
+     */
+    public void create(Game game) {
+        gameDao.create(game);
+    }
+
 }
