@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import com.orion.zhibo.dao.GameDao;
 import com.orion.zhibo.dao.LiveRoomDao;
 import com.orion.zhibo.dao.PlatformDao;
+import com.orion.zhibo.dao.PlatformGameDao;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
 
@@ -36,6 +37,8 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     LiveRoomDao liveRoomDao;
     @Autowired
     PlatformDao platfromDao;
+    @Autowired
+    PlatformGameDao platformGameDao;
 
     Platform platform;
 

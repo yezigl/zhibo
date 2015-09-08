@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.Platform;
-import com.orion.zhibo.model.GameCate;
+import com.orion.zhibo.entity.PlatformGame;
 
 /**
  * description here
@@ -25,14 +25,14 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/man", method = RequestMethod.GET)
     public String man(Model model) {
         model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", GameCate.toList());
+        model.addAttribute("games", gameService.getAll());
         return "manage";
     }
 
     @RequestMapping(value = "/man/platforms", method = RequestMethod.POST)
     public String manPlatforms(Platform platform, Model model) {
         model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", GameCate.toList());
+        model.addAttribute("games", gameService.getAll());
 
         platformService.create(platform);
         return "manage";
@@ -42,17 +42,15 @@ public class ManageController extends BasicController {
     public String manGames(@RequestParam String platform, @RequestParam String game, @RequestParam String platformUrl,
             Model model) {
         model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", GameCate.toList());
+        model.addAttribute("games", gameService.getAll());
 
         Platform p = platformService.getByAbbr(platform);
-        GameCate gc = GameCate.valueOfAbbr(game);
-        Game g = new Game();
-        g.setPlatform(p);
-        g.setPlatformUrl(platformUrl);
-        g.setName(gc.name);
-        g.setAbbr(gc.abbr);
-        g.setIcon(gc.icon);
-        gameService.create(g);
+        Game g = gameService.getByAbbr(game);
+        PlatformGame pg = new PlatformGame();
+        pg.setGame(g);
+        pg.setPlatform(p);
+        pg.setPlatformUrl(platformUrl);
+        platformGameService.create(pg);
         return "manage";
     }
 }

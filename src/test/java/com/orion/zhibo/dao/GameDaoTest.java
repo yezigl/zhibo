@@ -35,8 +35,6 @@ public class GameDaoTest {
         game.setName("炉石传说");
         game.setAlias("HearthStone");
         game.setAbbr("hearthstone");
-        game.setPlatformUrl("http://www.douyutv.com/directory/game/How");
-        game.setPlatform(platformDao.getByAbbr("douyu"));
         game.setIcon(GameCate.HEARTHSTONE.getIcon());
         String id = gameDao.create(game);
         System.out.println(id);

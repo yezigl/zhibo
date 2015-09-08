@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
-import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
+import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.utils.Utils;
 
@@ -35,9 +35,9 @@ public class DouyuSpider extends AbstractSpider {
 
     @Override
     public void run() {
-        List<Game> games = gameDao.listByPlatform(platform);
-        for (Game game : games) {
-            Document document = Jsoup.parse(HttpUtils.get(game.getPlatformUrl(), header, "UTF-8"));
+        List<PlatformGame> pgs = platformGameDao.listByPlatform(platform);
+        for (PlatformGame pg : pgs) {
+            Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
             Elements elements = document.select("#item_data ul li a.list");
             for (Element element : elements) {
                 try {
@@ -58,7 +58,7 @@ public class DouyuSpider extends AbstractSpider {
                     } else {
                         liveRoom = new LiveRoom();
                         liveRoom.setPlatform(platform);
-                        liveRoom.setGame(game);
+                        liveRoom.setGame(pg.getGame());
                         liveRoom.setStatus(LiveStatus.LIVING);
                         liveRoom.setNumber(number);
                         liveRoom.setViews(views.text());

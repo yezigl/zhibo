@@ -45,7 +45,9 @@ public enum GameCate {
     public static List<Game> toList() {
         List<Game> list = new ArrayList<>();
         for (GameCate gc : values()) {
-            list.add(new Game(gc.name, gc.abbr));
+            Game game = new Game(gc.name, gc.abbr);
+            game.setIcon(gc.icon);
+            list.add(game);
         }
         return list;
     }

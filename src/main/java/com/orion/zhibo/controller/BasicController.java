@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
+import com.orion.zhibo.service.PlatformGameService;
 import com.orion.zhibo.service.PlatformService;
 
 /**
@@ -27,5 +28,6 @@ public abstract class BasicController {
     protected PlatformService platformService;
     @Autowired
     protected LiveRoomService liveRoomService;
-    
+    @Autowired
+    protected PlatformGameService platformGameService;
 }

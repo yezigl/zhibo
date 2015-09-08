@@ -35,23 +35,12 @@
     <div id="banner" class="container"></div>
 
     <div class="container">
-        <div class="row col-lg-offset-1">
-            <div class="col-sm-1 col-md-1">平台：</div>
-            <ul class="list-inline">
-            #foreach ($platform in $platforms)
-                <li #if ($currentPlatform == $platform.abbr)class="text-primary"#end>
-                    <a href="/s/$platform.abbr">$platform.name</a>
-                <li>
-            #end
-            </ul>
-        </div>
-        <div class="row col-lg-offset-1">
-            <div class="col-sm-1 col-md-1">游戏：</div>
+        <div class="row text-center">
             <ul class="list-inline">
             #foreach ($game in $games)
                 <li #if ($currentGame == $game.abbr)class="text-primary" #end>
-                    <a href="/s/$currentPlatform/$game.abbr">$game.name</a>
-                <li>
+                    <a href="/s/$game.abbr">$game.name</a>
+                </li>
             #end
             </ul>
         </div>
@@ -61,7 +50,7 @@
         <div class="row">
         #foreach ($liveRoom in $liveRooms)
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <a href="/live/$liveRoom.platform.abbr/$liveRoom.game.abbr/$liveRoom.uid">
+                <a target="_blank" href="/live/$liveRoom.platform.abbr/$liveRoom.game.abbr/$liveRoom.uid">
                     <div class="thumbnail">
                       <img src="$liveRoom.thumbnail" alt="$esc.html($liveRoom.title)">
                         <div class="caption">
@@ -80,6 +69,14 @@
             </div>
         #end
         </div>
+        <nav>
+            <ul class="pager">
+                #set($p = $offset - 20)
+                #set($n = $offset + 20)
+                <li #if ($offset <= 0)class="disabled" #end><a href="/s/$currentGame/$p">前一页</a></li>
+                <li><a href="/s/$currentGame/$n">后一页</a></li>
+            </ul>
+        </nav>
     </div>
 
     #parse("footer.vm")
