@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.service;
 
+import java.util.List;
+
 import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,13 @@ public class GameService extends BasicService {
      */
     public void create(Game game) {
         gameDao.create(game);
+    }
+
+    /**
+     * @return
+     */
+    public List<Game> getAll() {
+        return gameDao.getAll();
     }
 
 }

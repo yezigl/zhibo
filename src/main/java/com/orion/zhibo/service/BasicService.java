@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.orion.zhibo.dao.GameDao;
 import com.orion.zhibo.dao.LiveRoomDao;
 import com.orion.zhibo.dao.PlatformDao;
+import com.orion.zhibo.dao.PlatformGameDao;
 
 /**
  * description here
@@ -27,4 +28,6 @@ public class BasicService {
     protected PlatformDao platformDao;
     @Autowired
     protected LiveRoomDao liveRoomDao;
+    @Autowired
+    protected PlatformGameDao platformGameDao;
 }
