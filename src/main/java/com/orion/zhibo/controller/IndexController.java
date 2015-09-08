@@ -32,13 +32,13 @@ public class IndexController extends BasicController {
 
     @RequestMapping(value = "/s/{game}", method = RequestMethod.GET)
     public String games(@PathVariable String game, Model model) {
-        setUpModel(model, "all", 0, 20);
+        setUpModel(model, game, 0, 20);
         return "index";
     }
 
     @RequestMapping(value = "/s/{game}/{offset}", method = RequestMethod.GET)
     public String pgames(@PathVariable String game, @PathVariable int offset, Model model) {
-        setUpModel(model, "all", offset, 20);
+        setUpModel(model, game, offset, 20);
         return "index";
     }
 
