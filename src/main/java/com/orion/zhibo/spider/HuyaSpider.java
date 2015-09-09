@@ -33,8 +33,6 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class HuyaSpider extends AbstractSpider {
     
-    Pattern topchid = Pattern.compile("CHTOPID = '(\\d+)';");
-    Pattern subchid = Pattern.compile("SUBCHID = '(\\d+)';");
     Pattern yyid = Pattern.compile("YYID = '(\\d+)';");
     Pattern uid = Pattern.compile("l_p = '(\\d+)';");
 
@@ -83,19 +81,16 @@ public class HuyaSpider extends AbstractSpider {
                         for (int i = 0; i < scripts.size(); i++) {
                             String script = scripts.get(i).data();
                             if (script.contains("CHTOPID")) {
-                                Matcher topchidmatcher = topchid.matcher(script);
-                                Matcher subchidmatcher = subchid.matcher(script);
                                 Matcher yyidmatcher = yyid.matcher(script);
                                 Matcher uidmatcher = uid.matcher(script);
-                                String tchid = topchidmatcher.find() ? topchidmatcher.group(1) : "";
-                                String schid = subchidmatcher.find() ? subchidmatcher.group(1) : "";
                                 String uid = uidmatcher.find() ? uidmatcher.group(1) : "";
                                 liveRoom.setUid(yyidmatcher.find() ? yyidmatcher.group(1) : "");
                                 liveRoom.setName(name);
                                 liveRoom.setRoomId(uid);
                                 liveRoom.setTitle(title);
-                                liveRoom.setLiveId(tchid + "/" + schid);
-                                liveRoom.setDescription("");
+                                String ret = HttpUtils.get(url, header, "UTF-8");
+                                Document doc = Jsoup.parse(ret);
+                                liveRoom.setLiveId(doc.select("#flash-link").attr("value"));                                liveRoom.setDescription("");
                                 liveRoom.setUrl(url);
                                 liveRoom.setThumbnail(thumbnail);
                                 liveRoom.setAvatar(avatar);

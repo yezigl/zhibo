@@ -55,7 +55,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         for (LiveRoom liveRoom : list) {
             liveRooms.put(liveRoom.getUrl(), liveRoom);
         }
-        logger.info("load live room count {}", list.size());
+        logger.info("load {} live room count {}", platform.getName(), list.size());
         customHeader();
     }
 
