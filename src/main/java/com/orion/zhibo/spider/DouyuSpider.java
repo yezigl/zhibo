@@ -72,7 +72,7 @@ public class DouyuSpider extends AbstractSpider {
                                 try {
                                     roomObject = JSON.parseObject(room);
                                 } catch (Exception e) {
-                                    logger.error("parse json error {}", room, e);
+                                    logger.error("parse {} json error {}", url, room, e);
                                     break;
                                 }
                                 liveRoom.setUid(roomObject.getString("owner_uid"));

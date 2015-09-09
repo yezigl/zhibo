@@ -125,6 +125,9 @@ public class HuyaSpider extends AbstractSpider {
     private void parseJson(Game game, String ret, JSONArray roomJsons) {
         for (int i = 0; i < roomJsons.size(); i++) {
             JSONObject roomJson = roomJsons.getJSONObject(i);
+            if (roomJson.getString("privateHost") == null) {
+                continue;
+            }
             String url = platform.getUrl() + roomJson.getString("privateHost");
             LiveRoom liveRoom = liveRooms.get(url);
             if (liveRoom != null) {
