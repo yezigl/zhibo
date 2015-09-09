@@ -46,6 +46,8 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     Map<String, LiveRoom> liveRooms = new ConcurrentHashMap<>();
 
+    boolean isDebug;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         platform = platfromDao.getByAbbr(customPlatform());
@@ -67,7 +69,9 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     }
 
     protected void updateRoom(LiveRoom liveRoom) {
-        liveRoomDao.update(liveRoom);
+        if (!isDebug) {
+            liveRoomDao.update(liveRoom);
+        }
         logger.info("update room {}", liveRoom);
     }
 
@@ -76,8 +80,10 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         if (temp != null) {
             liveRooms.put(temp.getUrl(), temp);
         } else {
-            if (liveRoom.isAvaliable()) {
-                liveRoomDao.create(liveRoom);
+            if (isDebug || liveRoom.isAvaliable()) {
+                if (!isDebug) {
+                    liveRoomDao.create(liveRoom);
+                }
                 liveRooms.put(liveRoom.getUrl(), liveRoom);
                 logger.info("create new room {}", liveRoom);
             }

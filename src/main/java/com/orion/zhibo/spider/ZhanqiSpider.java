@@ -75,13 +75,14 @@ public class ZhanqiSpider extends AbstractSpider {
                                 try {
                                     roomObject = JSON.parseObject(room);
                                 } catch (Exception e) {
-                                    logger.error("parse json error", room);
+                                    logger.error("parse json error", room, e);
                                     break;
                                 }
                                 liveRoom.setUid(roomObject.getString("uid"));
                                 liveRoom.setName(roomObject.getString("nickname"));
                                 liveRoom.setRoomId(roomObject.getString("id"));
                                 liveRoom.setTitle(roomObject.getString("title"));
+                                liveRoom.setLiveId(roomObject.getString("id"));
                                 liveRoom.setDescription(roomObject.getString("roomDesc"));
                                 liveRoom.setUrl(url);
                                 liveRoom.setThumbnail(roomObject.getString("bpic"));

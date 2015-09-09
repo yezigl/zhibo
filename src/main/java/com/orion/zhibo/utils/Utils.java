@@ -14,11 +14,23 @@ import org.apache.commons.lang.math.NumberUtils;
 public class Utils {
     
     private static final String WAN = "万";
+    private static final String GE = "个观众";
 
     public static int parseViews(String views) {
         if (views.contains(WAN)) {
             return (int) (NumberUtils.toFloat(views.replace(WAN, "")) * 10000);
         }
+        if (views.contains(GE)) {
+            return NumberUtils.toInt(views.replace(GE, ""));
+        }
         return NumberUtils.toInt(views.replace(",", ""));
+    }
+    
+    public static String convertView(String views) {
+        int number = parseViews(views);
+        if (number > 10000) {
+            return String.format("%.1f", number / 10000f) + "万";
+        }
+        return String.valueOf(number);
     }
 }

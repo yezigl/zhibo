@@ -5,6 +5,7 @@ package com.orion.zhibo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,17 +31,26 @@ public class ManageController extends BasicController {
     }
 
     @RequestMapping(value = "/man/platforms", method = RequestMethod.POST)
-    public String manPlatforms(Platform platform, Model model) {
+    public String manPlatforms(@ModelAttribute Platform platform, Model model) {
         model.addAttribute("platforms", platformService.getAll());
         model.addAttribute("games", gameService.getAll());
 
         platformService.create(platform);
-        return "manage";
+        return "redirect:/man";
     }
 
     @RequestMapping(value = "/man/games", method = RequestMethod.POST)
-    public String manGames(@RequestParam String platform, @RequestParam String game, @RequestParam String platformUrl,
-            Model model) {
+    public String manGames(@ModelAttribute Game game, Model model) {
+        model.addAttribute("platforms", platformService.getAll());
+        model.addAttribute("games", gameService.getAll());
+
+        gameService.create(game);
+        return "redirect:/man";
+    }
+
+    @RequestMapping(value = "/man/platformgames", method = RequestMethod.POST)
+    public String manPlatformGames(@RequestParam String platform, @RequestParam String game,
+            @RequestParam String platformUrl, Model model) {
         model.addAttribute("platforms", platformService.getAll());
         model.addAttribute("games", gameService.getAll());
 
@@ -51,6 +61,6 @@ public class ManageController extends BasicController {
         pg.setPlatform(p);
         pg.setPlatformUrl(platformUrl);
         platformGameService.create(pg);
-        return "manage";
+        return "redirect:/man";
     }
 }

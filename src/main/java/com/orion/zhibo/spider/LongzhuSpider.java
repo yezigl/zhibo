@@ -1,10 +1,11 @@
 /**
- * Copyright 2015 meituan.com. All Rights Reserved.
+ * Copyright 2015 yezi.gl. All Rights Reserved.
  */
 package com.orion.zhibo.spider;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,37 +20,37 @@ import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.utils.Utils;
 
+
 /**
  * description here
  *
  * @author yezi
- * @since 2015年9月3日
+ * @since 2015年9月8日
  */
 @Component
-public class DouyuSpider extends AbstractSpider {
-
+public class LongzhuSpider extends AbstractSpider {
+    
     @Override
     protected String customPlatform() {
-        return "douyu";
+        return "longzhu";
     }
-
+    
     @Override
     public void run() {
         List<PlatformGame> pgs = platformGameDao.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-            Elements elements = document.select("#item_data ul li a.list");
+            Elements elements = document.select("#list-con a");
             for (Element element : elements) {
                 try {
-                    String uri = element.attr("href");
-                    String url = platform.getUrl() + uri.replace("/", "");
+                    String url = element.attr("href");
                     LiveRoom liveRoom = liveRooms.get(url);
-                    Element views = element.select("p.moreMes .view").first();
+                    Element views = element.select("ul.livecard-meta .livecard-meta-item-text").first();
                     int number = Utils.parseViews(views.text());
+                    String thumbnail = element.select("img.livecard-thumb").attr("src");
                     if (liveRoom != null) {
-                        Element thumbnail = element.select("img.lazy").first();
-                        liveRoom.setTitle(element.attr("title"));
-                        liveRoom.setThumbnail(thumbnail.attr("data-original"));
+                        liveRoom.setTitle(element.select("h3.listcard-caption").attr("title"));
+                        liveRoom.setThumbnail(thumbnail);
                         liveRoom.setNumber(number);
                         liveRoom.setViews(views.text());
                         liveRoom.setUrl(url);
@@ -64,10 +65,13 @@ public class DouyuSpider extends AbstractSpider {
                         liveRoom.setViews(views.text());
                         document = Jsoup.parse(HttpUtils.get(url, header, "UTF-8"));
                         Elements scripts = document.select("script");
-                        Element avatar = document.select(".room_mes .h_tx img").first();
                         for (int i = 0; i < scripts.size(); i++) {
-                            if (scripts.get(i).data().contains("var $ROOM =")) {
-                                String room = scripts.get(i).data().replace("var $ROOM =", "").replace(";", "");
+                            String script = scripts.get(i).data();
+                            if (script.contains("var roomInfo =")) {
+                                int s = script.indexOf("var roomInfo =");
+                                String room = script.substring(s + 14);
+                                s = room.indexOf("};");
+                                room = room.substring(0, s + 1);
                                 JSONObject roomObject;
                                 try {
                                     roomObject = JSON.parseObject(room);
@@ -75,15 +79,15 @@ public class DouyuSpider extends AbstractSpider {
                                     logger.error("parse json error", room, e);
                                     break;
                                 }
-                                liveRoom.setUid(roomObject.getString("owner_uid"));
-                                liveRoom.setName(roomObject.getString("owner_name"));
-                                liveRoom.setRoomId(roomObject.getString("room_id"));
-                                liveRoom.setTitle(roomObject.getString("room_name"));
-                                liveRoom.setLiveId(roomObject.getString("room_id"));
-                                liveRoom.setDescription(roomObject.getJSONObject("room_gg").getString("show"));
-                                liveRoom.setUrl(roomObject.getString("room_url"));
-                                liveRoom.setThumbnail(roomObject.getString("room_pic"));
-                                liveRoom.setAvatar(avatar.attr("src"));
+                                liveRoom.setUid(roomObject.getString("UserId"));
+                                liveRoom.setName(roomObject.getString("Name"));
+                                liveRoom.setRoomId(roomObject.getString("BoardCast_Address"));
+                                liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
+                                liveRoom.setLiveId(roomObject.getString("BoardCast_Address"));
+                                liveRoom.setDescription(roomObject.getString("Desc"));
+                                liveRoom.setUrl(url);
+                                liveRoom.setThumbnail(thumbnail);
+                                liveRoom.setAvatar(roomObject.getString("Logo"));
                                 break;
                             }
                         }

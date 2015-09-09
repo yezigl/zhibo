@@ -41,6 +41,7 @@ public class LiveRoom extends AbstractEntity {
     private int status;
     @Transient
     private String shareUrl;
+    private String liveId;
 
     public Platform getPlatform() {
         return platform;
@@ -147,12 +148,20 @@ public class LiveRoom extends AbstractEntity {
     }
 
     public String getShareUrl() {
-        this.shareUrl = String.format(platform.getSharePattern(), this.roomId);
+        this.shareUrl = String.format(platform.getSharePattern(), this.liveId);
         return shareUrl;
     }
 
     public void setShareUrl(String shareUrl) {
         this.shareUrl = shareUrl;
+    }
+    
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveId(String liveId) {
+        this.liveId = liveId;
     }
 
     @Override
@@ -167,6 +176,7 @@ public class LiveRoom extends AbstractEntity {
         builder.append("thumbnail", thumbnail);
         builder.append("views", views);
         builder.append("number", number);
+        builder.append("liveId", liveId);
         return builder.toString();
     }
 

@@ -17,7 +17,7 @@
             <input type="text" class="form-control" name="url" placeholder="url">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="url" placeholder="host">
+            <input type="text" class="form-control" name="host" placeholder="host">
         </div>
         <div class="form-group">
             <input type="text" class="form-control" name="icon" placeholder="icon">
@@ -35,6 +35,24 @@
 <div class="container">
     <form action="/man/games" method="post" class="col-md-4 col-lg-4">
         <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="name">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="abbr" placeholder="abbr">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="alias" placeholder="alias">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="icon" placeholder="icon">
+        </div>
+        <button type="submit" class="btn btn-default">添加游戏</button>
+    </form>
+</div>
+<br>
+<div class="container">
+    <form action="/man/platformgames" method="post" class="col-md-4 col-lg-4">
+        <div class="form-group">
             <select name="platform" class="form-control">
             #foreach ($platform as $platforms)
                 <option value="$platform.abbr">$platform.name</option>
@@ -51,7 +69,7 @@
         <div class="form-group">
             <input type="text" class="form-control" name="platformUrl" placeholder="platformUrl">
         </div>
-        <button type="submit" class="btn btn-default">添加游戏</button>
+        <button type="submit" class="btn btn-default">添加平台游戏</button>
     </form>
 </div>
 </body>
