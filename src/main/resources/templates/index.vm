@@ -56,8 +56,9 @@
                         <div class="caption">
                             <p class="card-title" title="$liveRoom.title">$liveRoom.title</p>
                             <span class="text-muted">
-                                <span>$liveRoom.views</span>&nbsp;&nbsp;
-                                <span>$liveRoom.name</span>
+                                <span>&nbsp;</span>
+                                <span class="pull-left">$liveRoom.views</span>
+                                <span class="card-title col-sm-10 col-md-10 col-lg-8">$liveRoom.name</span>
                             </span>
                             <span class="pull-right">
                                 <img class="zb-ico" src="$liveRoom.platform.icon" title="$liveRoom.platform.name" />&nbsp;

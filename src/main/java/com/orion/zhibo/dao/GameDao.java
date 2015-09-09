@@ -31,7 +31,7 @@ public class GameDao extends AbstractEntityDao<Game> {
     
     @Override
     public List<Game> getAll() {
-        return this.createQuery().order("abbr").asList();
+        return this.createQuery().order("order").asList();
     }
 
 }

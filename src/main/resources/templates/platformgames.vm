@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+#parse("head.vm")
+<title>List</title>
+</head>
+<body>
+<div class="container">
+    <ul class="list-group">
+    #foreach ($pg as $platformgames)
+        <li class="list-group-item">$pg.platform.name - $pg.game.name</li>
+    #end
+    </ul>
+</div>
+</body>
+</html>

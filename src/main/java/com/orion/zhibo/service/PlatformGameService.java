@@ -37,4 +37,11 @@ public class PlatformGameService extends BasicService {
         platformGameDao.create(pg);
     }
 
+    /**
+     * @return
+     */
+    public Object getAll() {
+        return platformGameDao.getAll();
+    }
+
 }

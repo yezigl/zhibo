@@ -137,13 +137,13 @@ public class HuyaSpider extends AbstractSpider {
                 liveRoom.setUid(roomJson.getString("yyid"));
                 liveRoom.setRoomId(roomJson.getString("uid"));
                 liveRoom.setUrl(url);
-                liveRoom.setStatus(LiveStatus.LIVING);
+                liveRoom.setStatus(roomJson.getBooleanValue("isLive") ? LiveStatus.LIVING : LiveStatus.CLOSE);
                 updateRoom(liveRoom);
             } else {
                 liveRoom = new LiveRoom();
                 liveRoom.setPlatform(platform);
                 liveRoom.setGame(game);
-                liveRoom.setStatus(LiveStatus.LIVING);
+                liveRoom.setStatus(roomJson.getBooleanValue("isLive") ? LiveStatus.LIVING : LiveStatus.CLOSE);
                 liveRoom.setAvatar(roomJson.getString("avatar180"));
                 liveRoom.setTitle(roomJson.getString("introduction"));
                 liveRoom.setName(roomJson.getString("nick"));

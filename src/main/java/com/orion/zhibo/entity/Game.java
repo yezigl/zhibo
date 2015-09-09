@@ -22,6 +22,7 @@ public class Game extends AbstractEntity {
     private String alias; // 别名 LOL 刀塔
     private String abbr; // 英雄联盟=lol DOTA2=dota2
     private String icon;
+    private int order;
 
     /**
      * 
@@ -64,6 +65,14 @@ public class Game extends AbstractEntity {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
 }

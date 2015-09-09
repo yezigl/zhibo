@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.dao;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +49,11 @@ public class GameDaoTest {
     
     @Test
     public void testUpdate() {
-        Game dota2 = gameDao.get("55e8606e0e37de20d263fa9d");
-        dota2.setIcon(GameCate.DOTA2.getIcon());
-        gameDao.update(dota2);
-        Game lol = gameDao.get("55eb90440e37de26a24bd9be");
-        lol.setIcon(GameCate.LOL.getIcon());
-        gameDao.update(lol);
+        List<Game> list = gameDao.getAll();
+        for (Game game : list) {
+            GameCate gc = GameCate.valueOfAbbr(game.getAbbr());
+            game.setOrder(gc.ordinal());
+            gameDao.update(game);
+        }
     }
 }

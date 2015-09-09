@@ -63,4 +63,10 @@ public class ManageController extends BasicController {
         platformGameService.create(pg);
         return "redirect:/man";
     }
+    
+    @RequestMapping(value = "/man/platformgames", method = RequestMethod.GET)
+    public String listPlatformGames(Model model) {
+        model.addAttribute("platformgames", platformGameService.getAll());
+        return "platformgames";
+    }
 }

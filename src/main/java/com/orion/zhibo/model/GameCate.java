@@ -17,13 +17,14 @@ import com.orion.zhibo.entity.Game;
 public enum GameCate {
 
     ALL("全部", "all", ""), //
-    DOTA2("DOTA2", "dota2", "http://www.dota2.com/favicon.ico"), //
     LOL("英雄联盟", "lol", "http://lol.qq.com/favicon.ico"), //
-    HEARTHSTONE("炉石传说", "hearthstone", "http://hearthstone.nos.netease.com/3/common/hs.ico"),
-    STARSCRAFT("星际争霸", "sc", "http://us.battle.net/sc2/static/images/icons/favicon.ico"), //
+    DOTA2("DOTA2", "dota2", "http://www.dota2.com/favicon.ico"), //
+    HEARTHSTONE("炉石传说", "hearthstone", "http://hearthstone.nos.netease.com/3/common/hs.ico"), //
     TV("主机游戏", "tv", "https://www.playstation.com/favicon.ico"), //
-    WARCRAFT("魔兽争霸", "wow", "http://us.battle.net/wow/static/images/meta/favicon.ico?v=58-92"), //
-    CF("穿越火线", "cf", "http://cf.qq.com/favicon.ico");
+    CF("穿越火线", "cf", "http://cf.qq.com/favicon.ico"),//
+    STARSCRAFT("星际争霸", "sc", "http://us.battle.net/sc2/static/images/icons/favicon.ico"), //
+    WOW("魔兽世界", "wow", "http://us.battle.net/wow/static/images/meta/favicon.ico?v=58-92"), //
+    ;
 
     public String name;
     public String abbr;
