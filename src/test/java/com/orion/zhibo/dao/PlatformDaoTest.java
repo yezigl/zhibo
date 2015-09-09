@@ -38,8 +38,8 @@ public class PlatformDaoTest {
     
     @Test
     public void updatePlatform() {
-        Platform p = platformDao.get("55ebc2d00e37de27e88c34b1");
-        p.setSharePattern("http://dlstatic.cdn.zhanqi.tv/assets/swf/shell.swf?v=20150901.04&AnchorId=1&RoomId=%s&fhost=unknow&LiveUrl=1&ComDef=1&Mute=0&logoPos=1&EmbedDc=1&pv=20150908.04");
+        Platform p = platformDao.getByAbbr("huya");
+        p.setSharePattern("%s");
         System.out.println(p);
         platformDao.update(p);
     }

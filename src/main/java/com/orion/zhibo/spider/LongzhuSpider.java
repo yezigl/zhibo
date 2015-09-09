@@ -52,7 +52,7 @@ public class LongzhuSpider extends AbstractSpider {
                         liveRoom.setTitle(element.select("h3.listcard-caption").attr("title"));
                         liveRoom.setThumbnail(thumbnail);
                         liveRoom.setNumber(number);
-                        liveRoom.setViews(views.text());
+                        liveRoom.setViews(Utils.convertView(views.text()));
                         liveRoom.setUrl(url);
                         liveRoom.setStatus(LiveStatus.LIVING);
                         updateRoom(liveRoom);
@@ -62,7 +62,7 @@ public class LongzhuSpider extends AbstractSpider {
                         liveRoom.setGame(pg.getGame());
                         liveRoom.setStatus(LiveStatus.LIVING);
                         liveRoom.setNumber(number);
-                        liveRoom.setViews(views.text());
+                        liveRoom.setViews(Utils.convertView(views.text()));
                         document = Jsoup.parse(HttpUtils.get(url, header, "UTF-8"));
                         Elements scripts = document.select("script");
                         for (int i = 0; i < scripts.size(); i++) {

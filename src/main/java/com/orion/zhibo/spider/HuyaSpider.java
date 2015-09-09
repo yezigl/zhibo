@@ -159,11 +159,8 @@ public class HuyaSpider extends AbstractSpider {
                 liveRoom.setRoomId(roomJson.getString("uid"));
                 liveRoom.setUrl(url);
                 ret = HttpUtils.get(url, header, "UTF-8");
-                Matcher topchidmatcher = topchid.matcher(ret);
-                Matcher subchidmatcher = subchid.matcher(ret);
-                String tchid = topchidmatcher.find() ? topchidmatcher.group(1) : "";
-                String schid = subchidmatcher.find() ? subchidmatcher.group(1) : "";
-                liveRoom.setLiveId(tchid + "/" + schid);
+                Document document = Jsoup.parse(ret);
+                liveRoom.setLiveId(document.select("#flash-link").attr("value"));
                 liveRoom.setDescription("");
                 createRoom(liveRoom);
             }
