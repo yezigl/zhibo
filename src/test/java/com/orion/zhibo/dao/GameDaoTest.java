@@ -44,7 +44,7 @@ public class GameDaoTest {
 
     @Test
     public void testDelete() {
-        gameDao.delete("55e8519c0e37de20a10542b3");
+        gameDao.delete("55f0f60e3887bf3c688c3d0b");
     }
     
     @Test
