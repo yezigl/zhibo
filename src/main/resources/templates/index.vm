@@ -52,7 +52,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <a target="_blank" href="/live/$liveRoom.platform.abbr/$liveRoom.game.abbr/$liveRoom.uid">
                     <div class="thumbnail">
-                      <img src="$liveRoom.thumbnail" alt="$esc.html($liveRoom.title)">
+                      <img src="$liveRoom.thumbnail" alt="$liveRoom.title">
                         <div class="caption">
                             <p class="card-title" title="$liveRoom.title">$liveRoom.title</p>
                             <span class="text-muted">
