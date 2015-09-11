@@ -2,7 +2,7 @@
 <html>
 <head>
 #parse("head.vm")
-<title>爱看直播</title>
+<title>直播来了 - 一个专注于游戏直播推荐的网站</title>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
