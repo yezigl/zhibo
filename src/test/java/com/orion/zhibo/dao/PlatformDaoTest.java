@@ -37,6 +37,11 @@ public class PlatformDaoTest {
     }
     
     @Test
+    public void testDelete() {
+        platformDao.delete("55f0f6243887bf3c688c3d0c");
+    }
+    
+    @Test
     public void updatePlatform() {
         Platform p = platformDao.getByAbbr("huya");
         p.setSharePattern("%s");
