@@ -20,6 +20,10 @@ a, a:link {
     margin-top: 20px;
 }
 
+.card-img {
+    height: 140px !important;
+}
+
 .card-title {
     text-overflow: ellipsis;
     overflow: hidden;
