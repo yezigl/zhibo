@@ -55,13 +55,17 @@ public class HuyaSpider extends AbstractSpider {
                 try {
                     String url = element.select(".video-info").attr("href");
                     LiveRoom liveRoom = liveRooms.get(url);
-                    String views = Utils.convertView(element.select(".txt .num").first().text());
+                    String views = Utils.convertView(element.select(".all_live_txt .num").first().text());
                     String thumbnail = element.select(".video-info .pic").attr("src");
-                    String name = element.select(".video-info .game-anchor p").text();
+                    String name = element.select(".all_live_txt .all_live_nick").text();
                     String avatar = element.select(".video-info .avatar img").attr("src");
-                    String title = element.select(".video-info .game-anchor h6").text();
+                    String title = element.select(".all_live_tit a").text();
                     int number = Utils.parseViews(views);
+                    if (thumbnail.contains("?")) {
+                        thumbnail = thumbnail.substring(0, thumbnail.lastIndexOf('?'));
+                    }
                     if (liveRoom != null) {
+                        liveRoom.setName(name);
                         liveRoom.setTitle(title);
                         liveRoom.setThumbnail(thumbnail);
                         liveRoom.setNumber(number);
