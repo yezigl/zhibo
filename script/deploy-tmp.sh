@@ -12,7 +12,7 @@ if [ -n "$pid" ] ; then
     kill $pid
 fi
 
-cp /tmp/$jar ./
+cp /tmp/$app/target/$jar ./
 
-nohup java -jar $jar &
+nohup java -jar $jar > /dev/null 2>&1 &
 echo $! > $module.pid
