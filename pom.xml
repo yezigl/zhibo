@@ -40,16 +40,30 @@
             <properties>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data/upload/</upload.path>
+                <mongodb.host>211.155.92.39</mongodb.host>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <logging.path>/data/logs/${project.name}</logging.path>
-                <upload.path>/data/upload/</upload.path>
+                <logging.path>/opt/logs/${project.name}</logging.path>
+                <upload.path>/opt/upload/</upload.path>
+                <mongodb.host>127.0.0.1</mongodb.host>
             </properties>
         </profile>
     </profiles>
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
     
     <repositories>
         <repository>
