@@ -26,36 +26,50 @@ public class IndexController extends BasicController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        setUpModel(model, "all", 0, 20);
+        setUpModel(model, "all", "all", 0, 20);
         return "index";
     }
 
-    @RequestMapping(value = "/s/{game}", method = RequestMethod.GET)
+    @RequestMapping(value = "/g/{game}", method = RequestMethod.GET)
     public String games(@PathVariable String game, Model model) {
-        setUpModel(model, game, 0, 20);
+        setUpModel(model, game, "all", 0, 20);
         return "index";
     }
 
-    @RequestMapping(value = "/s/{game}/{offset}", method = RequestMethod.GET)
+    @RequestMapping(value = "/g/{game}/{offset}", method = RequestMethod.GET)
     public String pgames(@PathVariable String game, @PathVariable int offset, Model model) {
-        setUpModel(model, game, offset, 20);
+        setUpModel(model, game, "all", offset, 20);
         return "index";
     }
 
-    private void setUpModel(Model model, String game, int offset, int limit) {
+    @RequestMapping(value = "/p/{platform}", method = RequestMethod.GET)
+    public String platforms(@PathVariable String platform, Model model) {
+        setUpModel(model, "all", platform, 0, 20);
+        return "index";
+    }
+
+    @RequestMapping(value = "/p/{platform}/{offset}", method = RequestMethod.GET)
+    public String pplatforms(@PathVariable String platform, @PathVariable int offset, Model model) {
+        setUpModel(model, "all", platform, offset, 20);
+        return "index";
+    }
+
+    @RequestMapping(value = "/s/{game}/{platform}/{offset}", method = RequestMethod.GET)
+    public String gameplarform(@PathVariable String game, @PathVariable String platform, @PathVariable int offset,
+            Model model) {
+        setUpModel(model, game, platform, offset, 20);
+        return "index";
+    }
+
+    private void setUpModel(Model model, String game, String platform, int offset, int limit) {
         model.addAttribute("currentGame", game);
-        List<Platform> platforms = platformService.getAll();
-        model.addAttribute("platforms", platforms);
+        model.addAttribute("currentPlatform", platform);
+        model.addAttribute("platforms", platformService.getAll());
         model.addAttribute("games", gameService.getAll());
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
-        Platform p = Platform.ALL;
-        Game g;
-        if (game.equalsIgnoreCase("all")) {
-            g = Game.ALL;
-        } else {
-            g = gameService.getByAbbr(game);
-        }
+        Platform p = platform.equalsIgnoreCase("all") ? Platform.ALL : platformService.getByAbbr(platform);
+        Game g = game.equalsIgnoreCase("all") ? Game.ALL : gameService.getByAbbr(game);
         List<LiveRoom> list = liveRoomService.listLiving(p, g, offset, limit);
         model.addAttribute("liveRooms", list);
         model.addAttribute("size", list.size());

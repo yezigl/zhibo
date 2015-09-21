@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,15 +49,22 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     Map<String, LiveRoom> liveRooms = new ConcurrentHashMap<>();
 
     boolean isDebug;
+    
+    ExecutorService exe = Executors.newCachedThreadPool();
 
     @Override
     public void afterPropertiesSet() throws Exception {
         platform = platfromDao.getByAbbr(customPlatform());
-        List<LiveRoom> list = liveRoomDao.listByPlatform(platform);
-        for (LiveRoom liveRoom : list) {
-            liveRooms.put(liveRoom.getUrl(), liveRoom);
-        }
-        logger.info("load {} live room count {}", platform.getName(), list.size());
+        exe.submit(new Runnable() {
+            public void run() {
+                List<LiveRoom> list = liveRoomDao.listByPlatform(platform);
+                for (LiveRoom liveRoom : list) {
+                    liveRooms.put(liveRoom.getUrl(), liveRoom);
+                }
+                logger.info("load {} live room count {}", platform.getName(), list.size());
+            }
+        });
+        
         customHeader();
     }
 
