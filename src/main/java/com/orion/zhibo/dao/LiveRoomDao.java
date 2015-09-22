@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.orion.mongodb.dao.AbstractEntityDao;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.model.LiveStatus;
 
 /**
  * description here
@@ -38,6 +39,7 @@ public class LiveRoomDao extends AbstractEntityDao<LiveRoom> {
     public List<LiveRoom> listByPlatform(Platform platform) {
         Query<LiveRoom> query = createQuery();
         query.field("platform").equal(platform);
+        query.field("status").equal(LiveStatus.LIVING);
         return query.asList();
     }
     

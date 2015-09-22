@@ -22,6 +22,8 @@ import com.orion.zhibo.utils.Utils;
 /**
  * description here
  *
+ * TODO 需解决imba等直播室的问题
+ *
  * @author yezi
  * @since 2015年9月3日
  */

@@ -2,7 +2,7 @@
 <html>
 <head>
 #parse("head.vm")
-<title>约个球</title>
+<title>直播来了</title>
 </head>
 <body>
     ${exception}

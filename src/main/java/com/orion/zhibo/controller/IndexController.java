@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
@@ -25,8 +26,8 @@ import com.orion.zhibo.entity.Platform;
 public class IndexController extends BasicController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
-        setUpModel(model, "all", "all", 0, 20);
+    public String index(@RequestParam(required = false) String q, Model model) {
+        setUpModel(model, "all", "all", 0, 20, q);
         return "index";
     }
 
@@ -62,15 +63,20 @@ public class IndexController extends BasicController {
     }
 
     private void setUpModel(Model model, String game, String platform, int offset, int limit) {
+        setUpModel(model, game, platform, offset, limit, null);
+    }
+    
+    private void setUpModel(Model model, String game, String platform, int offset, int limit, String keyword) {
         model.addAttribute("currentGame", game);
         model.addAttribute("currentPlatform", platform);
         model.addAttribute("platforms", platformService.getAll());
         model.addAttribute("games", gameService.getAll());
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
+        model.addAttribute("q", keyword);
         Platform p = platform.equalsIgnoreCase("all") ? Platform.ALL : platformService.getByAbbr(platform);
         Game g = game.equalsIgnoreCase("all") ? Game.ALL : gameService.getByAbbr(game);
-        List<LiveRoom> list = liveRoomService.listLiving(p, g, offset, limit);
+        List<LiveRoom> list = liveRoomService.listLiving(p, g, offset, limit, keyword);
         model.addAttribute("liveRooms", list);
         model.addAttribute("size", list.size());
     }

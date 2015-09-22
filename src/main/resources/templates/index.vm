@@ -5,33 +5,7 @@
 <title>直播来了 - 一个专注于游戏直播推荐的网站</title>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-lg-10">
-
-                    <!-- Branding and mobile menu button -->
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="/"> <!-- <img class="img-plain navbar-logo"
-                            src="/img/logo.png" alt="logo"> -->
-                            直播666
-                        </a>
-                    </div>
-
-                    <!-- Main navigation links -->
-                    <div class="navbar-collapse collapse site-navigation">
-
-                        <!-- Link to the project's GitHub repo & Twitter profile -->
-                        <ul class="nav navbar-nav navbar-right navbar-links" style="display: none;">
-                            <li><a href="#">登录</a></li>
-                            <li><a href="#">注册</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </nav>
+    #parse("nav.vm")
 
     <div id="banner" class="container"></div>
 
@@ -80,6 +54,7 @@
             </div>
         #end
         </div>
+        #if (!$q)
         <nav>
             <ul class="pager">
                 #set($p = $offset - 20)
@@ -88,6 +63,7 @@
                 <li><a href="/s/$currentGame/$currentPlatform/$n">后一页</a></li>
             </ul>
         </nav>
+        #end
     </div>
 
     #parse("footer.vm")

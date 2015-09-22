@@ -1,0 +1,29 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12">
+
+                <!-- Branding and mobile menu button -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> <!-- <img class="img-plain navbar-logo"
+                        src="/img/logo.png" alt="logo"> -->
+                        直播666
+                    </a>
+                </div>
+
+                <!-- Main navigation links -->
+                <div class="navbar-collapse collapse">
+                    <!-- Link to the project's GitHub repo & Twitter profile -->
+                    <ul class="nav navbar-nav navbar-right navbar-links" style="display: none;">
+                        <li><a href="#">登录</a></li>
+                        <li><a href="#">注册</a></li>
+                    </ul>
+                    <form name="form" class="navbar-form navbar-right" action="/">
+                        <input type="text" name="q" class="form-control" placeholder="搜索...">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>

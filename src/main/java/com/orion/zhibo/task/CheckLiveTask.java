@@ -28,13 +28,15 @@ public class CheckLiveTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
     
     private static final long UNLIVING_TIME = 5 * 60 * 1000;
+    
+    private static final long DELETE_TIME = 7 * 24 * 60 * 60 * 1000;
 
     @Autowired
     LiveRoomDao liveRoomDao;
     @Autowired
     LiveRoomService liveRoomService;
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(initialDelay = 360000, fixedDelay = 60000)
     public void run() {
         logger.info("check live run");
         List<LiveRoom> list = liveRoomService.listAllLiving();
@@ -45,6 +47,9 @@ public class CheckLiveTask {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 liveRoomDao.update(liveRoom);
                 logger.info("live room {} close", liveRoom.getName());
+            } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > DELETE_TIME) {
+                liveRoomDao.delete(liveRoom);
+                logger.info("live room {} delete", liveRoom.getName());
             }
         }
     }

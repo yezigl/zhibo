@@ -5,6 +5,7 @@ package com.orion.zhibo.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,16 @@ import com.orion.zhibo.model.LiveStatus;
 @Service
 public class LiveRoomService extends BasicService {
 
-    public List<LiveRoom> listLiving(Platform platform, Game game, int offset, int limit) {
+    public List<LiveRoom> listLiving(Platform platform, Game game, int offset, int limit, String keyword) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
         if (!Platform.ALL.getAbbr().equals(platform.getAbbr())) {
             query.field("platform").equal(platform);
         }
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
             query.field("game").equal(game);
+        }
+        if (StringUtils.isNotBlank(keyword)) {
+            query.field("name").containsIgnoreCase(keyword);
         }
         query.order("-number");
         query.field("status").equal(LiveStatus.LIVING);

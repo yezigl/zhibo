@@ -57,11 +57,12 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         platform = platfromDao.getByAbbr(customPlatform());
         exe.submit(new Runnable() {
             public void run() {
+                // TODO 需优化，查询太慢
                 List<LiveRoom> list = liveRoomDao.listByPlatform(platform);
                 for (LiveRoom liveRoom : list) {
                     liveRooms.put(liveRoom.getUrl(), liveRoom);
                 }
-                logger.info("load {} live room count {}", platform.getName(), list.size());
+                logger.info("load {} living room count {}", platform.getName(), list.size());
             }
         });
         
