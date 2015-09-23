@@ -46,10 +46,10 @@ public class CheckLiveTask {
                 liveRoom.setViews("0");
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 liveRoomDao.update(liveRoom);
-                logger.info("live room {} close", liveRoom.getName());
+                logger.info("live room {} {} close", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > DELETE_TIME) {
                 liveRoomDao.delete(liveRoom);
-                logger.info("live room {} delete", liveRoom.getName());
+                logger.info("live room {} {} delete", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             }
         }
     }
