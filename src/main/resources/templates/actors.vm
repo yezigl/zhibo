@@ -33,7 +33,7 @@
                             </td>
                             <td class="text-center">$actor.platform.name</td>
                             <td class="text-center">$actor.game.name</td>
-                            <td class="text-center">$actor.tags</td>
+                            <td class="text-center">#foreach($tag in $actor.tags)$tag.title #end</td>
                             <td class="text-center">
                                 <a href="$actor.liveUrl" target="_blank">$actor.liveUrl</a>
                             </td>
