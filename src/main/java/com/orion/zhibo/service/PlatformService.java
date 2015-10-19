@@ -25,7 +25,6 @@ public class PlatformService extends BasicService {
         if (list == null) {
             list = new ArrayList<>();
         }
-        list.add(0, Platform.ALL);
         return list;
     }
     

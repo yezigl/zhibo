@@ -40,7 +40,7 @@ public class GameService extends BasicService {
      * @return
      */
     public List<Game> getAll() {
-        return gameDao.getAll();
+        return gameDao.createQuery().order("order").asList();
     }
 
 }

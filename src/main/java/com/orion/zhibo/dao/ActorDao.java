@@ -8,22 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.orion.mongodb.dao.AbstractEntityDao;
-import com.orion.zhibo.entity.Game;
+import com.orion.zhibo.entity.Actor;
 
 /**
  * description here
  *
  * @author lidehua
- * @since 2015年9月2日
+ * @since 2015年10月19日
  */
 @Repository
-public class GameDao extends AbstractEntityDao<Game> {
+public class ActorDao extends AbstractEntityDao<Actor> {
 
     /**
      * @param datastore
      */
     @Autowired
-    public GameDao(Datastore datastore) {
+    public ActorDao(Datastore datastore) {
         super(datastore);
+        // TODO Auto-generated constructor stub
     }
+
 }
