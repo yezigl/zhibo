@@ -15,6 +15,7 @@ import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
+import com.orion.zhibo.utils.Utils;
 
 /**
  * description here
@@ -59,10 +60,10 @@ public class DouyuSpider extends AbstractSpider {
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
             liveRoom.setActor(actor);
-            liveRoom.setUid(roomObject.getString("owner_uid"));
-            liveRoom.setRoomId(roomObject.getString("room_id"));
-            liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         }
+        liveRoom.setUid(roomObject.getString("owner_uid"));
+        liveRoom.setRoomId(roomObject.getString("room_id"));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         // 头像
         Element avatar = document.select(".room_mes .h_tx img").first();
         liveRoom.setAvatar(avatar.attr("src"));
@@ -70,14 +71,12 @@ public class DouyuSpider extends AbstractSpider {
         liveRoom.setTitle(roomObject.getString("room_name"));
         liveRoom.setDescription(roomObject.getJSONObject("room_gg").getString("show"));
         liveRoom.setThumbnail(roomObject.getString("room_pic"));
-        if (roomObject.getIntValue("show_status") == 1) {
-            liveRoom.setStatus(LiveStatus.LIVING);
-        } else {
-            liveRoom.setStatus(LiveStatus.CLOSE);
-        }
+
+        // 直播情况
+        liveRoom.setStatus(roomObject.getIntValue("show_status") == 1 ? LiveStatus.LIVING : LiveStatus.CLOSE);
         liveRoom.setNumber(0);
-        liveRoom.setViews("");
-        
+        liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
+
         upsertLiveRoom(liveRoom);
     }
 

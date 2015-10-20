@@ -28,6 +28,10 @@ public class Utils {
     
     public static String convertView(String views) {
         int number = parseViews(views);
+        return convertView(number);
+    }
+    
+    public static String convertView(int number) {
         if (number > 10000) {
             return String.format("%.1f", number / 10000f) + "万";
         }

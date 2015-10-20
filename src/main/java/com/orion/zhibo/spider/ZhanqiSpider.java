@@ -14,6 +14,7 @@ import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
+import com.orion.zhibo.utils.Utils;
 
 /**
  * description here
@@ -60,17 +61,20 @@ public class ZhanqiSpider extends AbstractSpider {
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
             liveRoom.setActor(actor);
-            liveRoom.setUid(roomObject.getString("owner_uid"));
-            liveRoom.setRoomId(roomObject.getString("room_id"));
-            liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         }
+        liveRoom.setUid(roomObject.getString("uid"));
+        liveRoom.setRoomId(roomObject.getString("id"));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         liveRoom.setName(roomObject.getString("nickname"));
         liveRoom.setTitle(roomObject.getString("title"));
         liveRoom.setDescription(roomObject.getString("roomDesc"));
         liveRoom.setThumbnail(roomObject.getString("bpic"));
         liveRoom.setAvatar(roomObject.getString("avatar") + "-medium");
-        liveRoom.setNumber(roomObject.getIntValue("online"));
+        
+        // 直播情况
         liveRoom.setStatus(roomObject.getIntValue("status") == 4 ? LiveStatus.LIVING : LiveStatus.CLOSE);
+        liveRoom.setNumber(roomObject.getIntValue("online"));
+        liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
         upsertLiveRoom(liveRoom);
     }

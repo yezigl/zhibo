@@ -86,4 +86,12 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         }
         logger.info("upsert room {}", liveRoom);
     }
+    
+    protected String parseScript(String script, String var) {
+        int s = script.indexOf(var);
+        String room = script.substring(s + var.length());
+        s = room.indexOf("};");
+        room = room.substring(0, s + 1);
+        return room;
+    }
 }

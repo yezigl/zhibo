@@ -15,6 +15,7 @@ import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
+import com.orion.zhibo.utils.Utils;
 
 
 /**
@@ -36,22 +37,25 @@ public class LongzhuSpider extends AbstractSpider {
         Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         
-        JSONObject roomObject = null;
+        JSONObject roomObject = null, pageData = null;
         Elements scripts = document.select("script");
         for (int i = 0; i < scripts.size(); i++) {
             String script = scripts.get(i).data();
             if (script.contains("var roomInfo =")) {
-                int s = script.indexOf("var roomInfo =");
-                String room = script.substring(s + 14);
-                s = room.indexOf("};");
-                room = room.substring(0, s + 1);
+                String room = parseScript(script, "var roomInfo =");
                 try {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
                     logger.error("parse json error", room, e);
-                    break;
                 }
-                break;
+            }
+            if (script.contains("var pageData =")) {
+                String json = parseScript(script, "var pageData =");
+                try {
+                    pageData = JSON.parseObject(json);
+                } catch (Exception e) {
+                    logger.error("parse json error", json, e);
+                }
             }
         }
         if (roomObject == null) {
@@ -62,18 +66,21 @@ public class LongzhuSpider extends AbstractSpider {
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
             liveRoom.setActor(actor);
-            liveRoom.setUid(roomObject.getString("UserId"));
-            liveRoom.setRoomId(roomObject.getString("BoardCast_Address"));
-            liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         }
-        
+        liveRoom.setUid(roomObject.getString("UserId"));
+        liveRoom.setRoomId(roomObject.getString("BoardCast_Address"));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         liveRoom.setName(roomObject.getString("Name"));
         liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
         liveRoom.setDescription(roomObject.getString("Desc"));
-        liveRoom.setThumbnail("");
+        liveRoom.setThumbnail("http://img.plures.net/live/screenshots/" + liveRoom.getRoomId() + "/" + roomObject.getString("GameId") + ".jpg");
         liveRoom.setAvatar(roomObject.getString("Logo"));
-        liveRoom.setNumber(0);
-        liveRoom.setStatus(roomObject.getIntValue("Status") == 1 ? LiveStatus.LIVING : LiveStatus.CLOSE);
+        
+        // 直播情况
+        liveRoom.setStatus((pageData != null && pageData.containsKey("live")) ? LiveStatus.LIVING : LiveStatus.CLOSE);
+        JSONObject data = JSON.parseObject(HttpUtils.get("http://mb.tga.plu.cn/chatroom/joinroom?roomId=" + liveRoom.getRoomId()));
+        liveRoom.setNumber(data.getIntValue("online"));
+        liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
         upsertLiveRoom(liveRoom);
     }

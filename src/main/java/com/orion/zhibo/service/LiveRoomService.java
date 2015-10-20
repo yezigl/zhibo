@@ -24,7 +24,7 @@ import com.orion.zhibo.model.LiveStatus;
 @Service
 public class LiveRoomService extends BasicService {
 
-    public List<LiveRoom> listLiving(Platform platform, Game game, int offset, int limit, String keyword) {
+    public List<LiveRoom> list(Platform platform, Game game, int offset, int limit, String keyword) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
         Query<Actor> actorQuery = actorDao.createQuery();
         if (!Platform.ALL.getAbbr().equals(platform.getAbbr())) {
@@ -38,8 +38,7 @@ public class LiveRoomService extends BasicService {
         if (StringUtils.isNotBlank(keyword)) {
             query.field("name").containsIgnoreCase(keyword);
         }
-        query.order("-number");
-        query.field("status").equal(LiveStatus.LIVING);
+        query.order("-status, -number");
         query.offset(offset).limit(limit);
         return query.asList();
     }

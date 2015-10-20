@@ -76,7 +76,7 @@ public class IndexController extends BasicController {
         model.addAttribute("q", keyword);
         Platform p = platform.equalsIgnoreCase("all") ? Platform.ALL : platformService.getByAbbr(platform);
         Game g = game.equalsIgnoreCase("all") ? Game.ALL : gameService.getByAbbr(game);
-        List<LiveRoom> list = liveRoomService.listLiving(p, g, offset, limit, keyword);
+        List<LiveRoom> list = liveRoomService.list(p, g, offset, limit, keyword);
         model.addAttribute("liveRooms", list);
         model.addAttribute("size", list.size());
     }

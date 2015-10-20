@@ -29,7 +29,7 @@ public class SpiderTask {
     
     @Scheduled(cron = "0 */5 * * * ?")
     public void run() {
-        logger.info("spider run");
+        logger.info("spider run {}", spiders.size());
         for (Spider spider : spiders) {
             spider.run();
         }
