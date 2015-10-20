@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.spider;
 
+import com.orion.zhibo.entity.Actor;
+
 /**
  * description here
  *
@@ -11,6 +13,13 @@ package com.orion.zhibo.spider;
  */
 public interface Spider {
 
+    /**
+     * 启动spider
+     */
     void run();
     
+    /**
+     * 解析一个页面
+     */
+    void parse(Actor actor);
 }

@@ -6,7 +6,6 @@ package com.orion.zhibo.spider;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,12 +15,14 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
-import com.orion.zhibo.dao.GameDao;
-import com.orion.zhibo.dao.LiveRoomDao;
-import com.orion.zhibo.dao.PlatformDao;
-import com.orion.zhibo.dao.PlatformGameDao;
+import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.service.ActorService;
+import com.orion.zhibo.service.GameService;
+import com.orion.zhibo.service.LiveRoomService;
+import com.orion.zhibo.service.PlatformGameService;
+import com.orion.zhibo.service.PlatformService;
 
 /**
  * description here
@@ -34,39 +35,36 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    GameDao gameDao;
+    GameService gameService;
     @Autowired
-    LiveRoomDao liveRoomDao;
+    PlatformService platformService;
     @Autowired
-    PlatformDao platfromDao;
+    LiveRoomService liveRoomService;
     @Autowired
-    PlatformGameDao platformGameDao;
+    PlatformGameService platformGameService;
+    @Autowired
+    ActorService actorService;
 
     Platform platform;
 
     Map<String, String> header = new HashMap<>();
 
-    Map<String, LiveRoom> liveRooms = new ConcurrentHashMap<>();
-
     boolean isDebug;
-    
+
     ExecutorService exe = Executors.newCachedThreadPool();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        platform = platfromDao.getByAbbr(customPlatform());
-        exe.submit(new Runnable() {
-            public void run() {
-                // TODO 需优化，查询太慢
-                List<LiveRoom> list = liveRoomDao.listByPlatform(platform);
-                for (LiveRoom liveRoom : list) {
-                    liveRooms.put(liveRoom.getUrl(), liveRoom);
-                }
-                logger.info("load {} living room count {}", platform.getName(), list.size());
-            }
-        });
-        
+        platform = platformService.getByAbbr(customPlatform());
         customHeader();
+    }
+    
+    @Override
+    public void run() {
+        List<Actor> actors = actorService.listByPlatform(platform);
+        for (Actor actor : actors) {
+            parse(actor);
+        }
     }
 
     protected abstract String customPlatform();
@@ -78,25 +76,14 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         header.put(HttpHeaders.REFERER, platform.getUrl());
     }
 
-    protected void updateRoom(LiveRoom liveRoom) {
+    protected void upsertLiveRoom(LiveRoom liveRoom) {
         if (!isDebug) {
-            liveRoomDao.update(liveRoom);
-        }
-        logger.info("update room {}", liveRoom);
-    }
-
-    protected void createRoom(LiveRoom liveRoom) {
-        LiveRoom temp = liveRoomDao.getByPlatformAndUid(platform, liveRoom.getUid());
-        if (temp != null) {
-            liveRooms.put(temp.getUrl(), temp);
-        } else {
-            if (isDebug || liveRoom.isAvaliable()) {
-                if (!isDebug) {
-                    liveRoomDao.create(liveRoom);
-                }
-                liveRooms.put(liveRoom.getUrl(), liveRoom);
-                logger.info("create new room {}", liveRoom);
+            if (liveRoom.getId() != null) {
+                liveRoomService.update(liveRoom);
+            } else {
+                liveRoomService.create(liveRoom);
             }
         }
+        logger.info("upsert room {}", liveRoom);
     }
 }

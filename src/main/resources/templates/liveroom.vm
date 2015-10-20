@@ -19,11 +19,11 @@
                 <p class="zb-name">主播：$liveRoom.name</p>
             </div>
             <div class="pull-right">
-                <a href="$liveRoom.url" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.platform.name观看</a>
+                <a href="$liveRoom.url" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.actor.platform.name观看</a>
             </div>
         </div>
         <div class="row" id="plugin">
-            <embed style="display: none;" width="640" height="360" allownetworking="all" allowscriptaccess="always" src="$liveRoom.shareUrl" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
+            <embed style="display: none;" width="640" height="360" allownetworking="all" allowscriptaccess="always" src="$liveRoom.flashUrl" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
         </div>
         <div class="row">
             <div class="page-header">

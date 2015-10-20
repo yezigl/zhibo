@@ -12,7 +12,6 @@ import com.orion.zhibo.dao.GameDao;
 import com.orion.zhibo.dao.LiveRoomDao;
 import com.orion.zhibo.dao.PlatformDao;
 import com.orion.zhibo.dao.PlatformGameDao;
-import com.orion.zhibo.dao.RecommandDao;
 
 /**
  * description here
@@ -34,6 +33,4 @@ public class BasicService {
     protected PlatformGameDao platformGameDao;
     @Autowired
     protected ActorDao actorDao;
-    @Autowired
-    protected RecommandDao recommandDao;
 }

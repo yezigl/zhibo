@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.orion.zhibo.dao.LiveRoomDao;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.service.LiveRoomService;
@@ -29,10 +28,6 @@ public class CheckLiveTask {
     
     private static final long UNLIVING_TIME = 5 * 60 * 1000;
     
-    private static final long DELETE_TIME = 7 * 24 * 60 * 60 * 1000;
-
-    @Autowired
-    LiveRoomDao liveRoomDao;
     @Autowired
     LiveRoomService liveRoomService;
 
@@ -45,11 +40,8 @@ public class CheckLiveTask {
                 liveRoom.setNumber(0);
                 liveRoom.setViews("0");
                 liveRoom.setStatus(LiveStatus.CLOSE);
-                liveRoomDao.update(liveRoom);
-                logger.info("live room {} {} close", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
-            } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > DELETE_TIME) {
-                liveRoomDao.delete(liveRoom);
-                logger.info("live room {} {} delete", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
+                liveRoomService.update(liveRoom);
+                logger.info("live room {} close", liveRoom.getActor().getName());
             }
         }
     }

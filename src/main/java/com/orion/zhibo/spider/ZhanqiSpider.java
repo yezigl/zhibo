@@ -3,21 +3,17 @@
  */
 package com.orion.zhibo.spider;
 
-import java.util.List;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
+import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
-import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
-import com.orion.zhibo.utils.Utils;
 
 /**
  * description here
@@ -34,70 +30,49 @@ public class ZhanqiSpider extends AbstractSpider {
     }
 
     @Override
-    public void run() {
-        List<PlatformGame> pgs = platformGameDao.listByPlatform(platform);
-        for (PlatformGame pg : pgs) {
-            Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-            Elements elements = document.select("#hotList li a.js-jump-link");
-            for (Element element : elements) {
+    public void parse(Actor actor) {
+        Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
+        LiveRoom liveRoom = liveRoomService.getByActor(actor);
+        
+        JSONObject roomObject = null;
+        Elements scripts = document.select("script");
+        for (int i = 0; i < scripts.size(); i++) {
+            String script = scripts.get(i).data();
+            if (script.contains("window.oPageConfig.oRoom =")) {
+                int s = script.indexOf("window.oPageConfig.oRoom =");
+                String room = script.substring(s + 26);
+                s = room.indexOf("};");
+                room = room.substring(0, s + 1);
                 try {
-                    String uri = element.attr("href");
-                    String url = platform.getUrl() + uri.replace("/", "");
-                    LiveRoom liveRoom = liveRooms.get(url);
-                    Element views = element.select(".info-area .meat .views span.dv").first();
-                    int number = Utils.parseViews(views.text());
-                    if (liveRoom != null) {
-                        Element thumbnail = element.select(".imgBox img").first();
-                        liveRoom.setTitle(thumbnail.attr("alt"));
-                        liveRoom.setThumbnail(thumbnail.attr("src"));
-                        liveRoom.setNumber(number);
-                        liveRoom.setViews(views.text());
-                        liveRoom.setUrl(url);
-                        liveRoom.setStatus(LiveStatus.LIVING);
-                        updateRoom(liveRoom);
-                    } else {
-                        liveRoom = new LiveRoom();
-                        liveRoom.setPlatform(platform);
-                        liveRoom.setGame(pg.getGame());
-                        liveRoom.setStatus(LiveStatus.LIVING);
-                        liveRoom.setNumber(number);
-                        liveRoom.setViews(views.text());
-                        document = Jsoup.parse(HttpUtils.get(url, header, "UTF-8"));
-                        Elements scripts = document.select("script");
-                        for (int i = 0; i < scripts.size(); i++) {
-                            String script = scripts.get(i).data();
-                            if (script.contains("window.oPageConfig.oRoom =")) {
-                                int s = script.indexOf("window.oPageConfig.oRoom =");
-                                String room = script.substring(s + 26);
-                                s = room.indexOf("};");
-                                room = room.substring(0, s + 1);
-                                JSONObject roomObject;
-                                try {
-                                    roomObject = JSON.parseObject(room);
-                                } catch (Exception e) {
-                                    logger.error("parse json error", room, e);
-                                    break;
-                                }
-                                liveRoom.setUid(roomObject.getString("uid"));
-                                liveRoom.setName(roomObject.getString("nickname"));
-                                liveRoom.setRoomId(roomObject.getString("id"));
-                                liveRoom.setTitle(roomObject.getString("title"));
-                                liveRoom.setLiveId(roomObject.getString("id"));
-                                liveRoom.setDescription(roomObject.getString("roomDesc"));
-                                liveRoom.setUrl(url);
-                                liveRoom.setThumbnail(roomObject.getString("bpic"));
-                                liveRoom.setAvatar(roomObject.getString("avatar") + "-medium");
-                                liveRoom.setNumber(roomObject.getIntValue("online"));
-                                break;
-                            }
-                        }
-                        createRoom(liveRoom);
-                    }
+                    roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
-                    logger.error("parse error", e);
+                    logger.error("parse json error", room, e);
+                    break;
                 }
+                break;
             }
         }
+        if (roomObject == null) {
+            logger.warn("parser {} fail", actor.getLiveUrl());
+            return;
+        }
+        // 一般来说不变的信息
+        if (liveRoom == null) {
+            liveRoom = new LiveRoom();
+            liveRoom.setActor(actor);
+            liveRoom.setUid(roomObject.getString("owner_uid"));
+            liveRoom.setRoomId(roomObject.getString("room_id"));
+            liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
+        }
+        liveRoom.setName(roomObject.getString("nickname"));
+        liveRoom.setTitle(roomObject.getString("title"));
+        liveRoom.setDescription(roomObject.getString("roomDesc"));
+        liveRoom.setThumbnail(roomObject.getString("bpic"));
+        liveRoom.setAvatar(roomObject.getString("avatar") + "-medium");
+        liveRoom.setNumber(roomObject.getIntValue("online"));
+        liveRoom.setStatus(roomObject.getIntValue("status") == 4 ? LiveStatus.LIVING : LiveStatus.CLOSE);
+        
+        upsertLiveRoom(liveRoom);
     }
 
 }

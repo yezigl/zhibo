@@ -3,8 +3,6 @@
  */
 package com.orion.zhibo.entity;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
@@ -18,45 +16,34 @@ import com.orion.mongodb.entity.AbstractEntity;
  * description here
  *
  * @author lidehua
- * @since 2015年9月2日
+ * @since 2015年10月19日
  */
-@Entity("liveroom")
-@Indexes({ @Index(fields = { @Field("platform"), @Field("uid") }) })
+@Entity("recommand")
+@Indexes({ @Index(fields = { @Field("actor") }) })
 public class LiveRoom extends AbstractEntity {
 
     @Reference
-    private Platform platform;
-    @Reference
-    private Game game;
+    private Actor actor;
     private String uid; // 直播id
     private String name; // 直播名字
-    private String avatar; //
+    private String avatar; // 头像
     private String roomId; // 直播室id
     private String title; // 直播室名字
     private String description;
-    private String url;
     private String thumbnail;
     private String views;
     private int number;
     private int status;
     @Transient
     private String shareUrl;
-    private String liveId;
+    private String flashUrl;
 
-    public Platform getPlatform() {
-        return platform;
+    public Actor getActor() {
+        return actor;
     }
 
-    public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 
     public String getUid() {
@@ -107,14 +94,6 @@ public class LiveRoom extends AbstractEntity {
         this.description = description;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getThumbnail() {
         return thumbnail;
     }
@@ -148,43 +127,19 @@ public class LiveRoom extends AbstractEntity {
     }
 
     public String getShareUrl() {
-        this.shareUrl = String.format(platform.getSharePattern(), this.liveId);
         return shareUrl;
     }
 
     public void setShareUrl(String shareUrl) {
         this.shareUrl = shareUrl;
     }
-    
-    public String getLiveId() {
-        return liveId;
+
+    public String getFlashUrl() {
+        return flashUrl;
     }
 
-    public void setLiveId(String liveId) {
-        this.liveId = liveId;
-    }
-
-    @Override
-    public String toString() {
-        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
-        builder.append("uid", uid);
-        builder.append("name", name);
-        builder.append("avatar", avatar);
-        builder.append("roomId", roomId);
-        builder.append("title", title);
-        builder.append("url", url);
-        builder.append("thumbnail", thumbnail);
-        builder.append("views", views);
-        builder.append("number", number);
-        builder.append("liveId", liveId);
-        return builder.toString();
-    }
-
-    /**
-     * @return
-     */
-    public boolean isAvaliable() {
-        return uid != null && url != null && number >= 3000;
+    public void setFlashUrl(String flashUrl) {
+        this.flashUrl = flashUrl;
     }
 
 }

@@ -9,6 +9,7 @@ import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Actor;
+import com.orion.zhibo.entity.Platform;
 
 /**
  * description here
@@ -49,6 +50,16 @@ public class ActorService extends BasicService {
     public List<Actor> listAll() {
         Query<Actor> query = actorDao.createQuery();
         query.order("-utime");
+        return query.asList();
+    }
+
+    /**
+     * @param platform
+     * @return
+     */
+    public List<Actor> listByPlatform(Platform platform) {
+        Query<Actor> query = actorDao.createQuery();
+        query.field("platform").equal(platform);
         return query.asList();
     }
 }

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
@@ -60,6 +61,47 @@ public class LiveRoomService extends BasicService {
         query.field("game").equal(game);
         query.field("uid").equal(uid);
         return query.get();
+    }
+
+    public List<LiveRoom> listByPlatform(Platform platform) {
+        Query<Actor> actorQuery = actorDao.createQuery();
+        actorQuery.field("platform").equal(platform);
+        List<Actor> actors = actorQuery.asList();
+        Query<LiveRoom> query = liveRoomDao.createQuery();
+        query.field("actor").in(actors);
+        return query.asList();
+    }
+    
+    /**
+     * @param liveRoom
+     */
+    public String create(LiveRoom liveRoom) {
+        return liveRoomDao.create(liveRoom);
+    }
+
+    /**
+     * @param liveRoom
+     */
+    public boolean update(LiveRoom liveRoom) {
+        return liveRoomDao.update(liveRoom);
+    }
+
+    /**
+     * @param actor
+     * @return
+     */
+    public LiveRoom getByActor(Actor actor) {
+        Query<LiveRoom> query = liveRoomDao.createQuery();
+        query.field("actor").equal(actor);
+        return query.get();
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public LiveRoom get(String id) {
+        return liveRoomDao.get(id);
     }
 
 }
