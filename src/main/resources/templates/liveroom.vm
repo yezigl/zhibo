@@ -19,7 +19,7 @@
                 <p class="zb-name">主播：$liveRoom.name</p>
             </div>
             <div class="pull-right">
-                <a href="$liveRoom.url" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.actor.platform.name观看</a>
+                <a href="$liveRoom.actor.liveUrl" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.actor.platform.name观看</a>
             </div>
         </div>
         <div class="row" id="plugin">
