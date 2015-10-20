@@ -31,7 +31,7 @@ public class CheckLiveTask {
     @Autowired
     LiveRoomService liveRoomService;
 
-    @Scheduled(initialDelay = 360000, fixedDelay = 60000)
+    //@Scheduled(initialDelay = 360000, fixedDelay = 60000)
     public void run() {
         logger.info("check live run");
         List<LiveRoom> list = liveRoomService.listAllLiving();
