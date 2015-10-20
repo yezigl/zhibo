@@ -26,12 +26,15 @@ public class LiveRoomService extends BasicService {
 
     public List<LiveRoom> listLiving(Platform platform, Game game, int offset, int limit, String keyword) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
+        Query<Actor> actorQuery = actorDao.createQuery();
         if (!Platform.ALL.getAbbr().equals(platform.getAbbr())) {
-            query.field("platform").equal(platform);
+            actorQuery.field("platform").equal(platform);
         }
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
-            query.field("game").equal(game);
+            actorQuery.field("game").equal(game);
         }
+        List<Actor> actors = actorQuery.asList();
+        query.field("actor").in(actors);
         if (StringUtils.isNotBlank(keyword)) {
             query.field("name").containsIgnoreCase(keyword);
         }

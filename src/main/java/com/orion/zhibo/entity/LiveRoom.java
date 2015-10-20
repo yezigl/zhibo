@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
@@ -142,4 +144,22 @@ public class LiveRoom extends AbstractEntity {
         this.flashUrl = flashUrl;
     }
 
+    @Override
+    public String toString() {
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
+        builder.append("actor", actor.getName());
+        builder.append("uid", uid);
+        builder.append("name", name);
+        builder.append("avatar", avatar);
+        builder.append("roomId", roomId);
+        builder.append("title", title);
+        builder.append("thumbnail", thumbnail);
+        builder.append("views", views);
+        builder.append("number", number);
+        builder.append("status", status);
+        builder.append("flashUrl", flashUrl);
+        return builder.toString();
+    }
+
+    
 }
