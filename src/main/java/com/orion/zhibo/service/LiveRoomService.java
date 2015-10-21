@@ -78,6 +78,7 @@ public class LiveRoomService extends BasicService {
      * @param liveRoom
      */
     public String create(LiveRoom liveRoom) {
+        logger.info("create liveRoom {}", liveRoom);
         return liveRoomDao.create(liveRoom);
     }
 
@@ -85,6 +86,7 @@ public class LiveRoomService extends BasicService {
      * @param liveRoom
      */
     public boolean update(LiveRoom liveRoom) {
+        logger.info("update liveRoom {}", liveRoom);
         return liveRoomDao.update(liveRoom);
     }
 

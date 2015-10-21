@@ -29,10 +29,12 @@ public class ActorService extends BasicService {
     }
 
     public String create(Actor actor) {
+        logger.info("create actor {}", actor);
         return actorDao.create(actor);
     }
 
     public boolean update(Actor actor) {
+        logger.info("update actor {}", actor);
         return actorDao.update(actor);
     }
 

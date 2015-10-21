@@ -90,7 +90,6 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
                 liveRoomService.create(liveRoom);
             }
         }
-        logger.info("upsert room {}", liveRoom);
     }
     
     protected String parseScript(String script, String var) {

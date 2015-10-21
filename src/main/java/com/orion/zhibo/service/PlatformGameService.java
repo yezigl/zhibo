@@ -34,6 +34,7 @@ public class PlatformGameService extends BasicService {
      * @param game
      */
     public void create(PlatformGame pg) {
+        logger.info("create platformGame {}", pg);
         platformGameDao.create(pg);
     }
 

@@ -62,7 +62,6 @@ public class ActorController extends BasicController {
         actor.setTags(tags);
         
         actorService.upsert(actor);
-        logger.info("upsert actor {}", actor);
 
         return "redirect:/actors";
     }

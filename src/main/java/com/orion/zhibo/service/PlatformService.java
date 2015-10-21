@@ -38,6 +38,7 @@ public class PlatformService extends BasicService {
      * @param platform
      */
     public void create(Platform platform) {
+        logger.info("create platform {}", platform);
         platformDao.create(platform);
     }
 }
