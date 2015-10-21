@@ -75,6 +75,13 @@ public class DouyuSpider extends AbstractSpider {
         // 直播情况
         liveRoom.setStatus(roomObject.getIntValue("show_status") == 1 ? LiveStatus.LIVING : LiveStatus.CLOSE);
         liveRoom.setNumber(0);
+        if (liveRoom.getStatus() == LiveStatus.LIVING) {
+            String ret = HttpUtils.get("http://www.douyutv.com/api/v1/room/" + liveRoom.getRoomId());
+            JSONObject jsonObject = JSON.parseObject(ret);
+            if (jsonObject.containsKey("data")) {
+                liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
+            }
+        }
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
         upsertLiveRoom(liveRoom);
