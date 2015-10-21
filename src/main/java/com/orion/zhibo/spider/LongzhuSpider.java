@@ -68,8 +68,8 @@ public class LongzhuSpider extends AbstractSpider {
             liveRoom.setActor(actor);
         }
         liveRoom.setUid(roomObject.getString("UserId"));
-        liveRoom.setRoomId(roomObject.getString("BoardCast_Address"));
-        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
+        liveRoom.setRoomId(roomObject.getString("RoomId"));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), roomObject.getString("BoardCast_Address")));
         liveRoom.setName(roomObject.getString("Name"));
         liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
         liveRoom.setDescription(roomObject.getString("Desc"));
@@ -80,7 +80,6 @@ public class LongzhuSpider extends AbstractSpider {
         liveRoom.setStatus((pageData != null && pageData.containsKey("live")) ? LiveStatus.LIVING : LiveStatus.CLOSE);
         if (liveRoom.getStatus() == LiveStatus.LIVING) {
             JSONObject data = JSON.parseObject(HttpUtils.get("http://mb.tga.plu.cn/chatroom/joinroom?roomId=" + liveRoom.getRoomId()));
-            logger.info("{}", data);
             liveRoom.setNumber(data.getIntValue("online"));
         } else {
             liveRoom.setNumber(0);

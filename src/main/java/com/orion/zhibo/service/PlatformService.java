@@ -27,7 +27,7 @@ public class PlatformService extends BasicService {
         }
         return list;
     }
-    
+
     public Platform getByAbbr(String abbr) {
         Query<Platform> query = platformDao.createQuery();
         query.field("abbr").equal(abbr);
@@ -39,6 +39,18 @@ public class PlatformService extends BasicService {
      */
     public void create(Platform platform) {
         logger.info("create platform {}", platform);
-        platformDao.create(platform);
+        Platform p = getByAbbr(platform.getAbbr());
+        if (p != null) {
+            p.setName(platform.getName());
+            p.setHost(platform.getHost());
+            p.setIcon(platform.getIcon());
+            p.setLinkProtect(platform.isLinkProtect());
+            p.setLogo(platform.getLogo());
+            p.setSharePattern(platform.getSharePattern());
+            p.setUrl(platform.getUrl());
+            platformDao.update(p);
+        } else {
+            platformDao.create(platform);
+        }
     }
 }

@@ -8,25 +8,28 @@
 <div class="container">
     <form action="/man/platforms" method="post" class="col-md-4 col-lg-4">
         <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="name">
+            <input type="text" class="form-control" name="name" placeholder="名字">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="abbr" placeholder="abbr">
+            <input type="text" class="form-control" name="abbr" placeholder="英文简称">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="url" placeholder="url">
+            <input type="text" class="form-control" name="url" placeholder="网站主页">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="host" placeholder="host">
+            <input type="text" class="form-control" name="host" placeholder="Host">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="icon" placeholder="icon">
+            <input type="text" class="form-control" name="icon" placeholder="网站icon">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="logo" placeholder="logo">
+            <input type="text" class="form-control" name="logo" placeholder="网站logo">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="sharePattern" placeholder="sharePattern">
+            <input type="text" class="form-control" name="sharePattern" placeholder="分享地址">
+        </div>
+        <div class="form-group">
+            <input type="checkbox" name="linkProtect" value="true"> 防盗链
         </div>
         <button type="submit" class="btn btn-default">添加平台</button>
     </form>
@@ -35,16 +38,16 @@
 <div class="container">
     <form action="/man/games" method="post" class="col-md-4 col-lg-4">
         <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="name">
+            <input type="text" class="form-control" name="name" placeholder="名字">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="abbr" placeholder="abbr">
+            <input type="text" class="form-control" name="abbr" placeholder="英文简称">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="alias" placeholder="alias">
+            <input type="text" class="form-control" name="alias" placeholder="别名">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="icon" placeholder="icon">
+            <input type="text" class="form-control" name="icon" placeholder="图标">
         </div>
         <button type="submit" class="btn btn-default">添加游戏</button>
     </form>
@@ -67,7 +70,7 @@
             </select>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="platformUrl" placeholder="platformUrl">
+            <input type="text" class="form-control" name="platformUrl" placeholder="平台地址">
         </div>
         <button type="submit" class="btn btn-default">添加平台游戏</button>
     </form>

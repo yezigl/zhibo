@@ -3,7 +3,12 @@
  */
 package com.orion.zhibo.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
@@ -65,7 +71,7 @@ public class IndexController extends BasicController {
     private void setUpModel(Model model, String game, String platform, int offset, int limit) {
         setUpModel(model, game, platform, offset, limit, null);
     }
-    
+
     private void setUpModel(Model model, String game, String platform, int offset, int limit, String keyword) {
         model.addAttribute("currentGame", game);
         model.addAttribute("currentPlatform", platform);
@@ -81,4 +87,19 @@ public class IndexController extends BasicController {
         model.addAttribute("size", list.size());
     }
 
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    public void fetchImage(@RequestParam String url, HttpServletRequest request, HttpServletResponse response) {
+        byte[] bytes = HttpUtils.getBytes(url, null);
+
+        response.setContentType("image/jpeg");
+
+        try {
+            OutputStream output = response.getOutputStream();
+            output.write(bytes);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -27,6 +27,7 @@ public class Platform extends AbstractEntity {
     private String icon;
     private String logo;
     private String sharePattern;
+    private boolean linkProtect;
 
     /**
      * 
@@ -93,6 +94,14 @@ public class Platform extends AbstractEntity {
 
     public void setSharePattern(String sharePattern) {
         this.sharePattern = sharePattern;
+    }
+
+    public boolean isLinkProtect() {
+        return linkProtect;
+    }
+
+    public void setLinkProtect(boolean linkProtect) {
+        this.linkProtect = linkProtect;
     }
 
     @Override
