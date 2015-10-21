@@ -3,6 +3,7 @@
  */
 package com.orion.zhibo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +35,9 @@ public class LiveRoomService extends BasicService {
             actorQuery.field("game").equal(game);
         }
         List<Actor> actors = actorQuery.asList();
+        if (actors.isEmpty()) {
+            return new ArrayList<>();
+        }
         query.field("actor").in(actors);
         if (StringUtils.isNotBlank(keyword)) {
             query.field("name").containsIgnoreCase(keyword);
@@ -73,7 +77,7 @@ public class LiveRoomService extends BasicService {
         query.field("actor").in(actors);
         return query.asList();
     }
-    
+
     /**
      * @param liveRoom
      */

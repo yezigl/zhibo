@@ -14,7 +14,7 @@
             <ul class="list-inline">
             #foreach ($game in $games)
                 <li #if ($currentGame == $game.abbr)class="text-primary bold" #end>
-                    <a href="/s/$game.abbr/$currentPlatform/0">$game.name</a>
+                    <a href="/s/$game.abbr/0">$game.name</a>
                 </li>
             #end
             </ul>
@@ -25,23 +25,25 @@
         <div class="row">
         #foreach ($liveRoom in $liveRooms)
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <a class="card" target="_blank" href="/live/$liveRoom.id">
+                <a class="card" target="_blank" href="/live/$!liveRoom.id">
                     <div class="thumbnail">
                         #if($liveRoom.actor.platform.linkProtect)
-                        <img class="card-img" src="/image?url=$liveRoom.thumbnail" alt="$liveRoom.title">
+                        <img class="card-img" src="/image?url=$!liveRoom.thumbnail" alt="$!liveRoom.title">
                         #else
-                        <img class="card-img" src="$liveRoom.thumbnail" alt="$liveRoom.title">
+                        <img class="card-img" src="$!liveRoom.thumbnail" alt="$!liveRoom.title">
                         #end
                         <div class="caption">
-                            <p class="card-title" title="$liveRoom.title">$liveRoom.title</p>
+                            <p class="card-title" title="$!liveRoom.title">$!liveRoom.title</p>
                             <span class="text-muted">
                                 <span>&nbsp;</span>
+                                #if($liveRoom.number > 0)
                                 <span class="pull-left">$!liveRoom.views</span>
-                                <span class="card-title col-sm-7 col-md-7 col-lg-7">$liveRoom.name</span>
+                                #end
+                                <span class="card-title col-sm-7 col-md-7 col-lg-7" #if($liveRoom.number == 0) style="padding-left: 0;padding-right: 0;"#end>$!liveRoom.name</span>
                             </span>
                             <span class="pull-right">
-                                <img class="zb-ico" src="$liveRoom.actor.platform.icon" title="$liveRoom.actor.platform.name" />&nbsp;
-                                <img class="zb-ico" src="$liveRoom.actor.game.icon" title="$liveRoom.actor.game.name" />
+                                <img class="zb-ico" src="$!liveRoom.actor.platform.icon" title="$!liveRoom.actor.platform.name" />&nbsp;
+                                <img class="zb-ico" src="$!liveRoom.actor.game.icon" title="$!liveRoom.actor.game.name" />
                             </span>
                             <div style="margin-top: 10px;">
                                 #if($liveRoom.status == 1)
@@ -62,8 +64,8 @@
             <ul class="pager">
                 #set($p = $offset - 20)
                 #set($n = $offset + 20)
-                <li #if ($offset <= 0)class="disabled" #end><a href="/s/$currentGame/$currentPlatform/$p">前一页</a></li>
-                <li><a href="/s/$currentGame/$currentPlatform/$n">后一页</a></li>
+                <li #if ($offset <= 0)class="disabled" #end><a href="/s/$currentGame/$p">前一页</a></li>
+                <li><a href="/s/$currentGame/$n">后一页</a></li>
             </ul>
         </nav>
         #end

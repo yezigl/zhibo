@@ -37,34 +37,10 @@ public class IndexController extends BasicController {
         return "index";
     }
 
-    @RequestMapping(value = "/g/{game}", method = RequestMethod.GET)
-    public String games(@PathVariable String game, Model model) {
-        setUpModel(model, game, "all", 0, 20);
-        return "index";
-    }
-
-    @RequestMapping(value = "/g/{game}/{offset}", method = RequestMethod.GET)
-    public String pgames(@PathVariable String game, @PathVariable int offset, Model model) {
-        setUpModel(model, game, "all", offset, 20);
-        return "index";
-    }
-
-    @RequestMapping(value = "/p/{platform}", method = RequestMethod.GET)
-    public String platforms(@PathVariable String platform, Model model) {
-        setUpModel(model, "all", platform, 0, 20);
-        return "index";
-    }
-
-    @RequestMapping(value = "/p/{platform}/{offset}", method = RequestMethod.GET)
-    public String pplatforms(@PathVariable String platform, @PathVariable int offset, Model model) {
-        setUpModel(model, "all", platform, offset, 20);
-        return "index";
-    }
-
-    @RequestMapping(value = "/s/{game}/{platform}/{offset}", method = RequestMethod.GET)
-    public String gameplarform(@PathVariable String game, @PathVariable String platform, @PathVariable int offset,
+    @RequestMapping(value = "/s/{game}/{offset}", method = RequestMethod.GET)
+    public String gameplarform(@PathVariable String game, @PathVariable int offset,
             Model model) {
-        setUpModel(model, game, platform, offset, 20);
+        setUpModel(model, game, "all", offset, 20);
         return "index";
     }
 
