@@ -64,11 +64,11 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     public void run() {
         List<Actor> actors = actorService.listByPlatform(platform);
         for (Actor actor : actors) {
-            parse(actor);
             try {
+                parse(actor);
                 TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
             }
         }
     }
