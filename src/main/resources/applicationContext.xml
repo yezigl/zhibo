@@ -9,10 +9,13 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:property-placeholder location="classpath:*.properties" />
+    
 
     <mvc:resources mapping="/css/**" location="classpath:/static/css/" />
     <mvc:resources mapping="/js/**" location="classpath:/static/js/" />
     <mvc:resources mapping="/img/**" location="classpath:/static/img/" />
     <mvc:resources mapping="/robots.txt" location="classpath:/static/robots.txt" />
     <mvc:resources mapping="/favicon.ico" location="classpath:/static/favicon.ico" />
+    <mvc:resources mapping="/**.html" location="classpath:/static/" />
+    
 </beans>
