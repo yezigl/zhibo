@@ -59,3 +59,7 @@ a, a:link {
     top: -2px;
     right: 18px;
 }
+
+.thsort {
+    cursor: pointer;
+}

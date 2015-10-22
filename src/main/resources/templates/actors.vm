@@ -18,11 +18,11 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">名字</th>
-                            <th class="text-center">平台</th>
-                            <th class="text-center">游戏</th>
-                            <th class="text-center">标签</th>
-                            <th class="text-center">地址</th>
+                            <th data-sort="string" class="text-center thsort">名字</th>
+                            <th data-sort="string" class="text-center thsort">平台</th>
+                            <th data-sort="string" class="text-center thsort">游戏</th>
+                            <th data-sort="string" class="text-center thsort">标签</th>
+                            <th data-sort="string" class="text-center thsort">地址</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,9 @@
     </div>
     
     #parse("footer.vm")
+    <script type="text/javascript" src="/js/stupidtable.min.js"></script>
     <script type="text/javascript">
+        $("table").stupidtable();
     </script>
 </body>
 </html>
