@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
-import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.model.ActorTag;
 
 /**
  * description here
@@ -33,32 +33,34 @@ public class IndexController extends BasicController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(@RequestParam(required = false) String q, Model model) {
-        setUpModel(model, "all", "all", 0, 20, q);
+        setUpModel(model, "all", "ALL", 0, 20, q);
         return "index";
     }
 
-    @RequestMapping(value = "/s/{game}/{offset}", method = RequestMethod.GET)
-    public String gameplarform(@PathVariable String game, @PathVariable int offset,
-            Model model) {
-        setUpModel(model, game, "all", offset, 20);
+    @RequestMapping(value = "/game/{game}/{offset}", method = RequestMethod.GET)
+    public String games(@PathVariable String game, @PathVariable int offset, Model model) {
+        setUpModel(model, game, "ALL", offset, 20);
         return "index";
     }
 
-    private void setUpModel(Model model, String game, String platform, int offset, int limit) {
-        setUpModel(model, game, platform, offset, limit, null);
+    @RequestMapping(value = "/tag/{tag}/{offset}", method = RequestMethod.GET)
+    public String tags(@PathVariable String tag, @PathVariable int offset, Model model) {
+        setUpModel(model, "all", tag, offset, 20);
+        return "index";
     }
 
-    private void setUpModel(Model model, String game, String platform, int offset, int limit, String keyword) {
+    private void setUpModel(Model model, String game, String tag, int offset, int limit) {
+        setUpModel(model, game, tag, offset, limit, null);
+    }
+
+    private void setUpModel(Model model, String game, String tag, int offset, int limit, String keyword) {
         model.addAttribute("currentGame", game);
-        model.addAttribute("currentPlatform", platform);
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
         model.addAttribute("q", keyword);
-        Platform p = platform.equalsIgnoreCase("all") ? Platform.ALL : platformService.getByAbbr(platform);
-        Game g = game.equalsIgnoreCase("all") ? Game.ALL : gameService.getByAbbr(game);
-        List<LiveRoom> list = liveRoomService.list(p, g, offset, limit, keyword);
+        Game g = game.equals("all") ? Game.ALL : gameService.getByAbbr(game);
+        ActorTag t = tag.equals("ALL") ? null : ActorTag.valueOf(tag);
+        List<LiveRoom> list = liveRoomService.list(g, t, offset, limit, keyword);
         model.addAttribute("liveRooms", list);
         model.addAttribute("size", list.size());
     }

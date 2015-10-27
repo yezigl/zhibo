@@ -20,7 +20,7 @@ import com.orion.zhibo.entity.Platform;
 @Service
 public class PlatformService extends BasicService {
 
-    public List<Platform> getAll() {
+    public List<Platform> listAll() {
         List<Platform> list = platformDao.getAll();
         if (list == null) {
             list = new ArrayList<>();

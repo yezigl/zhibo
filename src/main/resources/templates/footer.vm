@@ -4,5 +4,16 @@
     </div>
 </footer>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/array.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#dropdownGame li a').click(function(e) {
+        location.href = '/game/' + $(e.target).data('game') + '/0';
+    });
+    $('#dropdownTag li a').click(function(e) {
+        location.href = '/tag/' + $(e.target).data('tag') + '/0';
+    });
+});
+</script>

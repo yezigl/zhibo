@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-lg-12">
@@ -13,14 +13,30 @@
 
                 <!-- Main navigation links -->
                 <div class="navbar-collapse collapse">
-                    <!-- Link to the project's GitHub repo & Twitter profile -->
-                    <ul class="nav navbar-nav navbar-right navbar-links" style="display: none;">
-                        <li><a href="#">登录</a></li>
-                        <li><a href="#">注册</a></li>
-                    </ul>
                     <form name="form" class="navbar-form navbar-right" action="/">
                         <input type="text" name="q" class="form-control" placeholder="搜索...">
                     </form>
+                    <ul class="nav navbar-nav navbar-right navbar-links">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">游戏<span class="caret"></span></a>
+                            <ul id="dropdownGame" class="dropdown-menu">
+                                <li><a href="javascript:void(0)" data-game="all">全部</a></li>
+                                #foreach($game in $games)
+                                <li><a href="javascript:void(0)" data-game="$game.abbr">$game.name</a></li>
+                                #end
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">主播<span class="caret"></span></a>
+                            <ul id="dropdownTag" class="dropdown-menu">
+                                <li><a href="javascript:void(0)" data-tag="ALL">全部</a></li>
+                                #foreach($actorTag in $actorTags)
+                                <li><a href="javascript:void(0)" data-tag="$actorTag">$actorTag.title</a></li>
+                                #end
+                            </ul>
+                        </li>
+                    </ul>
+                    
                 </div>
 
             </div>

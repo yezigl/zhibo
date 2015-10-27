@@ -25,15 +25,15 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/man", method = RequestMethod.GET)
     public String man(Model model) {
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
         return "manage";
     }
 
     @RequestMapping(value = "/man/platforms", method = RequestMethod.POST)
     public String manPlatforms(@ModelAttribute Platform platform, Model model) {
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
 
         platformService.create(platform);
         return "redirect:/man";
@@ -41,8 +41,8 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/man/games", method = RequestMethod.POST)
     public String manGames(@ModelAttribute Game game, Model model) {
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
 
         gameService.create(game);
         return "redirect:/man";
@@ -51,8 +51,8 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/man/platformgames", method = RequestMethod.POST)
     public String manPlatformGames(@RequestParam String platform, @RequestParam String game,
             @RequestParam String platformUrl, Model model) {
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
 
         Platform p = platformService.getByAbbr(platform);
         Game g = gameService.getByAbbr(game);

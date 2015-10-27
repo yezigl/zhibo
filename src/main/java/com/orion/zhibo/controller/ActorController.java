@@ -32,8 +32,8 @@ public class ActorController extends BasicController {
 
     @RequestMapping(value = "/actors/{id}", method = RequestMethod.GET)
     public String actorGet(Model model, @PathVariable String id) {
-        model.addAttribute("platforms", platformService.getAll());
-        model.addAttribute("games", gameService.getAll());
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
         model.addAttribute("tags", ActorTag.values());
 
         if (!id.equals("0")) {
@@ -53,7 +53,10 @@ public class ActorController extends BasicController {
         if (!id.equals("0")) {
             actor = actorService.get(id);
         } else {
-            actor = new Actor();
+            actor = actorService.getByUrl(liveUrl);
+            if (actor == null) {
+                actor = new Actor();
+            }
         }
         actor.setPlatform(platformService.getByAbbr(platform));
         actor.setGame(gameService.getByAbbr(game));

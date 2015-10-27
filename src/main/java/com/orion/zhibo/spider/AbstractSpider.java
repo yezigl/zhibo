@@ -68,7 +68,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
                 parse(actor);
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                logger.error("prase error {}", e.getMessage(), e);
             }
         }
     }

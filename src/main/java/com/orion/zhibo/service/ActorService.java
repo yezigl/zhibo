@@ -64,4 +64,14 @@ public class ActorService extends BasicService {
         query.field("platform").equal(platform);
         return query.asList();
     }
+
+    /**
+     * @param liveUrl
+     * @return
+     */
+    public Actor getByUrl(String liveUrl) {
+        Query<Actor> query = actorDao.createQuery();
+        query.field("liveUrl").equal(liveUrl);
+        return query.get();
+    }
 }

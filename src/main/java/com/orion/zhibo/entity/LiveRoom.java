@@ -161,5 +161,4 @@ public class LiveRoom extends AbstractEntity {
         return builder.toString();
     }
 
-    
 }

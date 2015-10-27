@@ -3,10 +3,15 @@
  */
 package com.orion.zhibo.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.orion.zhibo.entity.Game;
+import com.orion.zhibo.model.ActorTag;
 import com.orion.zhibo.service.ActorService;
 import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
@@ -33,4 +38,14 @@ public abstract class BasicController {
     protected PlatformGameService platformGameService;
     @Autowired
     protected ActorService actorService;
+    
+    @ModelAttribute("games")
+    public List<Game> games() {
+        return gameService.listAll();
+    }
+    
+    @ModelAttribute("actorTags")
+    public ActorTag[] actorTags() {
+        return ActorTag.values();
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.orion.zhibo.TestConfig;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.service.PlatformService;
 
 /**
  * description here
@@ -24,6 +25,8 @@ public class PlatformDaoTest {
     
     @Autowired
     PlatformDao platformDao;
+    @Autowired
+    PlatformService platformService;
 
     @Test
     public void testCreate() {
@@ -39,6 +42,13 @@ public class PlatformDaoTest {
     @Test
     public void testDelete() {
         platformDao.delete("55f0f6243887bf3c688c3d0c");
+    }
+    
+    @Test
+    public void testUpdate() {
+        Platform platform = platformService.getByAbbr("zhanqi");
+        platform.setSharePattern("http://dlstatic.cdn.zhanqi.tv/assets/swf/shell.swf?20151021.01");
+        platformDao.update(platform);
     }
     
 }

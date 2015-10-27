@@ -14,6 +14,7 @@ import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.model.ActorTag;
 import com.orion.zhibo.model.LiveStatus;
 
 /**
@@ -25,14 +26,14 @@ import com.orion.zhibo.model.LiveStatus;
 @Service
 public class LiveRoomService extends BasicService {
 
-    public List<LiveRoom> list(Platform platform, Game game, int offset, int limit, String keyword) {
+    public List<LiveRoom> list(Game game, ActorTag tag, int offset, int limit, String keyword) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
         Query<Actor> actorQuery = actorDao.createQuery();
-        if (!Platform.ALL.getAbbr().equals(platform.getAbbr())) {
-            actorQuery.field("platform").equal(platform);
-        }
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
             actorQuery.field("game").equal(game);
+        }
+        if (tag != null) {
+            actorQuery.field("tags").hasThisOne(tag);
         }
         List<Actor> actors = actorQuery.asList();
         if (actors.isEmpty()) {

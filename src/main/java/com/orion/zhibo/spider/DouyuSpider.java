@@ -77,7 +77,7 @@ public class DouyuSpider extends AbstractSpider {
         if (liveRoom.getStatus() == LiveStatus.LIVING) {
             String ret = HttpUtils.get("http://www.douyutv.com/api/v1/room/" + liveRoom.getRoomId());
             JSONObject jsonObject = JSON.parseObject(ret);
-            if (jsonObject.containsKey("data")) {
+            if (jsonObject.containsKey("data") && (jsonObject.get("data") instanceof JSONObject)) {
                 liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
             }
         } else {
