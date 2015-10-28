@@ -43,7 +43,11 @@
     <script type="text/javascript">
     $(function() {
         var plugin = $("#plugin");
+        #if ($liveRoom.actor.platform.iframe)
+        plugin.find("iframe").width(plugin.width()).height(plugin.width() * 9 / 16).show();
+        #else
         plugin.find("embed").width(plugin.width()).height(plugin.width() * 9 / 16).show();
+        #end
     });
     </script>
 </body>

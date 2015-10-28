@@ -53,7 +53,7 @@
             <label for="linkProtect" class="col-sm-2 control-label">其他</label>
             <div class="col-sm-4">
                 <label class="checkbox-inline">
-                    <input type="checkbox" name="linkProtect" value="true"#if($!platform.linkProtect) checked#end"> 防盗链
+                    <input type="checkbox" name="linkProtect" value="true"#if($!platform.linkProtect) checked#end> 防盗链
                 </label>
                 <label class="checkbox-inline">
                     <input type="checkbox" name="iframe" value="true"#if($!platform.isIframe) checked#end> iframe
