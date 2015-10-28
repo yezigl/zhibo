@@ -75,5 +75,6 @@ public class PlatformService extends BasicService {
         } else {
             platformDao.save(platform);
         }
+        logger.info("upsert platform {}", platform);
     }
 }

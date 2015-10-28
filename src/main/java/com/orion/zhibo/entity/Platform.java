@@ -28,6 +28,7 @@ public class Platform extends AbstractEntity {
     private String logo;
     private String sharePattern;
     private boolean linkProtect;
+    private boolean iframe;
 
     /**
      * 
@@ -103,6 +104,14 @@ public class Platform extends AbstractEntity {
     public void setLinkProtect(boolean linkProtect) {
         this.linkProtect = linkProtect;
     }
+    
+    public boolean isIframe() {
+        return iframe;
+    }
+
+    public void setIframe(boolean isIframe) {
+        this.iframe = isIframe;
+    }
 
     @Override
     public String toString() {
@@ -113,6 +122,9 @@ public class Platform extends AbstractEntity {
         builder.append("host", host);
         builder.append("icon", icon);
         builder.append("logo", logo);
+        builder.append("sharePattern", sharePattern);
+        builder.append("linkProtect", linkProtect);
+        builder.append("isIframe", iframe);
         return builder.toString();
     }
 

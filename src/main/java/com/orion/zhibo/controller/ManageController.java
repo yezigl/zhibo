@@ -98,7 +98,7 @@ public class ManageController extends BasicController {
         }
         platformService.upsert(platform);
 
-        return "platformlist";
+        return "redirect:/manage/platforms";
     }
     
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.DELETE)

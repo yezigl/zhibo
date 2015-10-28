@@ -70,7 +70,7 @@ public class ZhanqiSpider extends AbstractSpider {
         }
         liveRoom.setUid(roomObject.getString("uid"));
         liveRoom.setRoomId(roomObject.getString("id"));
-        liveRoom.setFlashUrl(platform.getSharePattern());
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         liveRoom.setName(roomObject.getString("nickname"));
         liveRoom.setTitle(roomObject.getString("title"));
         liveRoom.setDescription(roomObject.getString("roomDesc"));

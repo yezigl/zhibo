@@ -53,14 +53,17 @@
             <label for="linkProtect" class="col-sm-2 control-label">其他</label>
             <div class="col-sm-4">
                 <label class="checkbox-inline">
-                    <input type="checkbox" name="linkProtect" value="true" checked="$platform.linkProtect"> 防盗链
+                    <input type="checkbox" name="linkProtect" value="true"#if($!platform.linkProtect) checked#end"> 防盗链
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="iframe" value="true"#if($!platform.isIframe) checked#end> iframe
                 </label>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">添加</button>&nbsp;&nbsp;
-                <button onclick="doDelete()" class="btn btn-default">删除</button>
+                <input type="button" onclick="doDelete()" class="btn btn-default" value="删除" />
             </div>
         </div>
     </form>
@@ -68,7 +71,7 @@
 #parse("footer.vm")
 <script type="text/javascript">
 function doDelete() {
-    ajaxDelete("", {}, function(data, status, jqXHR) {
+    ajaxDelete(location.href, {}, function(data, status, jqXHR) {
         document.location.href = '/manage/platforms';
     }, function(jqXHR, status, e) {
         alert('删除失败');

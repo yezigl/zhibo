@@ -13,7 +13,7 @@
         <div class="row">
             <div class="">
                 <div class="row">
-                    <a class="btn btn-primary" style="margin: 0 0 15px 15px;" href="/platforms/0">添加平台</a>
+                    <a class="btn btn-primary" style="margin: 0 0 15px 15px;" href="/manage/platforms/0">添加平台</a>
                 </div>
                 <table class="table table-bordered">
                     <thead>
