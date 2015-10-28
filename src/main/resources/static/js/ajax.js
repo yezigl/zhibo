@@ -1,28 +1,15 @@
 /**
  * 
  */
-function ajaxPost(url, ids, success, error) {
-    var data = {};
-    jQuery.each(ids, function(i, id) {
-        data[id] = jQuery('#' + id).val();
-    });
+function ajaxDelete(url, data, success, error) {
+    var data = params(ids);
+    if (ajaxError) {
+        ajaxError = false;
+        return;
+    }
     jQuery.ajax({
         'url': url,
-        'type': 'POST',
-        'data': data,
-        'success': success,
-        'error': error,
-    });
-}
-
-function ajaxGet(url, ids, success, error) {
-    var data = {};
-    jQuery.each(ids, function(i, id) {
-        data[id] = jQuery('#' + id).val();
-    });
-    jQuery.ajax({
-        'url': url,
-        'type': 'GET',
+        'type': 'DELETE',
         'data': data,
         'success': success,
         'error': error,

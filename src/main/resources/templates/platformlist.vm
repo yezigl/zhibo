@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+#parse("head.vm")
+<title>直播来了 - 平台列表</title>
+</head>
+<body>
+    #parse("nav.vm")
+
+    <div id="banner" class="container"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="">
+                <div class="row">
+                    <a class="btn btn-primary" style="margin: 0 0 15px 15px;" href="/platforms/0">添加平台</a>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th data-sort="string" class="text-center thsort">名字</th>
+                            <th data-sort="string" class="text-center thsort">简称</th>
+                            <th data-sort="string" class="text-center thsort">URL</th>
+                            <th data-sort="string" class="text-center thsort">icon</th>
+                            <th data-sort="string" class="text-center thsort">logo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    #foreach($platform in $platforms)
+                        <tr>
+                            <td class="text-center">
+                                <a href="/manage/platforms/$platform.id">$platform.name</a>
+                            </td>
+                            <td class="text-center">$platform.abbr</td>
+                            <td class="text-center">$platform.url</td>
+                            <td class="text-center"><img width="16px" src="$platform.icon" /></td>
+                            <td class="text-center"><img height="20px" src="$platform.logo" /></td>
+                        </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    #parse("footer.vm")
+    <script type="text/javascript" src="/js/stupidtable.min.js"></script>
+    <script type="text/javascript">
+        $("table").stupidtable();
+    </script>
+</body>
+</html>

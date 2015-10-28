@@ -27,7 +27,7 @@ public class ActorController extends BasicController {
     @RequestMapping(value = "/actors", method = RequestMethod.GET)
     public String actorsGet(Model model) {
         model.addAttribute("actors", actorService.listAll());
-        return "actors";
+        return "actorlist";
     }
 
     @RequestMapping(value = "/actors/{id}", method = RequestMethod.GET)
@@ -66,6 +66,6 @@ public class ActorController extends BasicController {
         
         actorService.upsert(actor);
 
-        return "redirect:/actors";
+        return "redirect:/actorlist";
     }
 }

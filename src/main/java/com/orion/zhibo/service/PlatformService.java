@@ -53,4 +53,27 @@ public class PlatformService extends BasicService {
             platformDao.create(platform);
         }
     }
+
+    /**
+     * @param id
+     * @return
+     */
+    public Platform get(String id) {
+        return platformDao.get(id);
+    }
+    
+    public void delete(Platform platform) {
+        platformDao.delete(platform);
+    }
+
+    /**
+     * @param platform
+     */
+    public void upsert(Platform platform) {
+        if (platform.getId() != null) {
+            platformDao.update(platform);
+        } else {
+            platformDao.save(platform);
+        }
+    }
 }
