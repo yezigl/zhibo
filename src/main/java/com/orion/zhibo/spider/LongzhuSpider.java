@@ -69,7 +69,8 @@ public class LongzhuSpider extends AbstractSpider {
         }
         liveRoom.setUid(roomObject.getString("UserId"));
         liveRoom.setRoomId(roomObject.getString("RoomId"));
-        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), roomObject.getString("BoardCast_Address")));
+        liveRoom.setLiveId(roomObject.getString("BoardCast_Address"));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId()));
         liveRoom.setName(roomObject.getString("Name"));
         liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
         liveRoom.setDescription(roomObject.getString("Desc"));

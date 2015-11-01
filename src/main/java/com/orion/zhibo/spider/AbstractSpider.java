@@ -6,8 +6,8 @@ package com.orion.zhibo.spider;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     boolean isDebug;
 
-    ExecutorService exe = Executors.newCachedThreadPool();
+    protected ScheduledExecutorService exe = Executors.newScheduledThreadPool(4);
 
     @Override
     public void afterPropertiesSet() throws Exception {

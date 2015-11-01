@@ -30,6 +30,7 @@ public class LiveRoom extends AbstractEntity {
     private String name; // 直播名字
     private String avatar; // 头像
     private String roomId; // 直播室id
+    private String liveId; // 直播id，可能和roomId不一致
     private String title; // 直播室名字
     private String description;
     private String thumbnail;
@@ -78,6 +79,14 @@ public class LiveRoom extends AbstractEntity {
 
     public void setRoomId(String roomId) {
         this.roomId = roomId;
+    }
+
+    public String getLiveId() {
+        return liveId;
+    }
+
+    public void setLiveId(String liveId) {
+        this.liveId = liveId;
     }
 
     public String getTitle() {
@@ -152,6 +161,7 @@ public class LiveRoom extends AbstractEntity {
         builder.append("name", name);
         builder.append("avatar", avatar);
         builder.append("roomId", roomId);
+        builder.append("liveId", liveId);
         builder.append("title", title);
         builder.append("thumbnail", thumbnail);
         builder.append("views", views);

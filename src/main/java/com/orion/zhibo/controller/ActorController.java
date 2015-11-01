@@ -66,6 +66,6 @@ public class ActorController extends BasicController {
         
         actorService.upsert(actor);
 
-        return "redirect:/actorlist";
+        return "redirect:/actors";
     }
 }

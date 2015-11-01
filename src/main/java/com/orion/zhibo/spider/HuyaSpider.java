@@ -75,6 +75,7 @@ public class HuyaSpider extends AbstractSpider {
                 }
                 liveRoom.setUid(info.getString("yyid"));
                 liveRoom.setRoomId(info.getString("liveUid"));
+                liveRoom.setLiveId(liveRoom.getRoomId());
                 liveRoom.setFlashUrl(document.select("#flash-link").attr("value")); 
                 liveRoom.setName(info.getString("liveNick"));
                 liveRoom.setTitle(info.getString("liveName"));
