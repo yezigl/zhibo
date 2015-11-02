@@ -33,28 +33,28 @@ public class IndexController extends BasicController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(@RequestParam(required = false) String q, Model model) {
-        setUpModel(model, "all", "ALL", 0, 20, q);
+        setUpModel(model, "/game/all", "all", "ALL", 0, 20, q);
         return "index";
     }
 
     @RequestMapping(value = "/game/{game}/{offset}", method = RequestMethod.GET)
     public String games(@PathVariable String game, @PathVariable int offset, Model model) {
-        setUpModel(model, game, "ALL", offset, 20);
+        setUpModel(model, "/game/" + game, game, "ALL", offset, 20);
         return "index";
     }
 
     @RequestMapping(value = "/tag/{tag}/{offset}", method = RequestMethod.GET)
     public String tags(@PathVariable String tag, @PathVariable int offset, Model model) {
-        setUpModel(model, "all", tag, offset, 20);
+        setUpModel(model, "/tag/" + tag, "all", tag, offset, 20);
         return "index";
     }
 
-    private void setUpModel(Model model, String game, String tag, int offset, int limit) {
-        setUpModel(model, game, tag, offset, limit, null);
+    private void setUpModel(Model model, String path, String game, String tag, int offset, int limit) {
+        setUpModel(model, path, game, tag, offset, limit, null);
     }
 
-    private void setUpModel(Model model, String game, String tag, int offset, int limit, String keyword) {
-        model.addAttribute("currentGame", game);
+    private void setUpModel(Model model, String path, String game, String tag, int offset, int limit, String keyword) {
+        model.addAttribute("path", path);
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
         model.addAttribute("q", keyword);

@@ -52,8 +52,8 @@
             <ul class="pager">
                 #set($p = $offset - 20)
                 #set($n = $offset + 20)
-                <li #if ($offset <= 0)class="disabled" #end><a href="/game/$currentGame/$p">前一页</a></li>
-                <li><a href="/game/$currentGame/$n">后一页</a></li>
+                <li #if ($offset <= 0)class="disabled" #end><a href="$path/$p">前一页</a></li>
+                <li><a href="$path/$n">后一页</a></li>
             </ul>
         </nav>
         #end
