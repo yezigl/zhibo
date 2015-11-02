@@ -6,7 +6,6 @@ package com.orion.zhibo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +25,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String errorResponse(Exception exception, Model model) {
-        model.addAttribute("exception", exception);
+    public String errorResponse(Exception exception) {
         logger.error(exception.getMessage(), exception);
         return "error";
     }
