@@ -6,37 +6,11 @@
 </head>
 <body>
 <div class="container">
-    <form action="/man/platforms" method="post" class="col-md-4 col-lg-4">
-        <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="名字">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="abbr" placeholder="英文简称">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="url" placeholder="网站主页">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="host" placeholder="Host">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="icon" placeholder="网站icon">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="logo" placeholder="网站logo">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="sharePattern" placeholder="分享地址">
-        </div>
-        <div class="form-group">
-            <input type="checkbox" name="linkProtect" value="true"> 防盗链
-        </div>
-        <button type="submit" class="btn btn-default">添加平台</button>
-    </form>
+    <a href="/manage/platforms">平台</a>
 </div>
-    <br>
+<br>
 <div class="container">
-    <form action="/man/games" method="post" class="col-md-4 col-lg-4">
+    <form action="/manage/games" method="post" class="col-md-4 col-lg-4">
         <div class="form-group">
             <input type="text" class="form-control" name="name" placeholder="名字">
         </div>
@@ -54,19 +28,21 @@
 </div>
 <br>
 <div class="container">
-    <form action="/man/platformgames" method="post" class="col-md-4 col-lg-4">
+    <form action="/manage/platformgames" method="post" class="col-md-4 col-lg-4">
         <div class="form-group">
             <select name="platform" class="form-control">
-            #foreach ($platform as $platforms)
+                <option value="">选择平台</option>
+                #foreach ($platform as $platforms)
                 <option value="$platform.abbr">$platform.name</option>
-            #end
+                #end
             </select>
         </div>
         <div class="form-group">
             <select name="game" class="form-control">
+                <option value="">选择游戏</option>
                 #foreach ($game as $games)
                 <option value="$game.abbr">$game.name</option>
-            #end
+                #end
             </select>
         </div>
         <div class="form-group">
