@@ -60,7 +60,7 @@ public class DouyuSpider extends AbstractSpider {
                     logger.error("parse error", e);
                 }
             }
-        }, 0, 1, TimeUnit.MINUTES);
+        }, 0, 10, TimeUnit.MINUTES);
     }
 
     @Override
