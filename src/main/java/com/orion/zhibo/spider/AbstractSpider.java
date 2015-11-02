@@ -52,7 +52,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     boolean isDebug;
 
-    protected ScheduledExecutorService exe = Executors.newScheduledThreadPool(4);
+    protected ScheduledExecutorService exe = Executors.newScheduledThreadPool(5);
 
     @Override
     public void afterPropertiesSet() throws Exception {
