@@ -68,6 +68,7 @@ public class HuyaSpider extends AbstractSpider {
                 if (info == null || info.isEmpty()) {
                     break;
                 }
+                String title = document.select(".host-info .host-title").text();
                 // 一般来说不变的信息
                 if (liveRoom == null) {
                     liveRoom = new LiveRoom();
@@ -78,8 +79,8 @@ public class HuyaSpider extends AbstractSpider {
                 liveRoom.setLiveId(liveRoom.getRoomId());
                 liveRoom.setFlashUrl(document.select("#flash-link").attr("value")); 
                 liveRoom.setName(info.getString("liveNick"));
-                liveRoom.setTitle(info.getString("liveName"));
-                liveRoom.setDescription("");
+                liveRoom.setTitle(StringUtils.defaultIfBlank(title, info.getString("liveName")));
+                liveRoom.setDescription(info.getString("contentIntro"));
                 liveRoom.setThumbnail(info.getString("snapshot"));
                 liveRoom.setAvatar(info.getString("livePortait"));
                 liveRoom.setNumber(info.getIntValue("users"));
