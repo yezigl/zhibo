@@ -4,8 +4,6 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
@@ -32,9 +30,11 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class PandaSpider extends AbstractSpider {
     
-    private static Map<String, String> avatarMap = new ConcurrentHashMap<>();
+    final String PANDA_ROOM = "panda-room-";
     
-    public PandaSpider() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.afterPropertiesSet();
         exe.scheduleAtFixedRate(new Runnable() {
             public void run() {
                 try {
@@ -47,7 +47,7 @@ public class PandaSpider extends AbstractSpider {
                             String uri = element.attr("href");
                             String roomId = uri.replace("/room/", "");
                             Element thumbnail = element.select(".video-cover img").first();
-                            avatarMap.put(roomId, thumbnail.attr("src"));
+                            cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
                         }
                     }
                 } catch (Exception e) {
@@ -105,7 +105,7 @@ public class PandaSpider extends AbstractSpider {
         liveRoom.setName(hostInfo.getString("name"));
         liveRoom.setTitle(roomInfo.getString("name"));
         liveRoom.setDescription(roomInfo.getString("bulletin"));
-        liveRoom.setThumbnail(avatarMap.get(liveRoom.getRoomId()));
+        liveRoom.setThumbnail(cacheService.get(PANDA_ROOM + liveRoom.getRoomId()));
         liveRoom.setAvatar(hostInfo.getString("avatar"));
         
         // 直播情况

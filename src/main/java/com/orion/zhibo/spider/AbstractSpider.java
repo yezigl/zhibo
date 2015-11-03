@@ -20,6 +20,7 @@ import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
 import com.orion.zhibo.service.ActorService;
+import com.orion.zhibo.service.CacheService;
 import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
@@ -45,6 +46,8 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     PlatformGameService platformGameService;
     @Autowired
     ActorService actorService;
+    @Autowired
+    CacheService cacheService;
 
     Platform platform;
 

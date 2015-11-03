@@ -4,8 +4,6 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
@@ -34,12 +32,9 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class DouyuSpider extends AbstractSpider {
 
-    private static Map<String, Integer> viewsMap = new ConcurrentHashMap<>();
-
-    /**
-     * 
-     */
-    public DouyuSpider() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.afterPropertiesSet();
         exe.scheduleAtFixedRate(new Runnable() {
             public void run() {
                 try {
@@ -52,8 +47,7 @@ public class DouyuSpider extends AbstractSpider {
                             String uri = element.attr("href");
                             String url = platform.getUrl() + uri.replace("/", "");
                             Element views = element.select("p.moreMes .view").first();
-                            int number = Utils.parseViews(views.text());
-                            viewsMap.put(url, number);
+                            cacheService.set(url, views.text());
                         }
                     }
                 } catch (Exception e) {
@@ -119,8 +113,8 @@ public class DouyuSpider extends AbstractSpider {
             // instanceof JSONObject)) {
             // liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
             // }
-            Integer views = viewsMap.get(liveRoom.getShareUrl());
-            liveRoom.setNumber(views != null ? views.intValue() : 0);
+            int views = Utils.parseViews(cacheService.get(liveRoom.getShareUrl()));
+            liveRoom.setNumber(views);
         } else {
             liveRoom.setNumber(0);
         }

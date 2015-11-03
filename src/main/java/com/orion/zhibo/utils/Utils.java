@@ -17,6 +17,9 @@ public class Utils {
     private static final String GE = "个观众";
 
     public static int parseViews(String views) {
+        if (views == null) {
+            return 0;
+        }
         if (views.contains(WAN)) {
             return (int) (NumberUtils.toFloat(views.replace(WAN, "")) * 10000);
         }
