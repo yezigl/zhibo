@@ -4,7 +4,7 @@
     <parent>
         <groupId>orion</groupId>
         <artifactId>orion-web</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
     <groupId>com.orion.zhibo</groupId>
     <artifactId>zhibo</artifactId>
@@ -44,7 +44,7 @@
             <properties>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data/upload/</upload.path>
-                <mongodb.host>211.155.92.39</mongodb.host>
+                <mongodb.host>www.zhibo666.tv</mongodb.host>
             </properties>
         </profile>
         <profile>

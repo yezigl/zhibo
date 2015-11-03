@@ -60,11 +60,16 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         platform = platformService.getByAbbr(customPlatform());
-        customHeader();
+        if (platform != null) {
+            customHeader();
+        }
     }
     
     @Override
     public void run() {
+        if (platform == null) {
+            return;
+        }
         List<Actor> actors = actorService.listByPlatform(platform);
         for (Actor actor : actors) {
             try {
@@ -101,5 +106,17 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         s = room.indexOf("};");
         room = room.substring(0, s + 1);
         return room;
+    }
+    
+    protected void schedule(Runnable runnable) {
+        exe.scheduleAtFixedRate(new Runnable() {
+            
+            @Override
+            public void run() {
+                if (platform != null) {
+                    runnable.run();
+                }
+            }
+        }, 1, 10, TimeUnit.MINUTES);
     }
 }

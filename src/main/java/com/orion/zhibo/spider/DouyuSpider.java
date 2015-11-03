@@ -4,7 +4,6 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,7 +34,7 @@ public class DouyuSpider extends AbstractSpider {
     @Override
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
-        exe.scheduleAtFixedRate(new Runnable() {
+        super.schedule(new Runnable() {
             public void run() {
                 try {
                     List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
@@ -54,7 +53,7 @@ public class DouyuSpider extends AbstractSpider {
                     logger.error("parse error", e);
                 }
             }
-        }, 0, 10, TimeUnit.MINUTES);
+        });
     }
 
     @Override

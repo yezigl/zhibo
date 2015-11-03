@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.model.ActorTag;
@@ -47,7 +48,7 @@ public class ActorController extends BasicController {
     @RequestMapping(value = "/actors/{id}", method = RequestMethod.POST)
     public String actorPost(Model model, @PathVariable String id, @RequestParam String platform,
             @RequestParam String game, @RequestParam String name, @RequestParam String liveUrl,
-            @RequestParam List<ActorTag> tags) {
+            @RequestParam List<ActorTag> tags, RedirectAttributes ra) {
 
         Actor actor;
         if (!id.equals("0")) {
