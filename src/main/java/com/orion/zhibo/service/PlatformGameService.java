@@ -41,8 +41,8 @@ public class PlatformGameService extends BasicService {
     /**
      * @return
      */
-    public Object getAll() {
-        return platformGameDao.getAll();
+    public List<PlatformGame> listAll() {
+        return platformGameDao.createQuery().order("platform").asList();
     }
 
 }

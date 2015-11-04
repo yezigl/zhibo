@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.Platform;
@@ -33,17 +34,8 @@ public class ManageController extends BasicController {
         return "manage";
     }
 
-    @RequestMapping(value = "/manage/platforms", method = RequestMethod.POST)
-    public String manPlatforms(@ModelAttribute Platform platform, Model model) {
-        model.addAttribute("platforms", platformService.listAll());
-        model.addAttribute("games", gameService.listAll());
-
-        platformService.create(platform);
-        return "redirect:/manage";
-    }
-
     @RequestMapping(value = "/manage/games", method = RequestMethod.POST)
-    public String manGames(@ModelAttribute Game game, Model model) {
+    public String manGames(@ModelAttribute Game game, Model model, RedirectAttributes ra) {
         model.addAttribute("platforms", platformService.listAll());
         model.addAttribute("games", gameService.listAll());
 
@@ -53,7 +45,7 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/manage/platformgames", method = RequestMethod.POST)
     public String manPlatformGames(@RequestParam String platform, @RequestParam String game,
-            @RequestParam String platformUrl, Model model) {
+            @RequestParam String platformUrl, Model model, RedirectAttributes ra) {
         model.addAttribute("platforms", platformService.listAll());
         model.addAttribute("games", gameService.listAll());
 
@@ -66,20 +58,20 @@ public class ManageController extends BasicController {
         platformGameService.create(pg);
         return "redirect:/manage";
     }
-    
+
     @RequestMapping(value = "/manage/platformgames", method = RequestMethod.GET)
     public String listPlatformGames(Model model) {
-        model.addAttribute("platformgames", platformGameService.getAll());
+        model.addAttribute("platformgames", platformGameService.listAll());
         return "platformgames";
     }
-    
+
     @RequestMapping(value = "/manage/platforms", method = RequestMethod.GET)
     public String platformsGet(Model model) {
         model.addAttribute("platforms", platformService.listAll());
 
         return "platformlist";
     }
-    
+
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.GET)
     public String platformsGet(@PathVariable String id, Model model) {
         if (!id.equals("0")) {
@@ -89,9 +81,10 @@ public class ManageController extends BasicController {
 
         return "platform";
     }
-    
+
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.POST)
-    public String platformsPost(@ModelAttribute Platform platform, @PathVariable String id, Model model) {
+    public String platformsPost(@ModelAttribute Platform platform, @PathVariable String id, Model model,
+            RedirectAttributes ra) {
         model.addAttribute("platforms", platformService.listAll());
         if (!id.equals("0")) {
             platform.setId(new ObjectId(id));
@@ -100,7 +93,7 @@ public class ManageController extends BasicController {
 
         return "redirect:/manage/platforms";
     }
-    
+
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public String platformsDelete(@PathVariable String id, Model model) {
