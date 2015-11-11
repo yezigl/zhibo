@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-#parse("head.vm")
+#parse("head-nobd.vm")
 <title>直播来了 - 添加主播</title>
 </head>
 <body>

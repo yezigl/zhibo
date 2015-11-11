@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-#parse("head.vm")
+#parse("head-nobd.vm")
 <title>List</title>
 </head>
 <body>
