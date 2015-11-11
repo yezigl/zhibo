@@ -80,7 +80,7 @@ public class ZhanqiSpider extends AbstractSpider {
         
         // 直播情况
         liveRoom.setStatus(roomObject.getIntValue("status") == 4 ? LiveStatus.LIVING : LiveStatus.CLOSE);
-        liveRoom.setNumber(roomObject.getIntValue("online"));
+        liveRoom.setNumber(liveRoom.isLiving() ? roomObject.getIntValue("online") : 0);
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
         upsertLiveRoom(liveRoom);

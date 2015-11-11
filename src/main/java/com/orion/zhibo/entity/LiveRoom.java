@@ -13,6 +13,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
 import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.zhibo.model.LiveStatus;
 
 /**
  * description here
@@ -40,6 +41,10 @@ public class LiveRoom extends AbstractEntity {
     @Transient
     private String shareUrl;
     private String flashUrl;
+    
+    public boolean isLiving() {
+        return this.status == LiveStatus.LIVING;
+    }
 
     public Actor getActor() {
         return actor;

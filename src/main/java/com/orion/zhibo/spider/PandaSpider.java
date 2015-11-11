@@ -109,7 +109,7 @@ public class PandaSpider extends AbstractSpider {
         
         // 直播情况
         liveRoom.setStatus(videoInfo.getIntValue("status") == 2 ? LiveStatus.LIVING : LiveStatus.CLOSE);
-        liveRoom.setNumber(roomInfo.getIntValue("person_num"));
+        liveRoom.setNumber(liveRoom.isLiving() ? roomInfo.getIntValue("person_num") : 0);
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
         upsertLiveRoom(liveRoom);
