@@ -4,6 +4,8 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,6 +32,8 @@ import com.orion.zhibo.utils.Utils;
 public class PandaSpider extends AbstractSpider {
     
     final String PANDA_ROOM = "panda-room-";
+    
+    final Pattern ROOMID_PATTERN  = Pattern.compile("(\\d+)");
     
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -63,27 +67,18 @@ public class PandaSpider extends AbstractSpider {
     
     @Override
     public void parse(Actor actor) {
-        Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         
-        JSONObject roomObject = null;
-        Elements scripts = document.select("script");
-        for (int i = 0; i < scripts.size(); i++) {
-            String script = scripts.get(i).data();
-            if (script.contains("var ROOM =")) {
-                int s = script.indexOf("var ROOM =");
-                String room = script.substring(s + 10);
-                s = room.indexOf("};");
-                room = room.substring(0, s + 1);
-                try {
-                    roomObject = JSON.parseObject(room);
-                } catch (Exception e) {
-                    logger.error("parse json error", room, e);
-                    break;
-                }
-                break;
-            }
+        Matcher matcher = ROOMID_PATTERN.matcher(actor.getLiveUrl());
+        String roomId = null;
+        while (matcher.find()) {
+            roomId = matcher.group(1);
         }
+        if (roomId == null) {
+            logger.warn("parser {} fail", actor.getLiveUrl());
+            return;
+        }
+        JSONObject roomObject = JSON.parseObject(HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8"));
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
             return;
@@ -93,7 +88,7 @@ public class PandaSpider extends AbstractSpider {
             liveRoom = new LiveRoom();
             liveRoom.setActor(actor);
         }
-        roomObject = roomObject.getJSONObject("room");
+        roomObject = roomObject.getJSONObject("data");
         JSONObject hostInfo = roomObject.getJSONObject("hostinfo");
         JSONObject roomInfo = roomObject.getJSONObject("roominfo");
         JSONObject videoInfo = roomObject.getJSONObject("videoinfo");
