@@ -23,7 +23,7 @@ public class AppExceptionHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public String errorResponse(Exception exception) {
         logger.error(exception.getMessage(), exception);

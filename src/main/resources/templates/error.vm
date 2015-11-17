@@ -2,9 +2,14 @@
 <html>
 <head>
 #parse("head.vm")
+<meta http-equiv="refresh" content="2;url=/">
 <title>直播来了</title>
 </head>
 <body>
-    ${exception}
+<div class="container">
+    <p class="text-center">
+    直播未找到，即将跳转到<a href="/">首页</a>
+    </p>
+</div>
 </body>
 </html>
