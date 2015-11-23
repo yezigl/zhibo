@@ -41,7 +41,9 @@ public class LiveRoomService extends BasicService {
         }
         query.field("actor").in(actors);
         if (StringUtils.isNotBlank(keyword)) {
-            query.field("name").containsIgnoreCase(keyword);
+            query.or(query.criteria("name").containsIgnoreCase(keyword),
+                    query.criteria("title").containsIgnoreCase(keyword));
+
         }
         query.order("-status, -number");
         query.offset(offset).limit(limit);
