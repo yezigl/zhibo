@@ -56,7 +56,7 @@
                     <input type="checkbox" name="linkProtect" value="true"#if($!platform.linkProtect) checked#end> 防盗链
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" name="iframe" value="true"#if($!platform.isIframe) checked#end> iframe
+                    <input type="checkbox" name="iframe" value="true"#if($!platform.iframe) checked#end> iframe
                 </label>
             </div>
         </div>
