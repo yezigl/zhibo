@@ -41,6 +41,7 @@ public class PandaSpider extends AbstractSpider {
         super.schedule(new Runnable() {
             public void run() {
                 try {
+                    int n = 0;
                     List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch thumbnail {}", pg.getPlatformUrl());
@@ -51,6 +52,9 @@ public class PandaSpider extends AbstractSpider {
                             String roomId = uri.replace("/room/", "");
                             Element thumbnail = element.select(".video-cover img").first();
                             cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
+                            if (n++ > 20) {
+                                break;
+                            }
                         }
                     }
                 } catch (Exception e) {

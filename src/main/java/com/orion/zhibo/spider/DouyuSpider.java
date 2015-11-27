@@ -37,6 +37,7 @@ public class DouyuSpider extends AbstractSpider {
         super.schedule(new Runnable() {
             public void run() {
                 try {
+                    int n = 0;
                     List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch view number {}", pg.getPlatformUrl());
@@ -47,6 +48,9 @@ public class DouyuSpider extends AbstractSpider {
                             String url = platform.getUrl() + uri.replace("/", "");
                             Element views = element.select("p.moreMes .view").first();
                             cacheService.set(url, views.text());
+                            if (n++ > 20) {
+                                break;
+                            }
                         }
                     }
                 } catch (Exception e) {
