@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.orion.zhibo.dao.ActorDao;
+import com.orion.zhibo.dao.AllRoomDao;
 import com.orion.zhibo.dao.GameDao;
 import com.orion.zhibo.dao.LiveRoomDao;
 import com.orion.zhibo.dao.PlatformDao;
@@ -33,4 +34,6 @@ public class BasicService {
     protected PlatformGameDao platformGameDao;
     @Autowired
     protected ActorDao actorDao;
+    @Autowired
+    protected AllRoomDao allRoomDao;
 }

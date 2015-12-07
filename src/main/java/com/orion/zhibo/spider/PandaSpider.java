@@ -41,7 +41,6 @@ public class PandaSpider extends AbstractSpider {
         super.schedule(new Runnable() {
             public void run() {
                 try {
-                    int n = 0;
                     List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch thumbnail {}", pg.getPlatformUrl());
@@ -52,9 +51,6 @@ public class PandaSpider extends AbstractSpider {
                             String roomId = uri.replace("/room/", "");
                             Element thumbnail = element.select(".video-cover img").first();
                             cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
-                            if (n++ > 20) {
-                                break;
-                            }
                         }
                     }
                 } catch (Exception e) {
@@ -70,7 +66,7 @@ public class PandaSpider extends AbstractSpider {
     }
     
     @Override
-    public void parse(Actor actor) {
+    public LiveRoom parse(Actor actor) {
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         
         Matcher matcher = ROOMID_PATTERN.matcher(actor.getLiveUrl());
@@ -80,12 +76,12 @@ public class PandaSpider extends AbstractSpider {
         }
         if (roomId == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
-            return;
+            return null;
         }
         JSONObject roomObject = JSON.parseObject(HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8"));
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
-            return;
+            return null;
         }
         // 一般来说不变的信息
         if (liveRoom == null) {
@@ -111,8 +107,7 @@ public class PandaSpider extends AbstractSpider {
         liveRoom.setNumber(liveRoom.isLiving() ? roomInfo.getIntValue("person_num") : 0);
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
-        upsertLiveRoom(liveRoom);
-        
+        return liveRoom;
     }
 
 }

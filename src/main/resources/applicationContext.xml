@@ -17,5 +17,6 @@
     <mvc:resources mapping="/robots.txt" location="classpath:/static/robots.txt" />
     <mvc:resources mapping="/favicon.ico" location="classpath:/static/favicon.ico" />
     <mvc:resources mapping="/**.html" location="classpath:/static/" />
+    <mvc:resources mapping="/sitemap.xml" location="classpath:/static/sitemap.xml" />
     
 </beans>

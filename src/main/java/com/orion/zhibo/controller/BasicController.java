@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.model.ActorTag;
 import com.orion.zhibo.service.ActorService;
+import com.orion.zhibo.service.AllRoomService;
 import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
@@ -40,6 +41,8 @@ public abstract class BasicController {
     protected PlatformGameService platformGameService;
     @Autowired
     protected ActorService actorService;
+    @Autowired
+    protected AllRoomService allRoomService;
     
     @InitBinder
     public void initBinder(WebDataBinder binder) {

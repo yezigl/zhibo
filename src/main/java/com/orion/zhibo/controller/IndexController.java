@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.orion.core.utils.HttpUtils;
+import com.orion.zhibo.entity.AllRoom;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.ActorTag;
@@ -54,7 +55,8 @@ public class IndexController extends BasicController {
     }
 
     private void setUpModel(Model model, String path, String game, String tag, int offset, int limit, String keyword) {
-        model.addAttribute("path", path);
+        model.addAttribute("path", "/");
+        model.addAttribute("uri", path);
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
         model.addAttribute("q", keyword);
@@ -79,5 +81,30 @@ public class IndexController extends BasicController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String all(@RequestParam(required = false) String q, Model model) {
+        setUpAllModel(model, "all", 0, 20, q);
+        return "indexall";
+    }
+
+    @RequestMapping(value = "/{game}/{offset}", method = RequestMethod.GET)
+    public String allPage(@PathVariable String game, @PathVariable int offset, @RequestParam(required = false) String q,
+            Model model) {
+        setUpAllModel(model, "all", offset, 20, q);
+        return "indexall";
+    }
+
+    private void setUpAllModel(Model model, String game, int offset, int limit, String keyword) {
+        model.addAttribute("path", "/all");
+        model.addAttribute("uri", "/all");
+        model.addAttribute("offset", offset);
+        model.addAttribute("limit", limit);
+        model.addAttribute("q", keyword);
+        Game g = game.equals("all") ? Game.ALL : gameService.getByAbbr(game);
+        List<AllRoom> list = allRoomService.list(g, offset, limit, keyword);
+        model.addAttribute("liveRooms", list);
+        model.addAttribute("size", list.size());
     }
 }

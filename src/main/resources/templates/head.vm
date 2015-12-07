@@ -4,6 +4,7 @@
 <meta name="keywords" content="游戏直播,游戏直播推荐,游戏直播聚合,直播推荐,直播聚合,dota2直播,lol直播">
 <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/main.css">
+<link rel="shortcut icon" href="/favicon.ico" />
 <script>
 var _hmt = _hmt || [];
 (function() {

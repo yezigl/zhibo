@@ -38,8 +38,8 @@
                                 <span class="card-title col-sm-7 col-md-7 col-lg-7" #if($liveRoom.number == 0) style="padding-left: 0;padding-right: 0;"#end>$!liveRoom.name</span>
                             </span>
                             <span class="pull-right">
-                                <img class="zb-ico" src="$!liveRoom.actor.platform.icon" title="$!liveRoom.actor.platform.name" />&nbsp;
-                                <img class="zb-ico" src="$!liveRoom.actor.game.icon" title="$!liveRoom.actor.game.name" />
+                                <img class="zb-ico" src="$!liveRoom.platform.icon" title="$!liveRoom.platform.name" />&nbsp;
+                                <img class="zb-ico" src="$!liveRoom.game.icon" title="$!liveRoom.game.name" />
                             </span>
                             <div style="margin-top: 10px;">
                                 #if($liveRoom.status == 1)

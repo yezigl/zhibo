@@ -3,6 +3,7 @@
  */
 package com.orion.zhibo;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.PropertySource;
  * @author yezi
  * @since 2015年6月14日
  */
+@EnableAutoConfiguration
 @Configuration
 @PropertySource(value = { "classpath:application.properties", "classpath:mongodb.properties" })
 @ImportResource("classpath:applicationContext.xml")

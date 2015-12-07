@@ -33,7 +33,7 @@ public class LongzhuSpider extends AbstractSpider {
     }
 
     @Override
-    public void parse(Actor actor) {
+    public LiveRoom parse(Actor actor) {
         Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         
@@ -60,7 +60,7 @@ public class LongzhuSpider extends AbstractSpider {
         }
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
-            return;
+            return null;
         }
         // 一般来说不变的信息
         if (liveRoom == null) {
@@ -87,6 +87,6 @@ public class LongzhuSpider extends AbstractSpider {
         }
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
         
-        upsertLiveRoom(liveRoom);
+        return liveRoom;
     }
 }

@@ -5,6 +5,12 @@
 
                 <!-- Branding and mobile menu button -->
                 <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="navbar-brand" href="/"> <!-- <img class="img-plain navbar-logo"
                         src="/img/logo.png" alt="logo"> -->
                         直播666
@@ -12,8 +18,8 @@
                 </div>
 
                 <!-- Main navigation links -->
-                <div class="navbar-collapse collapse">
-                    <form name="form" class="navbar-form navbar-right" action="/">
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form name="form" class="navbar-form navbar-right" action="$path">
                         <input type="text" name="q" class="form-control" placeholder="搜索...">
                     </form>
                     <ul class="nav navbar-nav navbar-right navbar-links">

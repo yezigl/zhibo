@@ -42,7 +42,7 @@ public class HuyaSpider extends AbstractSpider {
     }
 
     @Override
-    public void parse(Actor actor) {
+    public LiveRoom parse(Actor actor) {
         Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         
@@ -89,9 +89,8 @@ public class HuyaSpider extends AbstractSpider {
                 break;
             }
         }
-        if (liveRoom != null) {
-            upsertLiveRoom(liveRoom);
-        }
+        
+        return liveRoom;
     }
 
 }

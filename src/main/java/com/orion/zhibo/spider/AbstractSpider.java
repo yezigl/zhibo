@@ -53,7 +53,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     Map<String, String> header = new HashMap<>();
 
-    boolean isDebug;
+    boolean isDebug = true;
 
     protected ScheduledExecutorService exe = Executors.newScheduledThreadPool(5);
 
@@ -73,7 +73,8 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         List<Actor> actors = actorService.listByPlatform(platform);
         for (Actor actor : actors) {
             try {
-                parse(actor);
+                LiveRoom liveRoom = parse(actor);
+                upsertLiveRoom(liveRoom);
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
                 logger.error("prase error {}", e.getMessage(), e);
@@ -91,12 +92,17 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     }
 
     protected void upsertLiveRoom(LiveRoom liveRoom) {
+        if (liveRoom == null) {
+            return;
+        }
         if (!isDebug) {
             if (liveRoom.getId() != null) {
                 liveRoomService.update(liveRoom);
             } else {
                 liveRoomService.create(liveRoom);
             }
+        } else {
+            logger.info("liveRoom {}", liveRoom);
         }
     }
     

@@ -66,7 +66,7 @@ public class DouyuSpider extends AbstractSpider {
     }
 
     @Override
-    public void parse(Actor actor) {
+    public LiveRoom parse(Actor actor) {
         Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByActor(actor);
         // 解析房间信息
@@ -86,7 +86,7 @@ public class DouyuSpider extends AbstractSpider {
         }
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
-            return;
+            return null;
         }
         // 一般来说不变的信息
         if (liveRoom == null) {
@@ -123,7 +123,7 @@ public class DouyuSpider extends AbstractSpider {
         }
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
-        upsertLiveRoom(liveRoom);
+        return liveRoom;
     }
 
 }

@@ -19,7 +19,7 @@
                 <p class="zb-name">主播：$liveRoom.name</p>
             </div>
             <div class="pull-right">
-                <a href="$liveRoom.actor.liveUrl" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.actor.platform.name观看</a>
+                <a href="$liveRoom.liveUrl" style="font-size: 16px; height: 60x; line-height: 60px; padding-right: 10px;">去$liveRoom.platform.name观看</a>
             </div>
         </div>
         #if ($isMobile)
@@ -28,7 +28,7 @@
         </div>
         #else
         <div class="row" id="plugin">
-            #if ($liveRoom.actor.platform.iframe)
+            #if ($liveRoom.platform.iframe)
             <iframe width="100%" height="100%" src="$liveRoom.flashUrl" frameborder="0" allowfullscreen="false"></iframe>
             #else
             <embed style="display: none;" width="640" height="360" allownetworking="all" allowscriptaccess="always" src="$liveRoom.flashUrl" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
@@ -50,7 +50,7 @@
     <script type="text/javascript">
     $(function() {
         var plugin = $("#plugin");
-        #if ($liveRoom.actor.platform.iframe)
+        #if ($liveRoom.platform.iframe)
         plugin.find("iframe").width(plugin.width()).height(plugin.width() * 9 / 16).show();
         #else
         plugin.find("embed").width(plugin.width()).height(plugin.width() * 9 / 16).show();
