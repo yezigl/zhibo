@@ -7,7 +7,14 @@
 <body>
     #parse("nav.vm")
 
-    <div id="banner" class="container"></div>
+    <div id="banner" class="container">
+    <!-- zhibo_live -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4997875047691062"
+         data-ad-slot="1029613830"
+         data-ad-format="auto"></ins>
+    </div>
 
     <div class="container">
         <div class="row zb-info">

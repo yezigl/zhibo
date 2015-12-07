@@ -6,7 +6,16 @@ body {
 
 @media ( min-width : 768px) {
     #banner {
-        margin-bottom: 20px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+}
+
+@media ( max-width : 768px) {
+    #banner {
+        height: 60px;
+        margin-bottom: 10px;
+        display: none;
     }
 }
 
