@@ -12,12 +12,12 @@
 <script type="text/javascript" src="/js/array.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
 <script type="text/javascript">
-$(function() {
+/* $(function() {
     $('#dropdownGame li a').click(function(e) {
         location.href = '/game/' + $(e.target).data('game') + '/0';
     });
     $('#dropdownTag li a').click(function(e) {
         location.href = '/tag/' + $(e.target).data('tag') + '/0';
     });
-});
+}); */
 </script>

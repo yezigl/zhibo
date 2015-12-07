@@ -28,6 +28,7 @@ public class LiveController extends BasicController {
         LiveRoom liveRoom = liveRoomService.get(id);
         model.addAttribute("liveRoom", liveRoom);
         model.addAttribute("isMobile", Utils.isMobile(userAgent));
+        model.addAttribute("path", "/");
         return "liveroom";
     }
 
@@ -38,6 +39,7 @@ public class LiveController extends BasicController {
                 uid);
         model.addAttribute("liveRoom", liveRoom);
         model.addAttribute("isMobile", Utils.isMobile(userAgent));
+        model.addAttribute("path", "/all/");
         return "liveroomall";
     }
 }

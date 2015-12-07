@@ -30,7 +30,7 @@ public class SpiderTask {
     @Autowired
     AllPlatformSpider allPlatformSpider;
     
-    //@Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void run() {
         logger.info("spider run {}", spiders.size());
         for (Spider spider : spiders) {
@@ -38,7 +38,7 @@ public class SpiderTask {
         }
     }
     
-    @Scheduled(cron = "0 */5 * * * ?")
+    @Scheduled(cron = "0 */10 * * * ?")
     public void runAllPlatform() {
         logger.info("allPaltform run {}", spiders.size());
         allPlatformSpider.run();

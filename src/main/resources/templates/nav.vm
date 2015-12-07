@@ -26,18 +26,18 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">游戏<span class="caret"></span></a>
                             <ul id="dropdownGame" class="dropdown-menu">
-                                <li><a href="javascript:void(0)" data-game="all">全部</a></li>
+                                <li><a href="${path}game/all/0" data-game="all">全部</a></li>
                                 #foreach($game in $games)
-                                <li><a href="javascript:void(0)" data-game="$game.abbr">$game.name</a></li>
+                                <li><a href="${path}game/$game.abbr/0" data-game="$game.abbr">$game.name</a></li>
                                 #end
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">主播<span class="caret"></span></a>
                             <ul id="dropdownTag" class="dropdown-menu">
-                                <li><a href="javascript:void(0)" data-tag="ALL">全部</a></li>
+                                <li><a href="${path}tag/ALL/0" data-tag="ALL">全部</a></li>
                                 #foreach($actorTag in $actorTags)
-                                <li><a href="javascript:void(0)" data-tag="$actorTag">$actorTag.title</a></li>
+                                <li><a href="${path}tag/$actorTag/0" data-tag="$actorTag">$actorTag.title</a></li>
                                 #end
                             </ul>
                         </li>

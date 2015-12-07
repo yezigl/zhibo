@@ -68,7 +68,7 @@ public class AllPlatformSpider {
     @Autowired
     ZhanqiSpider zhanqiSpider;
 
-    boolean isDebug = true;
+    boolean isDebug = false;
 
     public void run() {
         new Thread() {
@@ -107,7 +107,7 @@ public class AllPlatformSpider {
         allRoom.setLiveUrl(liveUrl);
         if (!isDebug) {
             AllRoom room = allRoomService.getByUid(platform, game, allRoom.getUid());
-            if (room.getId() != null) {
+            if (room != null && room.getId() != null) {
                 allRoom.setId(room.getId());
                 allRoomService.update(allRoom);
             } else {

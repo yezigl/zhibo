@@ -3,7 +3,6 @@
  */
 package com.orion.zhibo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +13,7 @@ import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.AllRoom;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.model.LiveStatus;
 
 /**
  * description here
@@ -26,15 +26,9 @@ public class AllRoomService extends BasicService {
 
     public List<AllRoom> list(Game game, int offset, int limit, String keyword) {
         Query<AllRoom> query = allRoomDao.createQuery();
-        Query<Actor> actorQuery = actorDao.createQuery();
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
-            actorQuery.field("game").equal(game);
+            query.field("game").equal(game);
         }
-        List<Actor> actors = actorQuery.asList();
-        if (actors.isEmpty()) {
-            return new ArrayList<>();
-        }
-        query.field("actor").in(actors);
         if (StringUtils.isNotBlank(keyword)) {
             query.field("name").containsIgnoreCase(keyword);
         }
@@ -99,4 +93,9 @@ public class AllRoomService extends BasicService {
         return allRoomDao.get(id);
     }
 
+    public List<AllRoom> listAllLiving() {
+        Query<AllRoom> query = allRoomDao.createQuery();
+        query.field("status").equal(LiveStatus.LIVING);
+        return query.asList();
+    }
 }
