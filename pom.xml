@@ -44,14 +44,14 @@
             <properties>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data/upload/</upload.path>
-                <mongodb.host>www.zhibo666.tv</mongodb.host>
+                <mongodb.host>data.zhibo666.tv</mongodb.host>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
                 <logging.path>/opt/logs/${project.name}</logging.path>
-                <upload.path>/opt/upload/</upload.path>
+                <upload.path>/opt/data.upload/</upload.path>
                 <mongodb.host>127.0.0.1</mongodb.host>
             </properties>
         </profile>
