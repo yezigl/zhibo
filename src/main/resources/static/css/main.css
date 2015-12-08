@@ -110,3 +110,9 @@ a, a:link {
     color: #767676;
     cursor: pointer;
 }
+
+@media ( max-width : 768px) {
+    .recommend {
+        display: none;
+    }
+}
