@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://www.zhibo666.tv/+http://www.zhibo666.tv/all</loc>
+        <loc>http://www.zhibo666.tv/</loc>
         <lastmod>2015-12-07</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/all</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/game/lol/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/game/dota2/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/game/hearthstone/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/game/tv/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/all/game/lol/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/all/game/dota2/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/all/game/tv/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://www.zhibo666.tv/all/game/hearthstone/0</loc>
+        <lastmod>2015-12-07</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
     </url>
 </urlset>
