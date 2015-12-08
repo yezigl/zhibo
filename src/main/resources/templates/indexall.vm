@@ -66,7 +66,16 @@
         </nav>
         #end
     </div>
-
+    
+    <div class="recommend">
+        <a href="/all" class="active">
+        全部
+        </a>
+        <a href="/" class="inactive">
+        推荐
+        </a>
+    </div>
+    
     <div id="hm_t_84210"></div>
     #parse("footer.vm")
 </body>

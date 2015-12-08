@@ -67,6 +67,15 @@
         #end
     </div>
 
+    <div class="recommend">
+        <a href="/" class="active">
+        推荐
+        </a>
+        <a href="/all" class="inactive">
+        全部
+        </a>
+    </div>
+    
     <div id="hm_t_84210"></div>
     #parse("footer.vm")
 </body>

@@ -77,3 +77,36 @@ a, a:link {
 .thsort {
     cursor: pointer;
 }
+
+.recommend {
+    position: fixed;
+    width: 60px;
+    top: 30%;
+    right: 3%;
+    font-size: 16px;
+    border: 1px solid silver;
+    text-align: center;
+}
+
+.recommend .active {
+    border-bottom: 1px solid silver;
+    height: 50px;
+    line-height: 50px;
+    display: block;
+    text-decoration: none;
+    color: #5bc0de;
+    cursor: pointer;
+}
+
+.recommend .active:HOVER {
+    color: #5bc0de;
+}
+
+.recommend .inactive {
+    height: 50px;
+    line-height: 50px;
+    display: block;
+    text-decoration: none;
+    color: #767676;
+    cursor: pointer;
+}

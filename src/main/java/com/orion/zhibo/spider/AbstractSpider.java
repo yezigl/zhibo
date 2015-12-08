@@ -53,7 +53,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     Map<String, String> header = new HashMap<>();
 
-    boolean isDebug = true;
+    boolean isDebug = false;
 
     protected ScheduledExecutorService exe = Executors.newScheduledThreadPool(5);
 
