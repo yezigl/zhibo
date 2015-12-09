@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="高清游戏直播聚合平台提供高清、快捷、流畅的游戏视频直播聚合服务，包含英雄联盟lol直播、炉石传说直播、dota2直播、风暴英雄直播、穿越火线直播等各类热门游戏直播和各种名家大神游戏直播，内容丰富，内容来自斗鱼、yy直播、战旗TV、龙珠等各大游戏直播平台，一站观看。">
 <meta name="keywords" content="游戏直播,游戏直播推荐,游戏直播聚合,直播推荐,直播聚合,dota2直播,lol直播">
-<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/main.css">
 <link rel="shortcut icon" href="/favicon.ico" />
 <script>

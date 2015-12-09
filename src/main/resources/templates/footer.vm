@@ -7,17 +7,9 @@
         免责声明:本站所有视频均来自互联网收集，相关链接已经注明来源。如果侵犯了你的权益，请通知我们，我们会及时删除侵权内容，谢谢合作！
     </div>
 </footer>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/array.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
 <script type="text/javascript">
-/* $(function() {
-    $('#dropdownGame li a').click(function(e) {
-        location.href = '/game/' + $(e.target).data('game') + '/0';
-    });
-    $('#dropdownTag li a').click(function(e) {
-        location.href = '/tag/' + $(e.target).data('tag') + '/0';
-    });
-}); */
 </script>
