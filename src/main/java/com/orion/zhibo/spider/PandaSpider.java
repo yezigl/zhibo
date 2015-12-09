@@ -48,7 +48,7 @@ public class PandaSpider extends AbstractSpider {
                         Elements elements = document.select("#sortdetail-container li a");
                         for (Element element : elements) {
                             String uri = element.attr("href");
-                            String roomId = uri.replace("/room/", "");
+                            String roomId = uri.replace("/", "");
                             Element thumbnail = element.select(".video-cover img").first();
                             cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
                         }
