@@ -78,9 +78,10 @@ public class PandaSpider extends AbstractSpider {
             logger.warn("parser {} fail", actor.getLiveUrl());
             return null;
         }
-        JSONObject roomObject = JSON.parseObject(HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8"));
+        String ret = HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8");
+        JSONObject roomObject = JSON.parseObject(ret);
         if (roomObject == null) {
-            logger.warn("parser {} fail", actor.getLiveUrl());
+            logger.warn("parser {} fail {}", actor.getLiveUrl(), ret);
             return null;
         }
         // 一般来说不变的信息
