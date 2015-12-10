@@ -41,6 +41,16 @@ a, a:link {
     white-space: nowrap;
 }
 
+.avatar {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    right: 24px;
+    margin-top: -31px;
+    padding: 1px;
+    background-color: #fff;
+}
+
 .zb-info {
     margin-bottom: 40px;
 }

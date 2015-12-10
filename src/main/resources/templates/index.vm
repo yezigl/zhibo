@@ -28,7 +28,7 @@
                         <img class="card-img" src="$!liveRoom.thumbnail" alt="$!liveRoom.title">
                         #end
                         <div class="caption">
-                            <img alt="" src="$liveRoom.avatar" class="img-circle" style="position: absolute; width: 44px; height: 44px;right: 24px;margin-top: -31px;padding: 1px;background-color: #fff;">
+                            <img alt="$!liveRoom.actor.name" src="$liveRoom.avatar" title="$!liveRoom.actor.name" class="img-circle avatar">
                             <p class="card-title" title="$!liveRoom.title">$!liveRoom.title</p>
                             <span class="text-muted">
                                 <span>&nbsp;</span>
@@ -38,8 +38,8 @@
                                 <span class="card-title col-sm-7 col-md-7 col-lg-7" #if($liveRoom.number == 0) style="padding-left: 0;padding-right: 0;"#end>$!liveRoom.name</span>
                             </span>
                             <span class="pull-right">
-                                <img class="zb-ico" src="$!liveRoom.actor.platform.icon" title="$!liveRoom.actor.platform.name" />&nbsp;
-                                <img class="zb-ico" src="$!liveRoom.actor.game.icon" title="$!liveRoom.actor.game.name" />
+                                <img class="zb-ico" src="$!liveRoom.actor.platform.icon" alt="$!liveRoom.actor.platform.name" title="$!liveRoom.actor.platform.name" />&nbsp;
+                                <img class="zb-ico" src="$!liveRoom.actor.game.icon" alt="$!liveRoom.actor.game.name" title="$!liveRoom.actor.game.name" />
                             </span>
                             <div style="margin-top: 10px;">
                                 #if($liveRoom.status == 1)
