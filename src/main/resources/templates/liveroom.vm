@@ -2,7 +2,7 @@
 <html>
 <head>
 #parse("head.vm")
-<title>直播来了 - $liveRoom.name - $liveRoom.title</title>
+<title>游戏直播 - $liveRoom.name - $liveRoom.title</title>
 </head>
 <body>
     #parse("nav.vm")
