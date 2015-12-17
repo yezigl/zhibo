@@ -44,7 +44,7 @@
             <properties>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data/upload/</upload.path>
-                <mongodb.host>data.zhibo666.tv</mongodb.host>
+                <mongodb.host>mongo.yezi.gl</mongodb.host>
             </properties>
         </profile>
         <profile>
