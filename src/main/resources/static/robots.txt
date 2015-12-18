@@ -1,6 +1,1 @@
 User-agent: *
-Disallow: /actors
-Disallow: /manage
-Allow: /
-Allow: /all
-Allow: /live
