@@ -42,6 +42,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <profile>dev</profile>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data/upload/</upload.path>
                 <mongodb.host>mongo.yezi.gl</mongodb.host>
@@ -50,6 +51,7 @@
         <profile>
             <id>prod</id>
             <properties>
+                <profile>prod</profile>
                 <logging.path>/opt/logs/${project.name}</logging.path>
                 <upload.path>/opt/data.upload/</upload.path>
                 <mongodb.host>127.0.0.1</mongodb.host>

@@ -26,6 +26,11 @@ import com.orion.zhibo.entity.PlatformGame;
  */
 @Controller
 public class ManageController extends BasicController {
+    
+    @ModelAttribute("noad")
+    public boolean analyse() {
+        return true;
+    }
 
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public String man(Model model) {

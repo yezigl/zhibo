@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,6 +45,9 @@ public abstract class BasicController {
     @Autowired
     protected AllRoomService allRoomService;
     
+    @Value("${profile}")
+    String profile;
+    
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("id");
@@ -57,5 +61,10 @@ public abstract class BasicController {
     @ModelAttribute("actorTags")
     public ActorTag[] actorTags() {
         return ActorTag.values();
+    }
+    
+    @ModelAttribute("profile")
+    public String profile() {
+        return profile;
     }
 }

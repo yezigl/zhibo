@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,11 @@ import com.orion.zhibo.model.ActorTag;
  */
 @Controller
 public class ActorController extends BasicController {
+    
+    @ModelAttribute("noad")
+    public boolean analyse() {
+        return true;
+    }
 
     @RequestMapping(value = "/actors", method = RequestMethod.GET)
     public String actorsGet(Model model) {
