@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-#parse("head-nobd.vm")
-<title>直播来了 - 推荐主播列表</title>
+#parse("head.vm")
+<title>推荐主播列表</title>
 </head>
 <body>
     #parse("nav.vm")
