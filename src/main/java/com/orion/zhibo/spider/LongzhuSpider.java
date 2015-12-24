@@ -80,6 +80,7 @@ public class LongzhuSpider extends AbstractSpider {
         // 直播情况
         liveRoom.setStatus((pageData != null && pageData.containsKey("live")) ? LiveStatus.LIVING : LiveStatus.CLOSE);
         if (liveRoom.getStatus() == LiveStatus.LIVING) {
+            liveRoom.setTitle(pageData.getJSONObject("live").getString("title"));
             JSONObject data = JSON.parseObject(HttpUtils.get("http://mb.tga.plu.cn/chatroom/joinroom?roomId=" + liveRoom.getRoomId()));
             liveRoom.setNumber(data.getIntValue("online"));
         } else {
