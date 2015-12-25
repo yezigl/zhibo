@@ -99,6 +99,9 @@ public class LiveRoom extends AbstractEntity {
     }
 
     public void setTitle(String title) {
+        if (title == null || title.trim().length() == 0) {
+            return;
+        }
         this.title = title;
     }
 
