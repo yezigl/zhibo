@@ -75,7 +75,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
             try {
                 LiveRoom liveRoom = parse(actor);
                 upsertLiveRoom(liveRoom);
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(10);
             } catch (Exception e) {
                 logger.error("prase error {}", e.getMessage(), e);
             }
