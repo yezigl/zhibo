@@ -76,7 +76,6 @@
         </a>
     </div>
     
-    <div id="hm_t_84210"></div>
     #parse("footer.vm")
 </body>
 </html>

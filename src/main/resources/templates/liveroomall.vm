@@ -51,7 +51,6 @@
         </div>
     </div>
     
-    <div id="hm_t_84210"></div>
     #parse("footer.vm")
     <script type="text/javascript">
     $(function() {
