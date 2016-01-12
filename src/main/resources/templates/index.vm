@@ -8,12 +8,12 @@
     #parse("nav.vm")
 
     <div id="banner" class="container">
-    <!-- banner -->
-    <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-4997875047691062"
-        data-ad-slot="7307879432"
-        data-ad-format="auto"></ins>
+        <!-- index -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4997875047691062"
+             data-ad-slot="7307879432"
+             data-ad-format="auto"></ins>
     </div>
 
     <div class="container">
