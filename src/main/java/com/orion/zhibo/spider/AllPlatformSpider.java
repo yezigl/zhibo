@@ -128,7 +128,7 @@ public class AllPlatformSpider {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), douyuSpider.header, "UTF-8"));
-            Elements elements = document.select("#item_data ul li a.list");
+            Elements elements = document.select("##live-list-contentbox li a");
             for (Element element : elements) {
                 try {
                     String uri = element.attr("href");

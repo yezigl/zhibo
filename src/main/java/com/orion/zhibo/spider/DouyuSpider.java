@@ -42,11 +42,11 @@ public class DouyuSpider extends AbstractSpider {
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch view number {}", pg.getPlatformUrl());
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-                        Elements elements = document.select("#item_data ul li a.list");
+                        Elements elements = document.select("#live-list-contentbox li a");
                         for (Element element : elements) {
                             String uri = element.attr("href");
                             String url = platform.getUrl() + uri.replace("/", "");
-                            Element views = element.select("p.moreMes .view").first();
+                            Element views = element.select("mes .dy-num").first();
                             cacheService.set(url, views.text());
                             if (n++ > 20) {
                                 break;
@@ -76,6 +76,7 @@ public class DouyuSpider extends AbstractSpider {
             if (scripts.get(i).data().contains("var $ROOM =")) {
                 String room = parseScript(scripts.get(i).data(), "var $ROOM =");
                 try {
+                    logger.info(room);
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
                     logger.error("parse {} json error {}", actor.getLiveUrl(), room, e);
