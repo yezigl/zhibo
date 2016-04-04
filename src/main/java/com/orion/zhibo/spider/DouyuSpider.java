@@ -47,7 +47,7 @@ public class DouyuSpider extends AbstractSpider {
                         Elements elements = document.select("#live-list-contentbox li");
                         for (Element element : elements) {
                             String roomId = element.attr("data-rid");
-                            Element views = element.select("mes .dy-num").first();
+                            Element views = element.select(".mes .dy-num").first();
                             cacheService.set(ROOM + roomId, views.text());
                             if (n++ > 20) {
                                 break;
