@@ -76,7 +76,6 @@ public class DouyuSpider extends AbstractSpider {
             if (scripts.get(i).data().contains("var $ROOM =")) {
                 String room = parseScript(scripts.get(i).data(), "var $ROOM =");
                 try {
-                    logger.info(room);
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
                     logger.error("parse {} json error {}", actor.getLiveUrl(), room, e);
@@ -87,6 +86,10 @@ public class DouyuSpider extends AbstractSpider {
         }
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
+            if (liveRoom != null) {
+                liveRoom.setStatus(LiveStatus.CLOSE);
+                return liveRoom;
+            }
             return null;
         }
         // 一般来说不变的信息

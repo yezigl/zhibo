@@ -60,6 +60,10 @@ public class LongzhuSpider extends AbstractSpider {
         }
         if (roomObject == null) {
             logger.warn("parser {} fail", actor.getLiveUrl());
+            if (liveRoom != null) {
+                liveRoom.setStatus(LiveStatus.CLOSE);
+                return liveRoom;
+            }
             return null;
         }
         // 一般来说不变的信息

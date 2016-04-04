@@ -82,6 +82,10 @@ public class PandaSpider extends AbstractSpider {
         JSONObject roomObject = JSON.parseObject(ret);
         if (roomObject == null) {
             logger.warn("parser {} fail {}", actor.getLiveUrl(), ret);
+            if (liveRoom != null) {
+                liveRoom.setStatus(LiveStatus.CLOSE);
+                return liveRoom;
+            }
             return null;
         }
         // 一般来说不变的信息
