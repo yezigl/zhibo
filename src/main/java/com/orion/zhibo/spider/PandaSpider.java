@@ -47,8 +47,7 @@ public class PandaSpider extends AbstractSpider {
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
                         Elements elements = document.select("#sortdetail-container li a");
                         for (Element element : elements) {
-                            String uri = element.attr("href");
-                            String roomId = uri.replace("/", "");
+                            String roomId = element.attr("data-id");
                             Element thumbnail = element.select(".video-cover img").first();
                             cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
                         }
