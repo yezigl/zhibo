@@ -74,7 +74,7 @@ public class DouyuSpider extends AbstractSpider {
         Elements scripts = document.select("script");
         for (int i = 0; i < scripts.size(); i++) {
             if (scripts.get(i).data().contains("var $ROOM =")) {
-                String room = scripts.get(i).data().replace("var $ROOM =", "").replace(";", "");
+                String room = parseScript(scripts.get(i).data(), "var $ROOM =");
                 try {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
