@@ -99,7 +99,7 @@ public class DouyuSpider extends AbstractSpider {
         liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getRoomId()));
         liveRoom.setShareUrl(roomObject.getString("room_url"));
         // 头像
-        Element avatar = document.select(".room_mes .h_tx img").first();
+        Element avatar = document.select("#anchor-info .anchor-pic img").first();
         liveRoom.setAvatar(avatar.attr("src"));
         liveRoom.setName(roomObject.getString("owner_name"));
         liveRoom.setTitle(roomObject.getString("room_name"));

@@ -74,7 +74,7 @@ public class LongzhuSpider extends AbstractSpider {
         liveRoom.setName(roomObject.getString("Name"));
         liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
         liveRoom.setDescription(roomObject.getString("Desc"));
-        liveRoom.setThumbnail("http://img.plures.net/live/screenshots/" + liveRoom.getRoomId() + "/" + roomObject.getString("GameId") + ".jpg");
+        liveRoom.setThumbnail("http://img.plures.net/live/screenshots/" + liveRoom.getRoomId() + "/" + roomObject.getString("CategoryId") + ".jpg");
         liveRoom.setAvatar(roomObject.getString("Logo"));
         
         // 直播情况
