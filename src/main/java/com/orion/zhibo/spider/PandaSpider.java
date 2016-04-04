@@ -49,7 +49,7 @@ public class PandaSpider extends AbstractSpider {
                         for (Element element : elements) {
                             String roomId = element.attr("data-id");
                             Element thumbnail = element.select(".video-cover img").first();
-                            cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("src"));
+                            cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("data-original"));
                         }
                     }
                 } catch (Exception e) {
