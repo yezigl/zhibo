@@ -31,7 +31,7 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class DouyuSpider extends AbstractSpider {
     
-    final String PANDA_ROOM = "panda-room-";
+    final String ROOM = "douyu-room-";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -44,11 +44,11 @@ public class DouyuSpider extends AbstractSpider {
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch view number {}", pg.getPlatformUrl());
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-                        Elements elements = document.select("#live-list-contentbox li a");
+                        Elements elements = document.select("#live-list-contentbox li");
                         for (Element element : elements) {
-                            String url = element.select(".imgbox img").first().attr("src");
+                            String roomId = element.attr("data-rid");
                             Element views = element.select("mes .dy-num").first();
-                            cacheService.set(PANDA_ROOM + url.hashCode(), views.text());
+                            cacheService.set(ROOM + roomId, views.text());
                             if (n++ > 20) {
                                 break;
                             }
@@ -121,7 +121,7 @@ public class DouyuSpider extends AbstractSpider {
             // instanceof JSONObject)) {
             // liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
             // }
-            int views = Utils.parseViews(cacheService.get(PANDA_ROOM + liveRoom.getThumbnail().hashCode()));
+            int views = Utils.parseViews(cacheService.get(ROOM + liveRoom.getRoomId()));
             liveRoom.setNumber(views);
         } else {
             liveRoom.setNumber(0);
