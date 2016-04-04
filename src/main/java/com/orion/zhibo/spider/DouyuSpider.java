@@ -30,6 +30,8 @@ import com.orion.zhibo.utils.Utils;
  */
 @Component
 public class DouyuSpider extends AbstractSpider {
+    
+    final String PANDA_ROOM = "panda-room-";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -44,10 +46,9 @@ public class DouyuSpider extends AbstractSpider {
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
                         Elements elements = document.select("#live-list-contentbox li a");
                         for (Element element : elements) {
-                            String uri = element.attr("href");
-                            String url = platform.getUrl() + uri.replace("/", "");
+                            String url = element.select(".imgbox img").first().attr("src");
                             Element views = element.select("mes .dy-num").first();
-                            cacheService.set(url, views.text());
+                            cacheService.set(PANDA_ROOM + url.hashCode(), views.text());
                             if (n++ > 20) {
                                 break;
                             }
@@ -120,7 +121,7 @@ public class DouyuSpider extends AbstractSpider {
             // instanceof JSONObject)) {
             // liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
             // }
-            int views = Utils.parseViews(cacheService.get(liveRoom.getShareUrl()));
+            int views = Utils.parseViews(cacheService.get(PANDA_ROOM + liveRoom.getThumbnail().hashCode()));
             liveRoom.setNumber(views);
         } else {
             liveRoom.setNumber(0);
