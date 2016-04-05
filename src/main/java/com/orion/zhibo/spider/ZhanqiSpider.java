@@ -46,10 +46,7 @@ public class ZhanqiSpider extends AbstractSpider {
         for (int i = 0; i < scripts.size(); i++) {
             String script = scripts.get(i).data();
             if (script.contains("window.oPageConfig.oRoom =")) {
-                int s = script.indexOf("window.oPageConfig.oRoom =");
-                String room = script.substring(s + 26);
-                s = room.indexOf("};");
-                room = room.substring(0, s + 1);
+                String room = parseScript(script, "window.oPageConfig.oRoom =");
                 try {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {

@@ -71,31 +71,11 @@ public class AllPlatformSpider {
     boolean isDebug = false;
 
     public void run() {
-        new Thread() {
-            public void run() {
-                parseDouyu();
-            };
-        }.start();
-        new Thread() {
-            public void run() {
-                parseZhanqi();
-            };
-        }.start();
-        new Thread() {
-            public void run() {
-                parseLongzhu();
-            };
-        }.start();
-        new Thread() {
-            public void run() {
-                parsePanda();
-            };
-        }.start();
-        new Thread() {
-            public void run() {
-                parseHuya();
-            };
-        }.start();
+        new Thread(() -> parseDouyu()).start();
+        new Thread(() -> parseZhanqi()).start();
+        new Thread(() -> parseLongzhu()).start();
+        new Thread(() -> parsePanda()).start();
+        new Thread(() -> parseHuya()).start();
     }
 
     private void upsertLiveRoom(AllRoom allRoom, Platform platform, Game game, String liveUrl) {
@@ -128,7 +108,7 @@ public class AllPlatformSpider {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), douyuSpider.header, "UTF-8"));
-            Elements elements = document.select("##live-list-contentbox li a");
+            Elements elements = document.select("#live-list-contentbox li a");
             for (Element element : elements) {
                 try {
                     String uri = element.attr("href");
