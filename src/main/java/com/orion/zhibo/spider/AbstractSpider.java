@@ -4,7 +4,6 @@
 package com.orion.zhibo.spider;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
 import com.orion.zhibo.service.ActorService;
@@ -25,6 +23,7 @@ import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
 import com.orion.zhibo.service.PlatformService;
+import com.orion.zhibo.service.RecommandService;
 
 /**
  * description here
@@ -41,13 +40,15 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     @Autowired
     PlatformService platformService;
     @Autowired
-    LiveRoomService liveRoomService;
+    RecommandService recommandService;
     @Autowired
     PlatformGameService platformGameService;
     @Autowired
     ActorService actorService;
     @Autowired
     CacheService cacheService;
+    @Autowired
+    LiveRoomService liveRoomService;
 
     Platform platform;
 
@@ -65,23 +66,6 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         }
     }
     
-    @Override
-    public void run() {
-        if (platform == null) {
-            return;
-        }
-        List<Actor> actors = actorService.listByPlatform(platform);
-        for (Actor actor : actors) {
-            try {
-                LiveRoom liveRoom = parse(actor);
-                upsertLiveRoom(liveRoom);
-                TimeUnit.SECONDS.sleep(7);
-            } catch (Exception e) {
-                logger.error("prase error {}", e.getMessage(), e);
-            }
-        }
-    }
-
     protected abstract String customPlatform();
 
     protected void customHeader() {

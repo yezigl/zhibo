@@ -13,20 +13,23 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
 import com.orion.mongodb.entity.AbstractEntity;
-import com.orion.zhibo.model.LiveStatus;
 
 /**
  * description here
  *
  * @author lidehua
- * @since 2015年10月19日
+ * @since 2015年12月7日
  */
-@Entity("recommand")
-@Indexes({ @Index(fields = { @Field("actor") }) })
+@Entity("liveroom")
+@Indexes({ @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }),
+        @Index(fields = { @Field("liveUrl") }) })
 public class LiveRoom extends AbstractEntity {
 
     @Reference
-    private Actor actor;
+    private Platform platform;
+    @Reference
+    private Game game;
+    private String liveUrl;
     private String uid; // 直播id
     private String name; // 直播名字
     private String avatar; // 头像
@@ -41,17 +44,53 @@ public class LiveRoom extends AbstractEntity {
     @Transient
     private String shareUrl;
     private String flashUrl;
-    
-    public boolean isLiving() {
-        return this.status == LiveStatus.LIVING;
+
+    /**
+     * 
+     */
+    public LiveRoom() {
     }
 
-    public Actor getActor() {
-        return actor;
+    /**
+     */
+    public LiveRoom(Recommand liveRoom) {
+        this.setUid(liveRoom.getUid());
+        this.setName(liveRoom.getName());
+        this.setAvatar(liveRoom.getAvatar());
+        this.setRoomId(liveRoom.getRoomId());
+        this.setLiveId(liveRoom.getLiveId());
+        this.setTitle(liveRoom.getTitle());
+        this.setDescription(liveRoom.getDescription());
+        this.setThumbnail(liveRoom.getThumbnail());
+        this.setViews(liveRoom.getViews());
+        this.setNumber(liveRoom.getNumber());
+        this.setStatus(liveRoom.getStatus());
+        this.setShareUrl(liveRoom.getShareUrl());
+        this.setFlashUrl(liveRoom.getFlashUrl());
     }
 
-    public void setActor(Actor actor) {
-        this.actor = actor;
+    public Platform getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public String getLiveUrl() {
+        return liveUrl;
+    }
+
+    public void setLiveUrl(String liveUrl) {
+        this.liveUrl = liveUrl;
     }
 
     public String getUid() {
@@ -99,9 +138,6 @@ public class LiveRoom extends AbstractEntity {
     }
 
     public void setTitle(String title) {
-        if (title == null || title.trim().length() == 0) {
-            return;
-        }
         this.title = title;
     }
 
@@ -164,17 +200,21 @@ public class LiveRoom extends AbstractEntity {
     @Override
     public String toString() {
         ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
-        builder.append("actor", actor.getName());
+        builder.append("platform", platform.getAbbr());
+        builder.append("game", game.getAbbr());
+        builder.append("liveUrl", liveUrl);
         builder.append("uid", uid);
         builder.append("name", name);
         builder.append("avatar", avatar);
         builder.append("roomId", roomId);
         builder.append("liveId", liveId);
         builder.append("title", title);
+        builder.append("description", description);
         builder.append("thumbnail", thumbnail);
         builder.append("views", views);
         builder.append("number", number);
         builder.append("status", status);
+        builder.append("shareUrl", shareUrl);
         builder.append("flashUrl", flashUrl);
         return builder.toString();
     }

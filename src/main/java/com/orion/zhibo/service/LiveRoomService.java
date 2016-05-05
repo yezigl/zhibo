@@ -3,7 +3,6 @@
  */
 package com.orion.zhibo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
-import com.orion.zhibo.model.ActorTag;
 import com.orion.zhibo.model.LiveStatus;
 
 /**
@@ -26,36 +24,16 @@ import com.orion.zhibo.model.LiveStatus;
 @Service
 public class LiveRoomService extends BasicService {
 
-    public List<LiveRoom> list(Game game, ActorTag tag, int offset, int limit, String keyword) {
+    public List<LiveRoom> list(Game game, int offset, int limit, String keyword) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
-        Query<Actor> actorQuery = actorDao.createQuery();
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
-            actorQuery.field("game").equal(game);
+            query.field("game").equal(game);
         }
-        if (tag != null) {
-            actorQuery.field("tags").hasThisOne(tag);
-        }
-        List<Actor> actors = actorQuery.asList();
-        if (actors.isEmpty()) {
-            return new ArrayList<>();
-        }
-        query.field("actor").in(actors);
         if (StringUtils.isNotBlank(keyword)) {
-            query.or(query.criteria("name").containsIgnoreCase(keyword),
-                    query.criteria("title").containsIgnoreCase(keyword));
-
+            query.field("name").containsIgnoreCase(keyword);
         }
         query.order("-status, -number");
         query.offset(offset).limit(limit);
-        return query.asList();
-    }
-
-    /**
-     * @return
-     */
-    public List<LiveRoom> listAllLiving() {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("status").equal(LiveStatus.LIVING);
         return query.asList();
     }
 
@@ -98,16 +76,6 @@ public class LiveRoomService extends BasicService {
     }
 
     /**
-     * @param actor
-     * @return
-     */
-    public LiveRoom getByActor(Actor actor) {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("actor").equal(actor);
-        return query.get();
-    }
-
-    /**
      * @param id
      * @return
      */
@@ -115,4 +83,26 @@ public class LiveRoomService extends BasicService {
         return liveRoomDao.get(id);
     }
 
+    public List<LiveRoom> listAllLiving() {
+        Query<LiveRoom> query = liveRoomDao.createQuery();
+        query.field("status").equal(LiveStatus.LIVING);
+        return query.asList();
+    }
+
+    /**
+     * @param liveUrl
+     * @return
+     */
+    public LiveRoom getByUrl(String liveUrl) {
+        Query<LiveRoom> query = liveRoomDao.createQuery();
+        query.field("liveUrl").equal(liveUrl);
+        return query.get();
+    }
+
+    /**
+     * @param liveRoom
+     */
+    public void delete(LiveRoom liveRoom) {
+        liveRoomDao.delete(liveRoom);
+    }
 }

@@ -13,22 +13,20 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
 import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.zhibo.model.LiveStatus;
 
 /**
  * description here
  *
  * @author lidehua
- * @since 2015年12月7日
+ * @since 2015年10月19日
  */
-@Entity("allroom")
-@Indexes({ @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }) })
-public class AllRoom extends AbstractEntity {
+@Entity("recommand")
+@Indexes({ @Index(fields = { @Field("actor") }) })
+public class Recommand extends AbstractEntity {
 
     @Reference
-    private Platform platform;
-    @Reference
-    private Game game;
-    private String liveUrl;
+    private Actor actor;
     private String uid; // 直播id
     private String name; // 直播名字
     private String avatar; // 头像
@@ -43,74 +41,17 @@ public class AllRoom extends AbstractEntity {
     @Transient
     private String shareUrl;
     private String flashUrl;
-
-    /**
-     * 
-     */
-    public AllRoom() {
-    }
-
-    /**
-     */
-    public AllRoom(LiveRoom liveRoom) {
-        this.setUid(liveRoom.getUid());
-        this.setName(liveRoom.getName());
-        this.setAvatar(liveRoom.getAvatar());
-        this.setRoomId(liveRoom.getRoomId());
-        this.setLiveId(liveRoom.getLiveId());
-        this.setTitle(liveRoom.getTitle());
-        this.setDescription(liveRoom.getDescription());
-        this.setThumbnail(liveRoom.getThumbnail());
-        this.setViews(liveRoom.getViews());
-        this.setNumber(liveRoom.getNumber());
-        this.setStatus(liveRoom.getStatus());
-        this.setShareUrl(liveRoom.getShareUrl());
-        this.setFlashUrl(liveRoom.getFlashUrl());
-    }
     
-    public static AllRoom ofLiveRoom(LiveRoom liveRoom) {
-        if (liveRoom == null) {
-            return null;
-        }
-        AllRoom allRoom = new AllRoom();
-        allRoom.setUid(liveRoom.getUid());
-        allRoom.setName(liveRoom.getName());
-        allRoom.setAvatar(liveRoom.getAvatar());
-        allRoom.setRoomId(liveRoom.getRoomId());
-        allRoom.setLiveId(liveRoom.getLiveId());
-        allRoom.setTitle(liveRoom.getTitle());
-        allRoom.setDescription(liveRoom.getDescription());
-        allRoom.setThumbnail(liveRoom.getThumbnail());
-        allRoom.setViews(liveRoom.getViews());
-        allRoom.setNumber(liveRoom.getNumber());
-        allRoom.setStatus(liveRoom.getStatus());
-        allRoom.setShareUrl(liveRoom.getShareUrl());
-        allRoom.setFlashUrl(liveRoom.getFlashUrl());
-        return allRoom;
+    public boolean isLiving() {
+        return this.status == LiveStatus.LIVING;
     }
 
-    public Platform getPlatform() {
-        return platform;
+    public Actor getActor() {
+        return actor;
     }
 
-    public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public String getLiveUrl() {
-        return liveUrl;
-    }
-
-    public void setLiveUrl(String liveUrl) {
-        this.liveUrl = liveUrl;
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 
     public String getUid() {
@@ -158,6 +99,9 @@ public class AllRoom extends AbstractEntity {
     }
 
     public void setTitle(String title) {
+        if (title == null || title.trim().length() == 0) {
+            return;
+        }
         this.title = title;
     }
 
@@ -220,21 +164,17 @@ public class AllRoom extends AbstractEntity {
     @Override
     public String toString() {
         ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
-        builder.append("platform", platform.getAbbr());
-        builder.append("game", game.getAbbr());
-        builder.append("liveUrl", liveUrl);
+        builder.append("actor", actor.getName());
         builder.append("uid", uid);
         builder.append("name", name);
         builder.append("avatar", avatar);
         builder.append("roomId", roomId);
         builder.append("liveId", liveId);
         builder.append("title", title);
-        builder.append("description", description);
         builder.append("thumbnail", thumbnail);
         builder.append("views", views);
         builder.append("number", number);
         builder.append("status", status);
-        builder.append("shareUrl", shareUrl);
         builder.append("flashUrl", flashUrl);
         return builder.toString();
     }

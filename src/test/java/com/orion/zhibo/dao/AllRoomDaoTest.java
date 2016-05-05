@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.orion.zhibo.TestConfig;
-import com.orion.zhibo.entity.AllRoom;
+import com.orion.zhibo.entity.LiveRoom;
 
 /**
  * description here
@@ -23,14 +23,14 @@ import com.orion.zhibo.entity.AllRoom;
 public class AllRoomDaoTest {
     
     @Autowired
-    AllRoomDao allRoomDao;
+    LiveRoomDao allRoomDao;
 
     /**
      * Test method for {@link com.orion.mongodb.dao.AbstractEntityDao#create(com.orion.mongodb.entity.AbstractEntity)}.
      */
     @Test
     public void testCreate() {
-        AllRoom allRoom = new AllRoom();
+        LiveRoom allRoom = new LiveRoom();
         allRoomDao.create(allRoom);
         allRoomDao.delete(allRoom);
     }

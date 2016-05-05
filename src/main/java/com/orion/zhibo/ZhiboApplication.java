@@ -5,6 +5,8 @@ package com.orion.zhibo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoDataAutoConfiguration;
 
 /**
  * description here
@@ -12,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author lidehua
  * @since 2015年5月29日
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class })
 public class ZhiboApplication {
 
     public static void main(String[] args) {

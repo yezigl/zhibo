@@ -3,7 +3,6 @@
  */
 package com.orion.zhibo.spider;
 
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 
 /**
@@ -22,5 +21,5 @@ public interface Spider {
     /**
      * 解析一个页面
      */
-    LiveRoom parse(Actor actor);
+    LiveRoom parse(String liveUrl);
 }

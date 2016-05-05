@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.orion.zhibo.TestConfig;
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.service.ActorService;
 
 /**
@@ -30,8 +29,8 @@ public class ZhanqiSpiderTest {
     
     @Test
     public void test() {
-        Actor actor = actorService.get("562f6e5319a2ab5e7a57294f");
-        zhanqiSpider.parse(actor);
+        String url = "";
+        zhanqiSpider.parse(url);
     }
 
 }

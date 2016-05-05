@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.orion.zhibo.TestConfig;
-import com.orion.zhibo.entity.LiveRoom;
+import com.orion.zhibo.entity.Recommand;
 import com.orion.zhibo.model.LiveStatus;
 
 /**
@@ -26,14 +26,14 @@ import com.orion.zhibo.model.LiveStatus;
 public class LiveRoomDaoTest {
 
     @Autowired
-    LiveRoomDao liveRoomDao;
+    RecomandDao liveRoomDao;
     @Autowired
     PlatformDao platformDao;
     
     @Test
     public void test() {
-        List<LiveRoom> list = liveRoomDao.getAll();
-        for (LiveRoom liveRoom : list) {
+        List<Recommand> list = liveRoomDao.getAll();
+        for (Recommand liveRoom : list) {
             liveRoom.setStatus(LiveStatus.LIVING);
             liveRoomDao.update(liveRoom);
         }
@@ -41,8 +41,8 @@ public class LiveRoomDaoTest {
     
     @Test
     public void testOK() {
-        List<LiveRoom> list = liveRoomDao.getAll();
-        for (LiveRoom liveRoom : list) {
+        List<Recommand> list = liveRoomDao.getAll();
+        for (Recommand liveRoom : list) {
             if ((System.currentTimeMillis() - liveRoom.getUpdateTime().getTime()) > 3600000) {
                 System.out.println(liveRoom.getName() + " " + liveRoom.getNumber());
                 liveRoomDao.delete(liveRoom);

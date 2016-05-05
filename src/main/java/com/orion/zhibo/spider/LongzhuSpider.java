@@ -3,20 +3,22 @@
  */
 package com.orion.zhibo.spider;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
+import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.utils.Utils;
-
 
 /**
  * description here
@@ -26,17 +28,17 @@ import com.orion.zhibo.utils.Utils;
  */
 @Component
 public class LongzhuSpider extends AbstractSpider {
-    
+
     @Override
     protected String customPlatform() {
         return "longzhu";
     }
 
     @Override
-    public LiveRoom parse(Actor actor) {
-        Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
-        LiveRoom liveRoom = liveRoomService.getByActor(actor);
-        
+    public LiveRoom parse(String liveUrl) {
+        Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
+        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
+
         JSONObject roomObject = null, pageData = null;
         Elements scripts = document.select("script");
         for (int i = 0; i < scripts.size(); i++) {
@@ -59,7 +61,7 @@ public class LongzhuSpider extends AbstractSpider {
             }
         }
         if (roomObject == null) {
-            logger.warn("parser {} fail", actor.getLiveUrl());
+            logger.warn("parser {} fail", liveUrl);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return liveRoom;
@@ -69,29 +71,50 @@ public class LongzhuSpider extends AbstractSpider {
         // 一般来说不变的信息
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
-            liveRoom.setActor(actor);
+            liveRoom.setLiveUrl(liveUrl);
         }
         liveRoom.setUid(roomObject.getString("UserId"));
         liveRoom.setRoomId(roomObject.getString("RoomId"));
         liveRoom.setLiveId(roomObject.getString("BoardCast_Address"));
         liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId()));
         liveRoom.setName(roomObject.getString("Name"));
-        liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"), roomObject.getString("BoardCast_Title")));
+        liveRoom.setTitle(StringUtils.defaultIfBlank(roomObject.getString("BoardCast_TitleV2"),
+                roomObject.getString("BoardCast_Title")));
         liveRoom.setDescription(roomObject.getString("Desc"));
-        liveRoom.setThumbnail("http://img.plures.net/live/screenshots/" + liveRoom.getRoomId() + "/" + roomObject.getString("CategoryId") + ".jpg");
+        liveRoom.setThumbnail("http://img.plures.net/live/screenshots/" + liveRoom.getRoomId() + "/"
+                + roomObject.getString("CategoryId") + ".jpg");
         liveRoom.setAvatar(roomObject.getString("Logo"));
-        
+
         // 直播情况
         liveRoom.setStatus((pageData != null && pageData.containsKey("live")) ? LiveStatus.LIVING : LiveStatus.CLOSE);
         if (liveRoom.getStatus() == LiveStatus.LIVING) {
             liveRoom.setTitle(pageData.getJSONObject("live").getString("title"));
-            JSONObject data = JSON.parseObject(HttpUtils.get("http://mb.tga.plu.cn/chatroom/joinroom?roomId=" + liveRoom.getRoomId()));
+            JSONObject data = JSON.parseObject(
+                    HttpUtils.get("http://mb.tga.plu.cn/chatroom/joinroom?roomId=" + liveRoom.getRoomId()));
             liveRoom.setNumber(data.getIntValue("online"));
         } else {
             liveRoom.setNumber(0);
         }
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
-        
+
         return liveRoom;
+    }
+
+    @Override
+    public void run() {
+        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        for (PlatformGame pg : pgs) {
+            Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
+            Elements elements = document.select("#list-con a");
+            for (Element element : elements) {
+                try {
+                    String url = element.attr("href");
+                    LiveRoom liveRoom = parse(url);
+                    upsertLiveRoom(liveRoom);
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
     }
 }

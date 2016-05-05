@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.orion.zhibo.spider.AllPlatformSpider;
 import com.orion.zhibo.spider.Spider;
 
 /**
@@ -27,20 +26,11 @@ public class SpiderTask {
     
     @Autowired
     List<Spider> spiders;
-    @Autowired
-    AllPlatformSpider allPlatformSpider;
     
     @Scheduled(cron = "0 */10 * * * ?")
     public void run() {
         logger.info("spider run {}", spiders.size());
-        for (Spider spider : spiders) {
-            spider.run();
-        }
+        spiders.forEach(s -> s.run());
     }
     
-    @Scheduled(cron = "0 */10 * * * ?")
-    public void runAllPlatform() {
-        logger.info("allPaltform run {}", spiders.size());
-        allPlatformSpider.run();
-    }
 }

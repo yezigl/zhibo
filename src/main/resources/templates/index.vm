@@ -20,15 +20,15 @@
         <div class="row">
         #foreach ($liveRoom in $liveRooms)
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <a class="card" target="_blank" href="/live/$!liveRoom.id">
+                <a class="card" target="_blank" href="/live/$liveRoom.id">
                     <div class="thumbnail">
-                        #if($liveRoom.actor.platform.linkProtect)
+                        #if($liveRoom.platform.linkProtect)
                         <img class="card-img" src="/image?url=$!liveRoom.thumbnail" alt="$!liveRoom.title">
                         #else
                         <img class="card-img" src="$!liveRoom.thumbnail" alt="$!liveRoom.title">
                         #end
                         <div class="caption">
-                            <img alt="$!liveRoom.actor.name" src="$liveRoom.avatar" title="$!liveRoom.actor.name" class="img-circle avatar">
+                            <img alt="$liveRoom.name" src="$liveRoom.avatar" title="$liveRoom.name" class="img-circle avatar">
                             <p class="card-title" title="$!liveRoom.title">$!liveRoom.title</p>
                             <span class="text-muted">
                                 <span>&nbsp;</span>
@@ -38,8 +38,8 @@
                                 <span class="card-title col-sm-7 col-md-7 col-lg-7" #if($liveRoom.number == 0) style="padding-left: 0;padding-right: 0;"#end>$!liveRoom.name</span>
                             </span>
                             <span class="pull-right">
-                                <img class="zb-ico" src="$!liveRoom.actor.platform.icon" alt="$!liveRoom.actor.platform.name" title="$!liveRoom.actor.platform.name" />&nbsp;
-                                <img class="zb-ico" src="$!liveRoom.actor.game.icon" alt="$!liveRoom.actor.game.name" title="$!liveRoom.actor.game.name" />
+                                <img class="zb-ico" src="$!liveRoom.platform.icon" alt="$!liveRoom.platform.name" title="$!liveRoom.platform.name" />&nbsp;
+                                <img class="zb-ico" src="$!liveRoom.game.icon" alt="$!liveRoom.game.name" title="$!liveRoom.game.name" />
                             </span>
                             <div style="margin-top: 10px;">
                                 #if($liveRoom.status == 1)
@@ -65,15 +65,6 @@
             </ul>
         </nav>
         #end
-    </div>
-
-    <div class="recommend">
-        <a href="/" class="active">
-        推荐
-        </a>
-        <a href="/all" class="inactive">
-        全部
-        </a>
     </div>
     
     #parse("footer.vm")

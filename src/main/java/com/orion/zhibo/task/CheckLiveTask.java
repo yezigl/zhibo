@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.orion.zhibo.entity.AllRoom;
+import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.model.LiveStatus;
-import com.orion.zhibo.service.AllRoomService;
+import com.orion.zhibo.service.LiveRoomService;
 
 /**
  * description here
@@ -31,20 +31,21 @@ public class CheckLiveTask {
     private static final long DELETE_TIME = 7 * 24 * 60 * 60 * 1000;
 
     @Autowired
-    AllRoomService allRoomService;
+    LiveRoomService liveRoomService;
 
     @Scheduled(initialDelay = 360000, fixedDelay = 900000)
     public void run() {
         logger.info("check live run");
-        List<AllRoom> list = allRoomService.listAllLiving();
-        for (AllRoom liveRoom : list) {
+        List<LiveRoom> list = liveRoomService.listAllLiving();
+        for (LiveRoom liveRoom : list) {
             if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > UNLIVING_TIME) {
                 liveRoom.setNumber(0);
                 liveRoom.setViews("0");
                 liveRoom.setStatus(LiveStatus.CLOSE);
-                allRoomService.update(liveRoom);
+                liveRoomService.update(liveRoom);
                 logger.info("live room {} {} close", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > DELETE_TIME) {
+                liveRoomService.delete(liveRoom);
                 logger.info("live room {} {} delete", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             }
         }

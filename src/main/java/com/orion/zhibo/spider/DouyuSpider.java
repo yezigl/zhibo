@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
@@ -30,7 +29,7 @@ import com.orion.zhibo.utils.Utils;
  */
 @Component
 public class DouyuSpider extends AbstractSpider {
-    
+
     final String ROOM = "douyu-room-";
 
     @Override
@@ -67,9 +66,9 @@ public class DouyuSpider extends AbstractSpider {
     }
 
     @Override
-    public LiveRoom parse(Actor actor) {
-        Document document = Jsoup.parse(HttpUtils.get(actor.getLiveUrl(), header, "UTF-8"));
-        LiveRoom liveRoom = liveRoomService.getByActor(actor);
+    public LiveRoom parse(String liveUrl) {
+        Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
+        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
         // 解析房间信息
         JSONObject roomObject = null;
         Elements scripts = document.select("script");
@@ -79,14 +78,14 @@ public class DouyuSpider extends AbstractSpider {
                 try {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
-                    logger.error("parse {} json error {}", actor.getLiveUrl(), room, e);
+                    logger.error("parse {} json error {}", liveUrl, room, e);
                     break;
                 }
                 break;
             }
         }
         if (roomObject == null) {
-            logger.warn("parser {} fail", actor.getLiveUrl());
+            logger.warn("parser {} fail", liveUrl);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return liveRoom;
@@ -96,7 +95,7 @@ public class DouyuSpider extends AbstractSpider {
         // 一般来说不变的信息
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
-            liveRoom.setActor(actor);
+            liveRoom.setLiveUrl(liveUrl);
         }
         liveRoom.setUid(roomObject.getString("owner_uid"));
         liveRoom.setRoomId(roomObject.getString("room_id"));
@@ -129,6 +128,25 @@ public class DouyuSpider extends AbstractSpider {
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
         return liveRoom;
+    }
+
+    @Override
+    public void run() {
+        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        for (PlatformGame pg : pgs) {
+            Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
+            Elements elements = document.select("#live-list-contentbox li a");
+            for (Element element : elements) {
+                try {
+                    String uri = element.attr("href");
+                    String url = platform.getUrl() + uri.replace("/", "");
+                    LiveRoom liveRoom = parse(url);
+                    upsertLiveRoom(liveRoom);
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
     }
 
 }

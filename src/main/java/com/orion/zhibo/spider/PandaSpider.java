@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.PlatformGame;
 import com.orion.zhibo.model.LiveStatus;
@@ -30,11 +29,11 @@ import com.orion.zhibo.utils.Utils;
  */
 @Component
 public class PandaSpider extends AbstractSpider {
-    
+
     final String PANDA_ROOM = "panda-room-";
-    
-    final Pattern ROOMID_PATTERN  = Pattern.compile("(\\d+)");
-    
+
+    final Pattern ROOMID_PATTERN = Pattern.compile("(\\d+)");
+
     @Override
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
@@ -63,24 +62,24 @@ public class PandaSpider extends AbstractSpider {
     protected String customPlatform() {
         return "panda";
     }
-    
+
     @Override
-    public LiveRoom parse(Actor actor) {
-        LiveRoom liveRoom = liveRoomService.getByActor(actor);
-        
-        Matcher matcher = ROOMID_PATTERN.matcher(actor.getLiveUrl());
+    public LiveRoom parse(String liveUrl) {
+        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
+
+        Matcher matcher = ROOMID_PATTERN.matcher(liveUrl);
         String roomId = null;
         while (matcher.find()) {
             roomId = matcher.group(1);
         }
         if (roomId == null) {
-            logger.warn("parser {} fail", actor.getLiveUrl());
+            logger.warn("parser {} fail", liveUrl);
             return null;
         }
         String ret = HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8");
         JSONObject roomObject = JSON.parseObject(ret);
         if (roomObject == null) {
-            logger.warn("parser {} fail {}", actor.getLiveUrl(), ret);
+            logger.warn("parser {} fail {}", liveUrl, ret);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return liveRoom;
@@ -90,7 +89,8 @@ public class PandaSpider extends AbstractSpider {
         // 一般来说不变的信息
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
-            liveRoom.setActor(actor);
+            liveRoom.setLiveUrl(liveUrl);
+            ;
         }
         roomObject = roomObject.getJSONObject("data");
         JSONObject hostInfo = roomObject.getJSONObject("hostinfo");
@@ -105,13 +105,32 @@ public class PandaSpider extends AbstractSpider {
         liveRoom.setDescription(roomInfo.getString("bulletin"));
         liveRoom.setThumbnail(cacheService.get(PANDA_ROOM + liveRoom.getRoomId()));
         liveRoom.setAvatar(hostInfo.getString("avatar"));
-        
+
         // 直播情况
         liveRoom.setStatus(videoInfo.getIntValue("status") == 2 ? LiveStatus.LIVING : LiveStatus.CLOSE);
-        liveRoom.setNumber(liveRoom.isLiving() ? roomInfo.getIntValue("person_num") : 0);
+        liveRoom.setNumber(liveRoom.getStatus() == LiveStatus.LIVING ? roomInfo.getIntValue("person_num") : 0);
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
-        
+
         return liveRoom;
+    }
+
+    @Override
+    public void run() {
+        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        for (PlatformGame pg : pgs) {
+            Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
+            Elements elements = document.select("#sortdetail-container li a");
+            for (Element element : elements) {
+                try {
+                    String uri = element.attr("href");
+                    String url = platform.getUrl() + uri.substring(1, uri.length());
+                    LiveRoom liveRoom = parse(url);
+                    upsertLiveRoom(liveRoom);
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
     }
 
 }

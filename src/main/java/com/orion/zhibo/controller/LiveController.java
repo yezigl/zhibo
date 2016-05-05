@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.orion.core.utils.Utils;
-import com.orion.zhibo.entity.AllRoom;
 import com.orion.zhibo.entity.LiveRoom;
 
 /**
@@ -35,11 +34,11 @@ public class LiveController extends BasicController {
     @RequestMapping("/live/{platform}/{game}/{uid}")
     public String liveroomall(@PathVariable String platform, @PathVariable String game, @PathVariable String uid,
             @RequestHeader(value = "User-Agent", required = false) String userAgent, Model model) {
-        AllRoom liveRoom = allRoomService.getByUid(platformService.getByAbbr(platform), gameService.getByAbbr(game),
+        LiveRoom liveRoom = liveRoomService.getByUid(platformService.getByAbbr(platform), gameService.getByAbbr(game),
                 uid);
         model.addAttribute("liveRoom", liveRoom);
         model.addAttribute("isMobile", Utils.isMobile(userAgent));
-        model.addAttribute("path", "/all/");
-        return "liveroomall";
+        model.addAttribute("path", "/");
+        return "liveroom";
     }
 }

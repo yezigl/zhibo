@@ -32,15 +32,6 @@
                                 #end
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">主播<span class="caret"></span></a>
-                            <ul id="dropdownTag" class="dropdown-menu">
-                                <li><a href="${path}tag/ALL/0" data-tag="ALL">全部</a></li>
-                                #foreach($actorTag in $actorTags)
-                                <li><a href="${path}tag/$actorTag/0" data-tag="$actorTag">$actorTag.title</a></li>
-                                #end
-                            </ul>
-                        </li>
                     </ul>
                     
                 </div>
