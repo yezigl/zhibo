@@ -125,6 +125,8 @@ public class PandaSpider extends AbstractSpider {
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.substring(1, uri.length());
                     LiveRoom liveRoom = parse(url);
+                    liveRoom.setPlatform(pg.getPlatform());
+                    liveRoom.setGame(pg.getGame());
                     upsertLiveRoom(liveRoom);
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);

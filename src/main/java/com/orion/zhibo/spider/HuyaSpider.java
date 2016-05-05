@@ -114,6 +114,8 @@ public class HuyaSpider extends AbstractSpider {
                 try {
                     String url = element.select(".video-info").attr("href");
                     LiveRoom liveRoom = parse(url);
+                    liveRoom.setPlatform(pg.getPlatform());
+                    liveRoom.setGame(pg.getGame());
                     upsertLiveRoom(liveRoom);
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
