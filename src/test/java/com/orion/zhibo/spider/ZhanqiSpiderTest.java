@@ -29,8 +29,7 @@ public class ZhanqiSpiderTest {
     
     @Test
     public void test() {
-        String url = "";
-        zhanqiSpider.parse(url);
+        zhanqiSpider.run();
     }
 
 }
