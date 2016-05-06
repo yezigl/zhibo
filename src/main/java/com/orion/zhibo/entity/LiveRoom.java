@@ -43,6 +43,8 @@ public class LiveRoom extends AbstractEntity {
     @Transient
     private String shareUrl;
     private String flashUrl;
+    @Transient
+    private String flashUrl2;
 
     /**
      * 
@@ -194,6 +196,19 @@ public class LiveRoom extends AbstractEntity {
 
     public void setFlashUrl(String flashUrl) {
         this.flashUrl = flashUrl;
+    }
+
+    public String getFlashUrl2() {
+        if (flashUrl != null) {
+            int index = flashUrl.indexOf("&");
+            return flashUrl.substring(0, index);
+        } else {
+            return "";
+        }
+    }
+
+    public void setFlashUrl2(String flashUrl2) {
+        this.flashUrl2 = flashUrl2;
     }
 
     @Override

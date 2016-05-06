@@ -22,4 +22,6 @@ public interface Spider {
      * 解析一个页面
      */
     LiveRoom parse(String liveUrl);
+    
+    void check();
 }

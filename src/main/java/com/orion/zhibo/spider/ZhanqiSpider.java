@@ -108,7 +108,7 @@ public class ZhanqiSpider extends AbstractSpider {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-            Elements elements = document.select("#hotList li a.js-jump-link");
+            Elements elements = document.select("ul.js-room-list-ul li a.js-jump-link");
             for (Element element : elements) {
                 try {
                     String uri = element.attr("href");

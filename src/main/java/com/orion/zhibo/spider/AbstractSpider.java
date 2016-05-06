@@ -4,6 +4,7 @@
 package com.orion.zhibo.spider;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
+import com.orion.zhibo.model.LiveStatus;
 import com.orion.zhibo.service.ActorService;
 import com.orion.zhibo.service.CacheService;
 import com.orion.zhibo.service.GameService;
@@ -24,6 +26,7 @@ import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
 import com.orion.zhibo.service.PlatformService;
 import com.orion.zhibo.service.RecommandService;
+import com.orion.zhibo.task.CheckLiveTask;
 
 /**
  * description here
@@ -63,6 +66,23 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         platform = platformService.getByAbbr(customPlatform());
         if (platform != null) {
             customHeader();
+        }
+    }
+    
+    @Override
+    public void check() {
+        List<LiveRoom> list = liveRoomService.listAllLiving(platform);
+        for (LiveRoom liveRoom : list) {
+            if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > CheckLiveTask.UNLIVING_TIME) {
+                liveRoom.setNumber(0);
+                liveRoom.setViews("0");
+                liveRoom.setStatus(LiveStatus.CLOSE);
+                liveRoomService.update(liveRoom);
+                logger.info("liveroom {} {} close", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
+            } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > CheckLiveTask.DELETE_TIME) {
+                liveRoomService.delete(liveRoom);
+                logger.info("liveroom {} {} delete", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
+            }
         }
     }
     

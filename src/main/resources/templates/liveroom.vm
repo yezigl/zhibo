@@ -37,6 +37,15 @@
         <div class="row" id="plugin">
             #if ($liveRoom.platform.iframe)
             <iframe width="100%" height="100%" src="$!liveRoom.flashUrl" frameborder="0" allowfullscreen="false"></iframe>
+            #elseif ($liveRoom.platform.abbr == 'panda')
+            <object type="application/x-shockwave-flash" data="$!liveRoom.flashUrl2" width="100%" height="100%" id="room-player-swf" style="visibility: visible;">
+                <param name="allowFullScreen" value="true">
+                <param name="wMode" value="Opaque">
+                <param name="allowScriptAccess" value="always">
+                <param name="allowFullScreenInteractive" value="true">
+                <param name="bgColor" value="#000">
+                <param name="flashvars" value="resource=$!liveRoom.flashUrl">
+             </object>
             #else
             <embed style="display: none;" width="640" height="360" allownetworking="all" allowscriptaccess="always" src="$!liveRoom.flashUrl" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
             #end
@@ -56,11 +65,9 @@
     <script type="text/javascript">
     $(function() {
         var plugin = $("#plugin");
-        #if ($liveRoom.platform.iframe)
         plugin.find("iframe").width(plugin.width()).height(plugin.width() * 9 / 16).show();
-        #else
         plugin.find("embed").width(plugin.width()).height(plugin.width() * 9 / 16).show();
-        #end
+        plugin.find("object").width(plugin.width()).height(plugin.width() * 9 / 16).show();
     });
     </script>
 </body>

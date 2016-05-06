@@ -27,7 +27,7 @@ public class SpiderTask {
     @Autowired
     List<Spider> spiders;
     
-    @Scheduled(cron = "0 */10 * * * ?")
+    @Scheduled(cron = "0 */5 * * * ?")
     public void run() {
         logger.info("spider run {}", spiders.size());
         spiders.forEach(s -> s.run());

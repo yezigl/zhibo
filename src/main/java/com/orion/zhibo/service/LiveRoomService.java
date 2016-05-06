@@ -83,9 +83,9 @@ public class LiveRoomService extends BasicService {
         return liveRoomDao.get(id);
     }
 
-    public List<LiveRoom> listAllLiving() {
+    public List<LiveRoom> listAllLiving(Platform platform) {
         Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("status").equal(LiveStatus.LIVING);
+        query.field("platform").equal(platform).field("status").equal(LiveStatus.LIVING);
         return query.asList();
     }
 
