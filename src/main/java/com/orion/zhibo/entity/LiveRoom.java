@@ -21,8 +21,7 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @since 2015年12月7日
  */
 @Entity("liveroom")
-@Indexes({ @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }),
-        @Index(fields = { @Field("liveUrl") }) })
+@Indexes({ @Index(fields = { @Field("liveUrl") }), @Index(fields = { @Field("platform"), @Field("status") }) })
 public class LiveRoom extends AbstractEntity {
 
     @Reference
