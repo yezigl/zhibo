@@ -199,8 +199,10 @@ public class LiveRoom extends AbstractEntity {
     @Override
     public String toString() {
         ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
-        builder.append("platform", platform.getAbbr());
-        builder.append("game", game.getAbbr());
+        if (platform != null)
+            builder.append("platform", platform.getAbbr());
+        if (game != null)
+            builder.append("game", game.getAbbr());
         builder.append("liveUrl", liveUrl);
         builder.append("uid", uid);
         builder.append("name", name);
