@@ -90,16 +90,16 @@ public class PandaSpider extends AbstractSpider {
         if (liveRoom == null) {
             liveRoom = new LiveRoom();
             liveRoom.setLiveUrl(liveUrl);
-            ;
         }
         roomObject = roomObject.getJSONObject("data");
         JSONObject hostInfo = roomObject.getJSONObject("hostinfo");
         JSONObject roomInfo = roomObject.getJSONObject("roominfo");
         JSONObject videoInfo = roomObject.getJSONObject("videoinfo");
-        liveRoom.setUid(hostInfo.getString("rid"));
+        JSONObject userInfo = roomObject.getJSONObject("userinfo");
+        liveRoom.setUid(userInfo.getString("rid"));
         liveRoom.setRoomId(roomInfo.getString("id"));
         liveRoom.setLiveId(videoInfo.getString("room_key"));
-        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId(), liveRoom.getRoomId()));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId(), liveRoom.getUid(), liveRoom.getRoomId()));
         liveRoom.setName(hostInfo.getString("name"));
         liveRoom.setTitle(roomInfo.getString("name"));
         liveRoom.setDescription(roomInfo.getString("bulletin"));
