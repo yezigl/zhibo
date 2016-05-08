@@ -104,7 +104,9 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
             if (liveRoom.getId() != null) {
                 liveRoomService.update(liveRoom);
             } else {
-                liveRoomService.create(liveRoom);
+                if (liveRoom.getNumber() > 1000) {
+                    liveRoomService.create(liveRoom);
+                }
             }
         } else {
             logger.info("liveRoom {}", liveRoom);
