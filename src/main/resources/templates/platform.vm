@@ -2,7 +2,7 @@
 <html>
 <head>
 #parse("head.vm")
-<title>添加平台</title>
+<title>平台管理</title>
 </head>
 <body>
 <div class="container">
@@ -58,11 +58,14 @@
                 <label class="checkbox-inline">
                     <input type="checkbox" name="iframe" value="true"#if($!platform.iframe) checked#end> iframe
                 </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="fetch" value="true"#if($!platform.fetch) checked#end> 抓取
+                </label>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">添加</button>&nbsp;&nbsp;
+                <button type="submit" class="btn btn-default">保存</button>&nbsp;&nbsp;
                 <input type="button" onclick="doDelete()" class="btn btn-default" value="删除" />
             </div>
         </div>

@@ -26,7 +26,7 @@ import com.orion.zhibo.entity.PlatformGame;
  */
 @Controller
 public class ManageController extends BasicController {
-    
+
     @ModelAttribute("noad")
     public boolean analyse() {
         return true;
@@ -34,47 +34,75 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public String man(Model model) {
-        model.addAttribute("platforms", platformService.listAll());
-        model.addAttribute("games", gameService.listAll());
         return "manage";
     }
 
-    @RequestMapping(value = "/manage/games", method = RequestMethod.POST)
-    public String manGames(@ModelAttribute Game game, Model model, RedirectAttributes ra) {
-        model.addAttribute("platforms", platformService.listAll());
+    @RequestMapping(value = "/manage/games", method = RequestMethod.GET)
+    public String games(@ModelAttribute Game game, Model model) {
         model.addAttribute("games", gameService.listAll());
 
-        gameService.create(game);
-        return "redirect:/manage";
+        return "games";
     }
 
-    @RequestMapping(value = "/manage/platformgames", method = RequestMethod.POST)
-    public String manPlatformGames(@RequestParam String platform, @RequestParam String game,
-            @RequestParam String platformUrl, Model model, RedirectAttributes ra) {
-        model.addAttribute("platforms", platformService.listAll());
-        model.addAttribute("games", gameService.listAll());
+    @RequestMapping(value = "/manage/games/{id}", method = RequestMethod.GET)
+    public String gameGet(@PathVariable String id, Model model) {
+        if (!id.equals("0")) {
+            model.addAttribute("game", gameService.get(id));
+        }
 
-        Platform p = platformService.getByAbbr(platform);
-        Game g = gameService.getByAbbr(game);
-        PlatformGame pg = new PlatformGame();
-        pg.setGame(g);
-        pg.setPlatform(p);
-        pg.setPlatformUrl(platformUrl);
-        platformGameService.create(pg);
-        return "redirect:/manage";
+        return "game";
+    }
+
+    @RequestMapping(value = "/manage/games/{id}", method = RequestMethod.POST)
+    public String gamePost(@ModelAttribute Game game, @PathVariable String id, Model model, RedirectAttributes ra) {
+        if (!id.equals("0")) {
+            game.setId(new ObjectId(id));
+        }
+        gameService.upsert(game);
+
+        return "redirect:/manage/games";
     }
 
     @RequestMapping(value = "/manage/platformgames", method = RequestMethod.GET)
     public String listPlatformGames(Model model) {
         model.addAttribute("platformgames", platformGameService.listAll());
+
         return "platformgames";
+    }
+
+    @RequestMapping(value = "/manage/platformgames/{id}", method = RequestMethod.GET)
+    public String platformGameGet(@PathVariable String id, Model model) {
+        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("games", gameService.listAll());
+        if (!id.equals("0")) {
+            model.addAttribute("pg", platformGameService.get(id));
+        }
+        return "platformgame";
+    }
+
+    @RequestMapping(value = "/manage/platformgames/{id}", method = RequestMethod.POST)
+    public String platformGamePost(@PathVariable String id, @RequestParam String platform, @RequestParam String game,
+            @RequestParam String platformUrl, Model model, RedirectAttributes ra) {
+        if (!id.equals("0")) {
+            PlatformGame pg = platformGameService.get(id);
+            pg.setPlatformUrl(platformUrl);
+            platformGameService.update(pg);
+        } else {
+            PlatformGame pg = new PlatformGame();
+            pg.setPlatform(platformService.getByAbbr(platform));
+            pg.setGame(gameService.getByAbbr(game));
+            pg.setPlatformUrl(platformUrl);
+            platformGameService.create(pg);
+        }
+
+        return "redirect:/manage/platformgames";
     }
 
     @RequestMapping(value = "/manage/platforms", method = RequestMethod.GET)
     public String platformsGet(Model model) {
         model.addAttribute("platforms", platformService.listAll());
 
-        return "platformlist";
+        return "platforms";
     }
 
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.GET)

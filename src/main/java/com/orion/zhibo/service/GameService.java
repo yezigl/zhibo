@@ -43,4 +43,23 @@ public class GameService extends BasicService {
         return gameDao.createQuery().order("order").asList();
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    public Object get(String id) {
+        return gameDao.get(id);
+    }
+
+    /**
+     * @param game
+     */
+    public void upsert(Game game) {
+        if (game.getId() == null) {
+            gameDao.save(game);
+        } else {
+            gameDao.update(game);
+        }
+    }
+
 }

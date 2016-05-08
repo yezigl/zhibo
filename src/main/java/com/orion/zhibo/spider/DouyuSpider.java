@@ -36,8 +36,6 @@ public class DouyuSpider extends AbstractSpider {
     final String ulSelector = "#live-list-contentbox li";
     final String viewsSelector = ".mes .dy-num";
 
-    int failCount = 0;
-
     @Override
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
@@ -61,7 +59,6 @@ public class DouyuSpider extends AbstractSpider {
             } catch (Exception e) {
                 logger.error("parse error", e);
             }
-            failCount = 0;
         });
     }
 
@@ -95,7 +92,6 @@ public class DouyuSpider extends AbstractSpider {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return Optional.of(liveRoom);
             }
-            failCount++;
             return Optional.empty();
         }
         // 一般来说不变的信息
@@ -137,10 +133,7 @@ public class DouyuSpider extends AbstractSpider {
     }
 
     @Override
-    public void run() {
-        if (failCount > 10) {
-            return;
-        }
+    public void runFetch() {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));

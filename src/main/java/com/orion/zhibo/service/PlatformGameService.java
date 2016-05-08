@@ -45,4 +45,19 @@ public class PlatformGameService extends BasicService {
         return platformGameDao.createQuery().order("platform").asList();
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    public PlatformGame get(String id) {
+        return platformGameDao.get(id);
+    }
+
+    /**
+     * @param pg
+     */
+    public void update(PlatformGame pg) {
+        platformGameDao.update(pg);
+    }
+
 }

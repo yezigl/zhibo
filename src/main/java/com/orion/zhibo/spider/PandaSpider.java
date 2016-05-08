@@ -118,7 +118,7 @@ public class PandaSpider extends AbstractSpider {
     }
 
     @Override
-    public void run() {
+    public void runFetch() {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));

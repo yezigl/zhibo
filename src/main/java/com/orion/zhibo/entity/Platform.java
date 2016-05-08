@@ -29,6 +29,7 @@ public class Platform extends AbstractEntity {
     private String sharePattern;
     private boolean linkProtect;
     private boolean iframe;
+    private boolean fetch;
 
     /**
      * 
@@ -104,13 +105,21 @@ public class Platform extends AbstractEntity {
     public void setLinkProtect(boolean linkProtect) {
         this.linkProtect = linkProtect;
     }
-    
+
     public boolean isIframe() {
         return iframe;
     }
 
     public void setIframe(boolean isIframe) {
         this.iframe = isIframe;
+    }
+
+    public boolean isFetch() {
+        return fetch;
+    }
+
+    public void setFetch(boolean fetch) {
+        this.fetch = fetch;
     }
 
     @Override

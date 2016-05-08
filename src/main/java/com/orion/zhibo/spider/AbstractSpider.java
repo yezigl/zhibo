@@ -70,6 +70,13 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     }
     
     @Override
+    public void run() {
+        if (platform.isFetch()) {
+            runFetch();
+        }
+    }
+    
+    @Override
     public void check() {
         long s = System.currentTimeMillis();
         List<LiveRoom> list = liveRoomService.listAllLiving(platform);
@@ -89,6 +96,8 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     }
     
     protected abstract String customPlatform();
+    
+    protected abstract void runFetch();
 
     protected void customHeader() {
         header.put(HttpHeaders.USER_AGENT,

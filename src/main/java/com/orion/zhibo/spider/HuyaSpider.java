@@ -101,7 +101,7 @@ public class HuyaSpider extends AbstractSpider {
     }
 
     @Override
-    public void run() {
+    public void runFetch() {
         Platform platform = platformService.getByAbbr("huya");
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
