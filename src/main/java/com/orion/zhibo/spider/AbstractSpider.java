@@ -74,6 +74,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         List<LiveRoom> list = liveRoomService.listAllLiving(platform);
         logger.info("get living: {}", list.size());
         for (LiveRoom liveRoom : list) {
+            logger.info("time {} {}", System.currentTimeMillis(), liveRoom.getUpdateTime().getTime());
             if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > CheckLiveTask.UNLIVING_TIME) {
                 liveRoom.setNumber(0);
                 liveRoom.setViews("0");

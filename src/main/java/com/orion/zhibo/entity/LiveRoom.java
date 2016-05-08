@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.entity;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.mongodb.morphia.annotations.Entity;
@@ -230,7 +232,7 @@ public class LiveRoom extends AbstractEntity {
         builder.append("views", views);
         builder.append("number", number);
         builder.append("status", status);
-        builder.append("updateTime", getUpdateTime());
+        builder.append("updateTime", new Date());
         builder.append("shareUrl", shareUrl);
         builder.append("flashUrl", flashUrl);
         return builder.toString();
