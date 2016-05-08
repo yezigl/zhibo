@@ -136,6 +136,9 @@ public class DouyuSpider extends AbstractSpider {
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
             Elements elements = document.select("#live-list-contentbox li a");
+            if (elements.size() == 0) {
+                logger.error("parse html error {}", pg.getPlatformUrl());
+            }
             for (Element element : elements) {
                 try {
                     String uri = element.attr("href");

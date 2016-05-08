@@ -106,6 +106,9 @@ public class LongzhuSpider extends AbstractSpider {
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
             Elements elements = document.select("#list-con a");
+            if (elements.size() == 0) {
+                logger.error("parse html error {}", pg.getPlatformUrl());
+            }
             for (Element element : elements) {
                 try {
                     String url = element.attr("href");
