@@ -34,6 +34,8 @@ public class PandaSpider extends AbstractSpider {
     final String PANDA_ROOM = "panda-room-";
 
     final Pattern ROOMID_PATTERN = Pattern.compile("(\\d+)");
+    
+    final String ulSelector = "#sortdetail-container li a";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -45,7 +47,7 @@ public class PandaSpider extends AbstractSpider {
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch thumbnail {}", pg.getPlatformUrl());
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-                        Elements elements = document.select("#sortdetail-container li a");
+                        Elements elements = document.select(ulSelector);
                         for (Element element : elements) {
                             String roomId = element.attr("data-id");
                             Element thumbnail = element.select(".video-cover img").first();
@@ -120,12 +122,15 @@ public class PandaSpider extends AbstractSpider {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-            Elements elements = document.select("#sortdetail-container li a");
+            Elements elements = document.select(ulSelector);
             if (elements.size() == 0) {
                 logger.error("parse html error {}", pg.getPlatformUrl());
             }
             for (Element element : elements) {
                 try {
+                    if (Utils.parseViews(element.select(".video-info .video-number").first().text()) < 1000) {
+                        continue;
+                    }
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.substring(1, uri.length());
                     Optional<LiveRoom> liveRoom = parse(url);

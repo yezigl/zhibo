@@ -5,6 +5,7 @@ package com.orion.zhibo.spider;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,6 +33,8 @@ import com.orion.zhibo.utils.Utils;
 public class DouyuSpider extends AbstractSpider {
 
     final String ROOM = "douyu-room-";
+    final String ulSelector = "#live-list-contentbox li";
+    final String viewsSelector = ".mes .dy-num";
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -44,10 +47,10 @@ public class DouyuSpider extends AbstractSpider {
                     for (PlatformGame pg : pgs) {
                         logger.info("fetch view number {}", pg.getPlatformUrl());
                         Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-                        Elements elements = document.select("#live-list-contentbox li");
+                        Elements elements = document.select(ulSelector);
                         for (Element element : elements) {
                             String roomId = element.attr("data-rid");
-                            Element views = element.select(".mes .dy-num").first();
+                            Element views = element.select(viewsSelector).first();
                             cacheService.set(ROOM + roomId, views.text());
                             if (n++ > 20) {
                                 break;
@@ -136,12 +139,15 @@ public class DouyuSpider extends AbstractSpider {
         List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-            Elements elements = document.select("#live-list-contentbox li a");
+            Elements elements = document.select(ulSelector + " a");
             if (elements.size() == 0) {
                 logger.error("parse html error {}", pg.getPlatformUrl());
             }
             for (Element element : elements) {
                 try {
+                    if (Utils.parseViews(element.select(viewsSelector).first().text()) < 1000) {
+                        continue;
+                    }
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.replace("/", "");
                     Optional<LiveRoom> liveRoom = parse(url);
@@ -150,6 +156,7 @@ public class DouyuSpider extends AbstractSpider {
                         e.setGame(pg.getGame());
                         upsertLiveRoom(e);
                     });
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }

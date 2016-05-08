@@ -96,6 +96,9 @@ public class ZhanqiSpider extends AbstractSpider {
             }
             for (Element element : elements) {
                 try {
+                    if (Utils.parseViews(element.select(".info-area .views span.dv").first().text()) < 1000) {
+                        continue;
+                    }
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.replace("/", "");
                     Optional<LiveRoom> liveRoom = parse(url);

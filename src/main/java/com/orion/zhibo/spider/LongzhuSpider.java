@@ -112,6 +112,9 @@ public class LongzhuSpider extends AbstractSpider {
             }
             for (Element element : elements) {
                 try {
+                    if (Utils.parseViews(element.select(".livecard-meta .livecard-meta-item-text").first().text()) < 1000) {
+                        continue;
+                    }
                     String url = element.attr("href");
                     Optional<LiveRoom> liveRoom = parse(url);
                     liveRoom.ifPresent(e -> {
