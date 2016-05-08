@@ -4,6 +4,7 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +46,7 @@ public class HuyaSpider extends AbstractSpider {
     }
 
     @Override
-    public LiveRoom parse(String liveUrl) {
+    public Optional<LiveRoom> parse(String liveUrl) {
         Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
 
@@ -93,7 +94,7 @@ public class HuyaSpider extends AbstractSpider {
             }
         }
 
-        return liveRoom;
+        return Optional.ofNullable(liveRoom);
     }
 
     @Override
@@ -109,10 +110,12 @@ public class HuyaSpider extends AbstractSpider {
             for (Element element : elements) {
                 try {
                     String url = element.select(".video-info").attr("href");
-                    LiveRoom liveRoom = parse(url);
-                    liveRoom.setPlatform(pg.getPlatform());
-                    liveRoom.setGame(pg.getGame());
-                    upsertLiveRoom(liveRoom);
+                    Optional<LiveRoom> liveRoom = parse(url);
+                    liveRoom.ifPresent(e -> {
+                        e.setPlatform(pg.getPlatform());
+                        e.setGame(pg.getGame());
+                        upsertLiveRoom(e);
+                    });
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }

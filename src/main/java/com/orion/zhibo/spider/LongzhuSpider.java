@@ -4,6 +4,7 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -35,7 +36,7 @@ public class LongzhuSpider extends AbstractSpider {
     }
 
     @Override
-    public LiveRoom parse(String liveUrl) {
+    public Optional<LiveRoom> parse(String liveUrl) {
         Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
         LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
 
@@ -64,9 +65,9 @@ public class LongzhuSpider extends AbstractSpider {
             logger.warn("parser {} fail", liveUrl);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
-                return liveRoom;
+                return Optional.of(liveRoom);
             }
-            return null;
+            return Optional.empty();
         }
         // 一般来说不变的信息
         if (liveRoom == null) {
@@ -97,7 +98,7 @@ public class LongzhuSpider extends AbstractSpider {
         }
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
-        return liveRoom;
+        return Optional.of(liveRoom);
     }
 
     @Override
@@ -112,10 +113,12 @@ public class LongzhuSpider extends AbstractSpider {
             for (Element element : elements) {
                 try {
                     String url = element.attr("href");
-                    LiveRoom liveRoom = parse(url);
-                    liveRoom.setPlatform(pg.getPlatform());
-                    liveRoom.setGame(pg.getGame());
-                    upsertLiveRoom(liveRoom);
+                    Optional<LiveRoom> liveRoom = parse(url);
+                    liveRoom.ifPresent(e -> {
+                        e.setPlatform(pg.getPlatform());
+                        e.setGame(pg.getGame());
+                        upsertLiveRoom(e);
+                    });
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }

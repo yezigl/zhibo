@@ -4,6 +4,7 @@
 package com.orion.zhibo.spider;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,7 +65,7 @@ public class PandaSpider extends AbstractSpider {
     }
 
     @Override
-    public LiveRoom parse(String liveUrl) {
+    public Optional<LiveRoom> parse(String liveUrl) {
         LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
 
         Matcher matcher = ROOMID_PATTERN.matcher(liveUrl);
@@ -82,9 +83,9 @@ public class PandaSpider extends AbstractSpider {
             logger.warn("parser {} fail {}", liveUrl, ret);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
-                return liveRoom;
+                return Optional.of(liveRoom);
             }
-            return null;
+            return Optional.empty();
         }
         // 一般来说不变的信息
         if (liveRoom == null) {
@@ -111,7 +112,7 @@ public class PandaSpider extends AbstractSpider {
         liveRoom.setNumber(liveRoom.getStatus() == LiveStatus.LIVING ? roomInfo.getIntValue("person_num") : 0);
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
-        return liveRoom;
+        return Optional.of(liveRoom);
     }
 
     @Override
@@ -127,10 +128,12 @@ public class PandaSpider extends AbstractSpider {
                 try {
                     String uri = element.attr("href");
                     String url = platform.getUrl() + uri.substring(1, uri.length());
-                    LiveRoom liveRoom = parse(url);
-                    liveRoom.setPlatform(pg.getPlatform());
-                    liveRoom.setGame(pg.getGame());
-                    upsertLiveRoom(liveRoom);
+                    Optional<LiveRoom> liveRoom = parse(url);
+                    liveRoom.ifPresent(e -> {
+                        e.setPlatform(pg.getPlatform());
+                        e.setGame(pg.getGame());
+                        upsertLiveRoom(e);
+                    });
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }

@@ -3,6 +3,8 @@
  */
 package com.orion.zhibo.spider;
 
+import java.util.Optional;
+
 import com.orion.zhibo.entity.LiveRoom;
 
 /**
@@ -21,7 +23,7 @@ public interface Spider {
     /**
      * 解析一个页面
      */
-    LiveRoom parse(String liveUrl);
+    Optional<LiveRoom> parse(String liveUrl);
     
     void check();
 }
