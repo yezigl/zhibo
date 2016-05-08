@@ -62,7 +62,7 @@ public class LongzhuSpider extends AbstractSpider {
             }
         }
         if (roomObject == null) {
-            logger.warn("parser {} fail", liveUrl);
+            logger.error("parser {} fail", liveUrl);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return Optional.of(liveRoom);

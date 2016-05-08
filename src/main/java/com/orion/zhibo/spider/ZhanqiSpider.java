@@ -3,12 +3,9 @@
  */
 package com.orion.zhibo.spider;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +13,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.orion.core.utils.HttpUtils;
 import com.orion.zhibo.entity.LiveRoom;
@@ -59,7 +55,7 @@ public class ZhanqiSpider extends AbstractSpider {
             }
         }
         if (roomObject == null) {
-            logger.warn("parser {} fail", liveUrl);
+            logger.error("parser {} fail", liveUrl);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return Optional.of(liveRoom);
@@ -87,21 +83,6 @@ public class ZhanqiSpider extends AbstractSpider {
         liveRoom.setViews(Utils.convertView(liveRoom.getNumber()));
 
         return Optional.of(liveRoom);
-    }
-
-    @SuppressWarnings("unused")
-    private String toFlashVars(JSONObject object) {
-        List<String> list = new ArrayList<>();
-        for (Entry<String, Object> entry : object.entrySet()) {
-            if (entry.getValue() instanceof JSONObject) {
-                return toFlashVars(object);
-            } else if (entry.getValue() instanceof JSONArray) {
-                continue;
-            } else {
-                list.add(entry.getKey() + "=" + entry.getValue());
-            }
-        }
-        return StringUtils.join(list, "&");
     }
 
     @Override

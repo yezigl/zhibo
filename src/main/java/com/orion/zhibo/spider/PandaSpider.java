@@ -74,13 +74,13 @@ public class PandaSpider extends AbstractSpider {
             roomId = matcher.group(1);
         }
         if (roomId == null) {
-            logger.warn("parser {} fail", liveUrl);
+            logger.error("parser {} fail", liveUrl);
             return null;
         }
         String ret = HttpUtils.get("http://www.panda.tv/api_room?roomid=" + roomId, header, "UTF-8");
         JSONObject roomObject = JSON.parseObject(ret);
         if (roomObject == null) {
-            logger.warn("parser {} fail {}", liveUrl, ret);
+            logger.error("parser {} fail {}", liveUrl, ret);
             if (liveRoom != null) {
                 liveRoom.setStatus(LiveStatus.CLOSE);
                 return Optional.of(liveRoom);
