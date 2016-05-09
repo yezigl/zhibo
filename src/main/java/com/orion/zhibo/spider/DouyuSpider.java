@@ -32,7 +32,7 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class DouyuSpider extends AbstractSpider {
 
-    final String ROOM = "douyu-room-";
+    static final String ROOM = "douyu-room-";
     final String ulSelector = "#live-list-contentbox li";
     final String viewsSelector = ".mes .dy-num";
 
@@ -81,7 +81,6 @@ public class DouyuSpider extends AbstractSpider {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
                     logger.error("parse {} json error {}", liveUrl, room, e);
-                    break;
                 }
                 break;
             }
@@ -115,13 +114,6 @@ public class DouyuSpider extends AbstractSpider {
         // 直播情况
         liveRoom.setStatus(roomObject.getIntValue("show_status") == 1 ? LiveStatus.LIVING : LiveStatus.CLOSE);
         if (liveRoom.getStatus() == LiveStatus.LIVING) {
-            // String ret = HttpUtils.get("http://www.douyutv.com/api/v1/room/"
-            // + liveRoom.getRoomId());
-            // JSONObject jsonObject = JSON.parseObject(ret);
-            // if (jsonObject.containsKey("data") && (jsonObject.get("data")
-            // instanceof JSONObject)) {
-            // liveRoom.setNumber(jsonObject.getJSONObject("data").getIntValue("online"));
-            // }
             int views = Utils.parseViews(cacheService.get(ROOM + liveRoom.getRoomId()));
             liveRoom.setNumber(views);
         } else {

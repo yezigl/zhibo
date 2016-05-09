@@ -24,9 +24,9 @@ public class CheckLiveTask {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     
-    public static final long UNLIVING_TIME = 10 * 60 * 1000;
+    public static final long UNLIVING_TIME = 10 * 60 * 1000L;
     
-    public static final long DELETE_TIME = 7 * 24 * 60 * 60 * 1000;
+    public static final long DELETE_TIME = 7 * 24 * 60 * 60 * 1000L;
 
     @Autowired
     List<Spider> spiders;

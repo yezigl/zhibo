@@ -49,7 +49,6 @@ public class ZhanqiSpider extends AbstractSpider {
                     roomObject = JSON.parseObject(room);
                 } catch (Exception e) {
                     logger.error("parse json error", room, e);
-                    break;
                 }
                 break;
             }

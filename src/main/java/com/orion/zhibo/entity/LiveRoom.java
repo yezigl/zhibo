@@ -49,30 +49,6 @@ public class LiveRoom extends AbstractEntity {
     @Transient
     private String flashUrl2;
 
-    /**
-     * 
-     */
-    public LiveRoom() {
-    }
-
-    /**
-     */
-    public LiveRoom(Recommand liveRoom) {
-        this.setUid(liveRoom.getUid());
-        this.setName(liveRoom.getName());
-        this.setAvatar(liveRoom.getAvatar());
-        this.setRoomId(liveRoom.getRoomId());
-        this.setLiveId(liveRoom.getLiveId());
-        this.setTitle(liveRoom.getTitle());
-        this.setDescription(liveRoom.getDescription());
-        this.setThumbnail(liveRoom.getThumbnail());
-        this.setViews(liveRoom.getViews());
-        this.setNumber(liveRoom.getNumber());
-        this.setStatus(liveRoom.getStatus());
-        this.setShareUrl(liveRoom.getShareUrl());
-        this.setFlashUrl(liveRoom.getFlashUrl());
-    }
-
     public Platform getPlatform() {
         return platform;
     }
@@ -203,7 +179,7 @@ public class LiveRoom extends AbstractEntity {
 
     public String getFlashUrl2() {
         if (flashUrl != null) {
-            int index = flashUrl.indexOf("&");
+            int index = flashUrl.indexOf('&');
             return flashUrl.substring(0, index);
         } else {
             return "";

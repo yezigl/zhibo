@@ -31,32 +31,30 @@ import com.orion.zhibo.utils.Utils;
 @Component
 public class PandaSpider extends AbstractSpider {
 
-    final String PANDA_ROOM = "panda-room-";
+    static final String PANDA_ROOM = "panda-room-";
 
-    final Pattern ROOMID_PATTERN = Pattern.compile("(\\d+)");
-    
+    static final Pattern ROOMID_PATTERN = Pattern.compile("(\\d+)");
+
     final String ulSelector = "#sortdetail-container li a";
 
     @Override
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
-        super.schedule(new Runnable() {
-            public void run() {
-                try {
-                    List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
-                    for (PlatformGame pg : pgs) {
-                        logger.info("fetch thumbnail {}", pg.getPlatformUrl());
-                        Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
-                        Elements elements = document.select(ulSelector);
-                        for (Element element : elements) {
-                            String roomId = element.attr("data-id");
-                            Element thumbnail = element.select(".video-cover img").first();
-                            cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("data-original"));
-                        }
+        super.schedule(() -> {
+            try {
+                List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+                for (PlatformGame pg : pgs) {
+                    logger.info("fetch thumbnail {}", pg.getPlatformUrl());
+                    Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
+                    Elements elements = document.select(ulSelector);
+                    for (Element element : elements) {
+                        String roomId = element.attr("data-id");
+                        Element thumbnail = element.select(".video-cover img").first();
+                        cacheService.set(PANDA_ROOM + roomId, thumbnail.attr("data-original"));
                     }
-                } catch (Exception e) {
-                    logger.error("parse error", e);
                 }
+            } catch (Exception e) {
+                logger.error("parse error", e);
             }
         });
     }
@@ -102,7 +100,8 @@ public class PandaSpider extends AbstractSpider {
         liveRoom.setUid(userInfo.getString("rid"));
         liveRoom.setRoomId(roomInfo.getString("id"));
         liveRoom.setLiveId(videoInfo.getString("room_key"));
-        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId(), liveRoom.getUid(), liveRoom.getRoomId()));
+        liveRoom.setFlashUrl(String.format(platform.getSharePattern(), liveRoom.getLiveId(), liveRoom.getUid(),
+                liveRoom.getRoomId()));
         liveRoom.setName(hostInfo.getString("name"));
         liveRoom.setTitle(roomInfo.getString("name"));
         liveRoom.setDescription(roomInfo.getString("bulletin"));
