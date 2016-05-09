@@ -23,7 +23,8 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @since 2015年12月7日
  */
 @Entity("liveroom")
-@Indexes({ @Index(fields = { @Field("liveUrl") }), @Index(fields = { @Field("platform"), @Field("status") }) })
+@Indexes({ @Index(fields = { @Field("liveUrl") }), @Index(fields = { @Field("platform"), @Field("status") }),
+        @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }) })
 public class LiveRoom extends AbstractEntity {
 
     @Reference
@@ -227,7 +228,6 @@ public class LiveRoom extends AbstractEntity {
         builder.append("roomId", roomId);
         builder.append("liveId", liveId);
         builder.append("title", title);
-        builder.append("description", description);
         builder.append("thumbnail", thumbnail);
         builder.append("views", views);
         builder.append("number", number);
