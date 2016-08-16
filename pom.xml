@@ -92,7 +92,7 @@
         <repository>
             <id>orion-nexus</id>
             <name>Orion Nexus</name>
-            <url>http://nexus.perhapslove.info/nexus/content/groups/public/</url>
+            <url>http://nexus.perhapslove.xyz/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 </project>
