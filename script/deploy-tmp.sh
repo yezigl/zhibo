@@ -6,7 +6,7 @@ version=0.0.1
 jar=$module-$version-SNAPSHOT.jar
 pid=`ps -ef | grep $jar | grep -v grep | awk '{print $2}'`
 
-webroot=/opt/$app
+webroot=/opt/webapps/$app
 if [ ! -d $webroot ] ; then
     sudo mkdir $webroot && sudo chown -R devel:devel $webroot
 fi
