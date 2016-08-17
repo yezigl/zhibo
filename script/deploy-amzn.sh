@@ -24,5 +24,5 @@ else
     cp $WORKSPACE/$module/target/$jar ./
 fi
 
-nohup java -jar $jar -XX:+UseG1GC &
+nohup java -jar -XX:+UseG1GC $jar &
 echo $! > $module.pid
