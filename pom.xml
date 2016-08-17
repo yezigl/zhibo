@@ -9,7 +9,7 @@
     <groupId>com.orion.zhibo</groupId>
     <artifactId>zhibo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>zhibo666</name>
+    <name>zhibo</name>
 
     <dependencies>
         <dependency>

@@ -8,6 +8,7 @@ pid=`ps -ef | grep $jar | grep -v grep | awk '{print $2}'`
 
 webroot=/opt/$app
 if [ ! -d $webroot ] ; then
+    echo "create dir $webroot"
     sudo mkdir $webroot && sudo chown -R ec2-user:ec2-user $webroot
 fi
 
