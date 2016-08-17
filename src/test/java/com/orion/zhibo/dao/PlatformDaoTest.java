@@ -36,7 +36,7 @@ public class PlatformDaoTest {
         p.setUrl("http://www.zhanqi.tv/");
         p.setHost("www.zhanqi.tv");
         p.setIcon("http://www.zhanqi.tv/favicon.ico");
-        platformDao.create(p);
+        platformDao.save(p);
     }
     
     @Test
@@ -48,7 +48,7 @@ public class PlatformDaoTest {
     public void testUpdate() {
         Platform platform = platformService.getByAbbr("zhanqi");
         platform.setSharePattern("http://dlstatic.cdn.zhanqi.tv/assets/swf/shell.swf?20151021.01");
-        platformDao.update(platform);
+        platformDao.save(platform);
     }
     
 }

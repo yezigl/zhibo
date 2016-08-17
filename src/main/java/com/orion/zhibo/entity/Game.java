@@ -3,9 +3,9 @@
  */
 package com.orion.zhibo.entity;
 
-import org.mongodb.morphia.annotations.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.MongoEntity;
 
 /**
  * description here
@@ -13,8 +13,8 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @author lidehua
  * @since 2015年9月2日
  */
-@Entity("game")
-public class Game extends AbstractEntity {
+@Document(collection = "game")
+public class Game extends MongoEntity {
 
     public static Game ALL = new Game("全部", "all");
 

@@ -5,7 +5,6 @@ package com.orion.zhibo.service;
 
 import java.util.List;
 
-import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Platform;
@@ -25,9 +24,7 @@ public class PlatformGameService extends BasicService {
      * @return
      */
     public List<PlatformGame> listByPlatform(Platform platform) {
-        Query<PlatformGame> query = platformGameDao.createQuery();
-        query.field("platform").equal(platform);
-        return query.asList();
+        return platformGameDao.findByPlatform(platform);
     }
 
     /**
@@ -35,14 +32,14 @@ public class PlatformGameService extends BasicService {
      */
     public void create(PlatformGame pg) {
         logger.info("create platformGame {}", pg);
-        platformGameDao.create(pg);
+        platformGameDao.save(pg);
     }
 
     /**
      * @return
      */
     public List<PlatformGame> listAll() {
-        return platformGameDao.createQuery().order("platform").asList();
+        return platformGameDao.findAll();
     }
 
     /**
@@ -50,14 +47,14 @@ public class PlatformGameService extends BasicService {
      * @return
      */
     public PlatformGame get(String id) {
-        return platformGameDao.get(id);
+        return platformGameDao.findOne(id);
     }
 
     /**
      * @param pg
      */
     public void update(PlatformGame pg) {
-        platformGameDao.update(pg);
+        platformGameDao.save(pg);
     }
 
 }

@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.model.ActorTag;
 import com.orion.zhibo.service.ActorService;
-import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.GameService;
-import com.orion.zhibo.service.RecommandService;
+import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
 import com.orion.zhibo.service.PlatformService;
 
@@ -36,8 +35,6 @@ public abstract class BasicController {
     protected GameService gameService;
     @Autowired
     protected PlatformService platformService;
-    @Autowired
-    protected RecommandService recommandService;
     @Autowired
     protected PlatformGameService platformGameService;
     @Autowired

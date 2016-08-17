@@ -5,11 +5,12 @@ package com.orion.zhibo.service;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.mongodb.morphia.query.Query;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
@@ -25,16 +26,11 @@ import com.orion.zhibo.model.LiveStatus;
 public class LiveRoomService extends BasicService {
 
     public List<LiveRoom> list(Game game, int offset, int limit, String keyword) {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
+        Pageable pageable = new PageRequest(offset / limit, limit, new Sort(Direction.DESC, "status", "number"));
         if (!Game.ALL.getAbbr().equals(game.getAbbr())) {
-            query.field("game").equal(game);
+            liveRoomDao.findByGame(game, pageable).getContent();
         }
-        if (StringUtils.isNotBlank(keyword)) {
-            query.field("name").containsIgnoreCase(keyword);
-        }
-        query.order("-status, -number");
-        query.offset(offset).limit(limit);
-        return query.asList();
+        return liveRoomDao.findAll(pageable).getContent();
     }
 
     /**
@@ -43,36 +39,23 @@ public class LiveRoomService extends BasicService {
      * @param uid
      */
     public LiveRoom getByUid(Platform platform, Game game, String uid) {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("platform").equal(platform);
-        query.field("game").equal(game);
-        query.field("uid").equal(uid);
-        return query.get();
-    }
-
-    public List<LiveRoom> listByPlatform(Platform platform) {
-        Query<Actor> actorQuery = actorDao.createQuery();
-        actorQuery.field("platform").equal(platform);
-        List<Actor> actors = actorQuery.asList();
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("actor").in(actors);
-        return query.asList();
+        return liveRoomDao.findByPlatformAndGameAndUid(platform, game, uid);
     }
 
     /**
      * @param liveRoom
      */
-    public String create(LiveRoom liveRoom) {
+    public LiveRoom create(LiveRoom liveRoom) {
         logger.info("create liveRoom {}", liveRoom);
-        return liveRoomDao.create(liveRoom);
+        return liveRoomDao.save(liveRoom);
     }
 
     /**
      * @param liveRoom
      */
-    public boolean update(LiveRoom liveRoom) {
+    public LiveRoom update(LiveRoom liveRoom) {
         logger.info("update liveRoom {}", liveRoom);
-        return liveRoomDao.update(liveRoom);
+        return liveRoomDao.save(liveRoom);
     }
 
     /**
@@ -80,13 +63,11 @@ public class LiveRoomService extends BasicService {
      * @return
      */
     public LiveRoom get(String id) {
-        return liveRoomDao.get(id);
+        return liveRoomDao.findOne(id);
     }
 
     public List<LiveRoom> listAllLiving(Platform platform) {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("platform").equal(platform).field("status").equal(LiveStatus.LIVING);
-        return query.asList();
+        return liveRoomDao.findByPlatformAndStatus(platform, LiveStatus.LIVING);
     }
 
     /**
@@ -94,9 +75,7 @@ public class LiveRoomService extends BasicService {
      * @return
      */
     public LiveRoom getByUrl(String liveUrl) {
-        Query<LiveRoom> query = liveRoomDao.createQuery();
-        query.field("liveUrl").equal(liveUrl);
-        return query.get();
+        return liveRoomDao.findByLiveUrl(liveUrl);
     }
 
     /**

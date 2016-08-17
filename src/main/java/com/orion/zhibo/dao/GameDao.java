@@ -3,11 +3,7 @@
  */
 package com.orion.zhibo.dao;
 
-import org.mongodb.morphia.Datastore;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.orion.mongodb.dao.AbstractEntityDao;
+import com.orion.mongodb.dao.MongoDao;
 import com.orion.zhibo.entity.Game;
 
 /**
@@ -16,14 +12,11 @@ import com.orion.zhibo.entity.Game;
  * @author lidehua
  * @since 2015年9月2日
  */
-@Repository
-public class GameDao extends AbstractEntityDao<Game> {
+public interface GameDao extends MongoDao<Game> {
 
     /**
-     * @param datastore
+     * @return
      */
-    @Autowired
-    public GameDao(Datastore datastore) {
-        super(datastore);
-    }
+    Game findByAbbr(String abbr);
+
 }

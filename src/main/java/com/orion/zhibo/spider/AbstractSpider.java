@@ -25,7 +25,6 @@ import com.orion.zhibo.service.GameService;
 import com.orion.zhibo.service.LiveRoomService;
 import com.orion.zhibo.service.PlatformGameService;
 import com.orion.zhibo.service.PlatformService;
-import com.orion.zhibo.service.RecommandService;
 import com.orion.zhibo.task.CheckLiveTask;
 
 /**
@@ -42,8 +41,6 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     GameService gameService;
     @Autowired
     PlatformService platformService;
-    @Autowired
-    RecommandService recommandService;
     @Autowired
     PlatformGameService platformGameService;
     @Autowired
@@ -71,6 +68,10 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     
     @Override
     public void run() {
+        if (platform == null) {
+            logger.warn("platform is null");
+            return;
+        }
         if (platform.isFetch()) {
             runFetch();
         }

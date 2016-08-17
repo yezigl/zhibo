@@ -31,7 +31,7 @@ public class AllRoomDaoTest {
     @Test
     public void testCreate() {
         LiveRoom allRoom = new LiveRoom();
-        allRoomDao.create(allRoom);
+        allRoomDao.save(allRoom);
         allRoomDao.delete(allRoom);
     }
 

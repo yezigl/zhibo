@@ -7,14 +7,12 @@ import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Field;
-import org.mongodb.morphia.annotations.Index;
-import org.mongodb.morphia.annotations.Indexes;
-import org.mongodb.morphia.annotations.Reference;
-import org.mongodb.morphia.annotations.Transient;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.MongoEntity;
 
 /**
  * description here
@@ -22,15 +20,16 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @author lidehua
  * @since 2015年12月7日
  */
-@Entity("liveroom")
-@Indexes({ @Index(fields = { @Field("liveUrl") }), @Index(fields = { @Field("platform"), @Field("status") }),
-        @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }) })
-public class LiveRoom extends AbstractEntity {
+@Document(collection = "liveroom")
+//@Indexes({ @Index(fields = { @Field("liveUrl") }), @Index(fields = { @Field("platform"), @Field("status") }),
+//        @Index(fields = { @Field("platform"), @Field("game"), @Field("uid") }) })
+public class LiveRoom extends MongoEntity {
 
-    @Reference
+    @DBRef
     private Platform platform;
-    @Reference
+    @DBRef
     private Game game;
+    @Indexed
     private String liveUrl;
     private String uid; // 直播id
     private String name; // 直播名字

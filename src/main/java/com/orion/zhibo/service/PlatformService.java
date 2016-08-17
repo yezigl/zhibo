@@ -6,7 +6,6 @@ package com.orion.zhibo.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mongodb.morphia.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Platform;
@@ -21,7 +20,7 @@ import com.orion.zhibo.entity.Platform;
 public class PlatformService extends BasicService {
 
     public List<Platform> listAll() {
-        List<Platform> list = platformDao.getAll();
+        List<Platform> list = platformDao.findAll();
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -29,9 +28,7 @@ public class PlatformService extends BasicService {
     }
 
     public Platform getByAbbr(String abbr) {
-        Query<Platform> query = platformDao.createQuery();
-        query.field("abbr").equal(abbr);
-        return query.get();
+        return platformDao.findByAbbr(abbr);
     }
 
     /**
@@ -48,9 +45,9 @@ public class PlatformService extends BasicService {
             p.setLogo(platform.getLogo());
             p.setSharePattern(platform.getSharePattern());
             p.setUrl(platform.getUrl());
-            platformDao.update(p);
+            platformDao.save(p);
         } else {
-            platformDao.create(platform);
+            platformDao.save(platform);
         }
     }
 
@@ -59,9 +56,9 @@ public class PlatformService extends BasicService {
      * @return
      */
     public Platform get(String id) {
-        return platformDao.get(id);
+        return platformDao.findOne(id);
     }
-    
+
     public void delete(Platform platform) {
         platformDao.delete(platform);
     }
@@ -70,11 +67,7 @@ public class PlatformService extends BasicService {
      * @param platform
      */
     public void upsert(Platform platform) {
-        if (platform.getId() != null) {
-            platformDao.update(platform);
-        } else {
-            platformDao.save(platform);
-        }
+        platformDao.save(platform);
         logger.info("upsert platform {}", platform);
     }
 }

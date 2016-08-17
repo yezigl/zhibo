@@ -38,8 +38,8 @@ public class GameDaoTest {
         game.setAlias("HearthStone");
         game.setAbbr("hearthstone");
         game.setIcon(GameCate.HEARTHSTONE.getIcon());
-        String id = gameDao.create(game);
-        System.out.println(id);
+        game = gameDao.save(game);
+        System.out.println(game.getId());
     }
 
     @Test
@@ -49,11 +49,11 @@ public class GameDaoTest {
     
     @Test
     public void testUpdate() {
-        List<Game> list = gameDao.getAll();
+        List<Game> list = gameDao.findAll();
         for (Game game : list) {
             GameCate gc = GameCate.valueOfAbbr(game.getAbbr());
             game.setOrder(gc.ordinal());
-            gameDao.update(game);
+            gameDao.save(game);
         }
     }
 }

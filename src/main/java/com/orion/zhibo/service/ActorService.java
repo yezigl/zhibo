@@ -5,7 +5,8 @@ package com.orion.zhibo.service;
 
 import java.util.List;
 
-import org.mongodb.morphia.query.Query;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Actor;
@@ -25,17 +26,17 @@ public class ActorService extends BasicService {
      * @return
      */
     public Actor get(String id) {
-        return actorDao.get(id);
+        return actorDao.findOne(id);
     }
 
-    public String create(Actor actor) {
+    public Actor create(Actor actor) {
         logger.info("create actor {}", actor);
-        return actorDao.create(actor);
+        return actorDao.save(actor);
     }
 
-    public boolean update(Actor actor) {
+    public Actor update(Actor actor) {
         logger.info("update actor {}", actor);
-        return actorDao.update(actor);
+        return actorDao.save(actor);
     }
 
     public void upsert(Actor actor) {
@@ -50,9 +51,7 @@ public class ActorService extends BasicService {
      * @return
      */
     public List<Actor> listAll() {
-        Query<Actor> query = actorDao.createQuery();
-        query.order("-utime");
-        return query.asList();
+        return actorDao.findAll(new Sort(Direction.DESC, "utime"));
     }
 
     /**
@@ -60,9 +59,7 @@ public class ActorService extends BasicService {
      * @return
      */
     public List<Actor> listByPlatform(Platform platform) {
-        Query<Actor> query = actorDao.createQuery();
-        query.field("platform").equal(platform);
-        return query.asList();
+        return actorDao.findByPlatform(platform);
     }
 
     /**
@@ -70,8 +67,6 @@ public class ActorService extends BasicService {
      * @return
      */
     public Actor getByUrl(String liveUrl) {
-        Query<Actor> query = actorDao.createQuery();
-        query.field("liveUrl").equal(liveUrl);
-        return query.get();
+        return actorDao.findByLiveUrl(liveUrl);
     }
 }

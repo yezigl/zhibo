@@ -3,11 +3,7 @@
  */
 package com.orion.zhibo.dao;
 
-import org.mongodb.morphia.Datastore;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import com.orion.mongodb.dao.AbstractEntityDao;
+import com.orion.mongodb.dao.MongoDao;
 import com.orion.zhibo.entity.Platform;
 
 /**
@@ -16,15 +12,12 @@ import com.orion.zhibo.entity.Platform;
  * @author lidehua
  * @since 2015年9月2日
  */
-@Repository
-public class PlatformDao extends AbstractEntityDao<Platform> {
+public interface PlatformDao extends MongoDao<Platform> {
 
     /**
-     * @param datastore
+     * @param abbr 
+     * @return
      */
-    @Autowired
-    public PlatformDao(Datastore datastore) {
-        super(datastore);
-    }
+    Platform findByAbbr(String abbr);
 
 }

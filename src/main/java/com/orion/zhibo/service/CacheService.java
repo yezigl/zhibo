@@ -39,18 +39,24 @@ public class CacheService extends BasicService implements InitializingBean, Disp
     @SuppressWarnings("unchecked")
     @Override
     public void afterPropertiesSet() throws Exception {
-        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath + "/cache"));
-        LRUMap<String, String> temp = (LRUMap<String, String>) inputStream.readObject();
-        inputStream.close();
-        if (temp != null) {
-            cache = temp;
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath + "/cache"));
+            LRUMap<String, String> temp = (LRUMap<String, String>) inputStream.readObject();
+            inputStream.close();
+            if (temp != null) {
+                cache = temp;
+            }
+        } catch (Exception e) {
         }
     }
 
     @Override
     public void destroy() throws Exception {
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + "/cache"));
-        outputStream.writeObject(cache);
-        outputStream.close();
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath + "/cache"));
+            outputStream.writeObject(cache);
+            outputStream.close();
+        } catch (Exception e) {
+        }
     }
 }

@@ -5,9 +5,9 @@ package com.orion.zhibo.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.mongodb.morphia.annotations.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.MongoEntity;
 
 /**
  * description here
@@ -15,8 +15,8 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @author lidehua
  * @since 2015年9月2日
  */
-@Entity("platform")
-public class Platform extends AbstractEntity {
+@Document(collection = "platform")
+public class Platform extends MongoEntity {
 
     public static Platform ALL = new Platform("全部", "all");
 
@@ -134,6 +134,7 @@ public class Platform extends AbstractEntity {
         builder.append("sharePattern", sharePattern);
         builder.append("linkProtect", linkProtect);
         builder.append("isIframe", iframe);
+        builder.append("fetch", fetch);
         return builder.toString();
     }
 

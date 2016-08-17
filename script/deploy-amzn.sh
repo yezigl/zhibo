@@ -19,10 +19,10 @@ if [ -n "$pid" ] ; then
 fi
 
 if [ $app = $module ] ; then
-    cp $WORKSPACE/target/$jar ./
+    sudo -u ec2-user cp $WORKSPACE/target/$jar ./
 else
-    cp $WORKSPACE/$module/target/$jar ./
+    sudo -u ec2-user cp $WORKSPACE/$module/target/$jar ./
 fi
 
-nohup java -jar $jar &
-echo $! > $module.pid
+sudo -u ec2-user nohup java -jar $jar &
+sudo -u ec2-user echo $! > $module.pid

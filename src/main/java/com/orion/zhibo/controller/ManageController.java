@@ -56,7 +56,7 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/manage/games/{id}", method = RequestMethod.POST)
     public String gamePost(@ModelAttribute Game game, @PathVariable String id, Model model, RedirectAttributes ra) {
         if (!id.equals("0")) {
-            game.setId(new ObjectId(id));
+            game.setId(new ObjectId(id).toString());
         }
         gameService.upsert(game);
 
@@ -120,7 +120,7 @@ public class ManageController extends BasicController {
             RedirectAttributes ra) {
         model.addAttribute("platforms", platformService.listAll());
         if (!id.equals("0")) {
-            platform.setId(new ObjectId(id));
+            platform.setId(new ObjectId(id).toString());
         }
         platformService.upsert(platform);
 

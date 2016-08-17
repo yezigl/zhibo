@@ -3,12 +3,11 @@
  */
 package com.orion.zhibo.dao;
 
-import org.mongodb.morphia.Datastore;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import com.orion.mongodb.dao.AbstractEntityDao;
+import com.orion.mongodb.dao.MongoDao;
 import com.orion.zhibo.entity.Actor;
+import com.orion.zhibo.entity.Platform;
 
 /**
  * description here
@@ -16,16 +15,16 @@ import com.orion.zhibo.entity.Actor;
  * @author lidehua
  * @since 2015年10月19日
  */
-@Repository
-public class ActorDao extends AbstractEntityDao<Actor> {
+public interface ActorDao extends MongoDao<Actor> {
 
     /**
-     * @param datastore
+     * @return
      */
-    @Autowired
-    public ActorDao(Datastore datastore) {
-        super(datastore);
-        // TODO Auto-generated constructor stub
-    }
+    List<Actor> findByPlatform(Platform platform);
+
+    /**
+     * @return
+     */
+    Actor findByLiveUrl(String liveUrl);
 
 }

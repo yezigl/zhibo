@@ -3,10 +3,10 @@
  */
 package com.orion.zhibo.entity;
 
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Reference;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.MongoEntity;
 
 /**
  * description here
@@ -14,12 +14,12 @@ import com.orion.mongodb.entity.AbstractEntity;
  * @author lidehua
  * @since 2015年9月8日
  */
-@Entity("platformgame")
-public class PlatformGame extends AbstractEntity {
+@Document(collection = "platformgame")
+public class PlatformGame extends MongoEntity {
 
-    @Reference
+    @DBRef
     private Platform platform;
-    @Reference
+    @DBRef
     private Game game;
     private String platformUrl; // 游戏在平台的地址
 

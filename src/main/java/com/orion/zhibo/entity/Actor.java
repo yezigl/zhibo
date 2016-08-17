@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Reference;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.MongoEntity;
 import com.orion.zhibo.model.ActorTag;
 
 /**
@@ -19,12 +19,12 @@ import com.orion.zhibo.model.ActorTag;
  * @author lidehua
  * @since 2015年10月19日
  */
-@Entity("actor")
-public class Actor extends AbstractEntity {
+@Document(collection = "actor")
+public class Actor extends MongoEntity {
 
-    @Reference
+    @DBRef
     private Platform platform;
-    @Reference
+    @DBRef
     private Game game;
     private List<ActorTag> tags;
     private String name;

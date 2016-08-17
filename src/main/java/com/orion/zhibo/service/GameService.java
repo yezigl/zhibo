@@ -5,7 +5,7 @@ package com.orion.zhibo.service;
 
 import java.util.List;
 
-import org.mongodb.morphia.query.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.orion.zhibo.entity.Game;
@@ -24,23 +24,21 @@ public class GameService extends BasicService {
      * @return
      */
     public Game getByAbbr(String abbr) {
-        Query<Game> query = gameDao.createQuery();
-        query.field("abbr").equal(abbr);
-        return query.get();
+        return gameDao.findByAbbr(abbr);
     }
 
     /**
      * @param game
      */
     public void create(Game game) {
-        gameDao.create(game);
+        gameDao.save(game);
     }
 
     /**
      * @return
      */
     public List<Game> listAll() {
-        return gameDao.createQuery().order("order").asList();
+        return gameDao.findAll(new Sort("order"));
     }
 
     /**
@@ -48,18 +46,14 @@ public class GameService extends BasicService {
      * @return
      */
     public Object get(String id) {
-        return gameDao.get(id);
+        return gameDao.findOne(id);
     }
 
     /**
      * @param game
      */
     public void upsert(Game game) {
-        if (game.getId() == null) {
-            gameDao.save(game);
-        } else {
-            gameDao.update(game);
-        }
+        gameDao.save(game);
     }
 
 }
