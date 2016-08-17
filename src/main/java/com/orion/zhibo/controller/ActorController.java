@@ -33,18 +33,18 @@ public class ActorController extends BasicController {
 
     @RequestMapping(value = "/actors", method = RequestMethod.GET)
     public String actorsGet(Model model) {
-        model.addAttribute("actors", actorService.listAll());
+        model.addAttribute("actors", actorRepository.findAll());
         return "actorlist";
     }
 
     @RequestMapping(value = "/actors/{id}", method = RequestMethod.GET)
     public String actorGet(Model model, @PathVariable String id) {
-        model.addAttribute("platforms", platformService.listAll());
-        model.addAttribute("games", gameService.listAll());
+        model.addAttribute("platforms", platformRepository.findAll());
+        model.addAttribute("games", gameRepository.findAll());
         model.addAttribute("tags", ActorTag.values());
 
         if (!id.equals("0")) {
-            Actor actor = actorService.get(id);
+            Actor actor = actorRepository.findOne(id);
             model.addAttribute("actor", actor);
         }
 
@@ -58,20 +58,20 @@ public class ActorController extends BasicController {
 
         Actor actor;
         if (!id.equals("0")) {
-            actor = actorService.get(id);
+            actor = actorRepository.findOne(id);
         } else {
-            actor = actorService.getByUrl(liveUrl);
+            actor = actorRepository.findByLiveUrl(liveUrl);
             if (actor == null) {
                 actor = new Actor();
             }
         }
-        actor.setPlatform(platformService.getByAbbr(platform));
-        actor.setGame(gameService.getByAbbr(game));
+        actor.setPlatform(platformRepository.findByAbbr(platform));
+        actor.setGame(gameRepository.findByAbbr(game));
         actor.setName(name);
         actor.setLiveUrl(liveUrl);
         actor.setTags(tags);
         
-        actorService.upsert(actor);
+        actorRepository.save(actor);
 
         return "redirect:/actors";
     }

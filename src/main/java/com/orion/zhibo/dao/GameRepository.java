@@ -3,8 +3,8 @@
  */
 package com.orion.zhibo.dao;
 
-import com.orion.mongodb.dao.MongoDao;
-import com.orion.zhibo.entity.Platform;
+import com.orion.mongodb.repository.OrionMongoRepository;
+import com.orion.zhibo.entity.Game;
 
 /**
  * description here
@@ -12,12 +12,11 @@ import com.orion.zhibo.entity.Platform;
  * @author lidehua
  * @since 2015年9月2日
  */
-public interface PlatformDao extends MongoDao<Platform> {
+public interface GameRepository extends OrionMongoRepository<Game> {
 
     /**
-     * @param abbr 
      * @return
      */
-    Platform findByAbbr(String abbr);
+    Game findByAbbr(String abbr);
 
 }

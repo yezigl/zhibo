@@ -16,15 +16,15 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
+import com.orion.zhibo.dao.ActorRepository;
+import com.orion.zhibo.dao.GameRepository;
+import com.orion.zhibo.dao.LiveRoomRepository;
+import com.orion.zhibo.dao.PlatformGameRepository;
+import com.orion.zhibo.dao.PlatformRepository;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
 import com.orion.zhibo.model.LiveStatus;
-import com.orion.zhibo.service.ActorService;
 import com.orion.zhibo.service.CacheService;
-import com.orion.zhibo.service.GameService;
-import com.orion.zhibo.service.LiveRoomService;
-import com.orion.zhibo.service.PlatformGameService;
-import com.orion.zhibo.service.PlatformService;
 import com.orion.zhibo.task.CheckLiveTask;
 
 /**
@@ -38,17 +38,17 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    GameService gameService;
+    GameRepository gameRepository;
     @Autowired
-    PlatformService platformService;
+    PlatformRepository platformRepository;
     @Autowired
-    PlatformGameService platformGameService;
+    PlatformGameRepository platformGameRepository;
     @Autowired
-    ActorService actorService;
+    ActorRepository actorRepository;
     @Autowired
     CacheService cacheService;
     @Autowired
-    LiveRoomService liveRoomService;
+    LiveRoomRepository liveRoomRepository;
 
     Platform platform;
 
@@ -60,7 +60,7 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        platform = platformService.getByAbbr(customPlatform());
+        platform = platformRepository.findByAbbr(customPlatform());
         if (platform != null) {
             customHeader();
         }
@@ -80,17 +80,17 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
     @Override
     public void check() {
         long s = System.currentTimeMillis();
-        List<LiveRoom> list = liveRoomService.listAllLiving(platform);
+        List<LiveRoom> list = liveRoomRepository.findByPlatformAndStatus(platform, LiveStatus.LIVING);
         logger.info("get living: {}, spend {}ms", list.size(), System.currentTimeMillis() - s);
         for (LiveRoom liveRoom : list) {
             if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > CheckLiveTask.UNLIVING_TIME) {
                 liveRoom.setNumber(0);
                 liveRoom.setViews("0");
                 liveRoom.setStatus(LiveStatus.CLOSE);
-                liveRoomService.update(liveRoom);
+                liveRoomRepository.save(liveRoom);
                 logger.info("liveroom {} {} close", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             } else if (System.currentTimeMillis() - liveRoom.getUpdateTime().getTime() > CheckLiveTask.DELETE_TIME) {
-                liveRoomService.delete(liveRoom);
+                liveRoomRepository.delete(liveRoom);
                 logger.info("liveroom {} {} delete", liveRoom.getPlatform().getAbbr(), liveRoom.getName());
             }
         }
@@ -113,10 +113,10 @@ public abstract class AbstractSpider implements Spider, InitializingBean {
         }
         if (!isDebug) {
             if (liveRoom.getId() != null) {
-                liveRoomService.update(liveRoom);
+                liveRoomRepository.save(liveRoom);
             } else {
                 if (liveRoom.getNumber() > 1000) {
-                    liveRoomService.create(liveRoom);
+                    liveRoomRepository.save(liveRoom);
                 }
             }
         } else {

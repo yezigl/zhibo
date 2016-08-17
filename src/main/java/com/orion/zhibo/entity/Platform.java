@@ -35,9 +35,11 @@ public class Platform extends MongoEntity {
      * 
      */
     public Platform() {
+        super();
     }
 
     public Platform(String name, String abbr) {
+        super();
         this.name = name;
         this.abbr = abbr;
     }

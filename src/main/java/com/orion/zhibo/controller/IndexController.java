@@ -10,6 +10,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.orion.core.utils.HttpUtils;
-import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
+import com.orion.zhibo.utils.Pagination;
 
 /**
  * description here
@@ -32,28 +36,42 @@ public class IndexController extends BasicController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(@RequestParam(required = false) String q, Model model) {
-        setUpModel(model, "game/all", "all", 0, 20, q);
+        setUpModel(model, "all", 0, 20, q);
+        return "index";
+    }
+    
+    @RequestMapping(value = "/{abbr}", method = RequestMethod.GET)
+    public String games(@PathVariable String abbr, Model model) {
+        setUpModel(model, abbr, 0, Pagination.PAGE_SIZE);
         return "index";
     }
 
-    @RequestMapping(value = "/game/{game}/{offset}", method = RequestMethod.GET)
-    public String games(@PathVariable String game, @PathVariable int offset, Model model) {
-        setUpModel(model, "game/" + game, game, offset, 20);
+    @RequestMapping(value = "/{abbr}/{offset}", method = RequestMethod.GET)
+    public String games(@PathVariable String abbr, @PathVariable int offset, Model model) {
+        setUpModel(model, abbr, offset, Pagination.PAGE_SIZE);
         return "index";
     }
 
-    private void setUpModel(Model model, String uri, String game, int offset, int limit) {
-        setUpModel(model, uri, game, offset, limit, null);
+    private void setUpModel(Model model, String abbr, int offset, int limit) {
+        setUpModel(model, abbr, offset, limit, null);
     }
 
-    private void setUpModel(Model model, String uri, String game, int offset, int limit, String keyword) {
-        model.addAttribute("path", "/");
-        model.addAttribute("uri", uri);
+    private void setUpModel(Model model, String abbr, int offset, int limit, String keyword) {
+        model.addAttribute("uri", "/" + abbr);
         model.addAttribute("offset", offset);
         model.addAttribute("limit", limit);
         model.addAttribute("q", keyword);
-        Game g = game.equals("all") ? Game.ALL : gameService.getByAbbr(game);
-        List<LiveRoom> list = liveRoomService.list(g, offset, limit, keyword);
+        List<LiveRoom> list;
+        Pageable pageable = new PageRequest(offset / limit, limit, new Sort(Direction.DESC, "status", "number"));
+        if (abbr.equals("all")) {
+            if (keyword != null) {
+                list = liveRoomRepository.findByNameContaining(keyword, pageable);
+            } else {
+                list = liveRoomRepository.findAll(pageable).getContent();
+            }
+        } else {
+            list = liveRoomRepository.findByGame(gameRepository.findByAbbr(abbr), pageable);
+        }
         model.addAttribute("liveRooms", list);
         model.addAttribute("size", list.size());
     }

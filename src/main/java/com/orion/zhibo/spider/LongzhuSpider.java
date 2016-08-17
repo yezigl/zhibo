@@ -38,7 +38,7 @@ public class LongzhuSpider extends AbstractSpider {
     @Override
     public Optional<LiveRoom> parse(String liveUrl) {
         Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
-        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
+        LiveRoom liveRoom = liveRoomRepository.findByLiveUrl(liveUrl);
 
         JSONObject roomObject = null, pageData = null;
         Elements scripts = document.select("script");
@@ -103,7 +103,7 @@ public class LongzhuSpider extends AbstractSpider {
 
     @Override
     public void runFetch() {
-        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        List<PlatformGame> pgs = platformGameRepository.findByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
             Elements elements = document.select("#list-con a");

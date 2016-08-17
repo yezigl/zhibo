@@ -42,7 +42,7 @@ public class PandaSpider extends AbstractSpider {
         super.afterPropertiesSet();
         super.schedule(() -> {
             try {
-                List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+                List<PlatformGame> pgs = platformGameRepository.findByPlatform(platform);
                 for (PlatformGame pg : pgs) {
                     logger.info("fetch thumbnail {}", pg.getPlatformUrl());
                     Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
@@ -66,7 +66,7 @@ public class PandaSpider extends AbstractSpider {
 
     @Override
     public Optional<LiveRoom> parse(String liveUrl) {
-        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
+        LiveRoom liveRoom = liveRoomRepository.findByLiveUrl(liveUrl);
 
         Matcher matcher = ROOMID_PATTERN.matcher(liveUrl);
         String roomId = null;
@@ -118,7 +118,7 @@ public class PandaSpider extends AbstractSpider {
 
     @Override
     public void runFetch() {
-        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        List<PlatformGame> pgs = platformGameRepository.findByPlatform(platform);
         for (PlatformGame pg : pgs) {
             Document document = Jsoup.parse(HttpUtils.get(pg.getPlatformUrl(), header, "UTF-8"));
             Elements elements = document.select(ulSelector);

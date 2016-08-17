@@ -5,10 +5,9 @@ package com.orion.zhibo.dao;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.orion.mongodb.dao.MongoDao;
+import com.orion.mongodb.repository.OrionMongoRepository;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.entity.LiveRoom;
 import com.orion.zhibo.entity.Platform;
@@ -19,13 +18,13 @@ import com.orion.zhibo.entity.Platform;
  * @author lidehua
  * @since 2015年9月2日
  */
-public interface LiveRoomDao extends MongoDao<LiveRoom> {
+public interface LiveRoomRepository extends OrionMongoRepository<LiveRoom> {
 
     /**
      * @param game
      * @param pageable
      */
-    Page<LiveRoom> findByGame(Game game, Pageable pageable);
+    List<LiveRoom> findByGame(Game game, Pageable pageable);
 
     /**
      * @param platform
@@ -40,12 +39,19 @@ public interface LiveRoomDao extends MongoDao<LiveRoom> {
      * @param living
      * @return
      */
-    List<LiveRoom> findByPlatformAndStatus(Platform platform, int living);
+    List<LiveRoom> findByPlatformAndStatus(Platform platform, int status);
 
     /**
      * @param liveUrl
      * @return
      */
     LiveRoom findByLiveUrl(String liveUrl);
+
+    /**
+     * @param name
+     * @param pageable
+     * @return
+     */
+    List<LiveRoom> findByNameContaining(String name, Pageable pageable);
 
 }

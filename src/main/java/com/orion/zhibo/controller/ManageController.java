@@ -39,7 +39,7 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/manage/games", method = RequestMethod.GET)
     public String games(@ModelAttribute Game game, Model model) {
-        model.addAttribute("games", gameService.listAll());
+        model.addAttribute("games", gameRepository.findAll());
 
         return "games";
     }
@@ -47,7 +47,7 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/manage/games/{id}", method = RequestMethod.GET)
     public String gameGet(@PathVariable String id, Model model) {
         if (!id.equals("0")) {
-            model.addAttribute("game", gameService.get(id));
+            model.addAttribute("game", gameRepository.findOne(id));
         }
 
         return "game";
@@ -58,24 +58,24 @@ public class ManageController extends BasicController {
         if (!id.equals("0")) {
             game.setId(new ObjectId(id).toString());
         }
-        gameService.upsert(game);
+        gameRepository.save(game);
 
         return "redirect:/manage/games";
     }
 
     @RequestMapping(value = "/manage/platformgames", method = RequestMethod.GET)
     public String listPlatformGames(Model model) {
-        model.addAttribute("platformgames", platformGameService.listAll());
+        model.addAttribute("platformgames", platformGameRepository.findAll());
 
         return "platformgames";
     }
 
     @RequestMapping(value = "/manage/platformgames/{id}", method = RequestMethod.GET)
     public String platformGameGet(@PathVariable String id, Model model) {
-        model.addAttribute("platforms", platformService.listAll());
-        model.addAttribute("games", gameService.listAll());
+        model.addAttribute("platforms", platformRepository.findAll());
+        model.addAttribute("games", gameRepository.findAll());
         if (!id.equals("0")) {
-            model.addAttribute("pg", platformGameService.get(id));
+            model.addAttribute("pg", platformGameRepository.findOne(id));
         }
         return "platformgame";
     }
@@ -84,15 +84,15 @@ public class ManageController extends BasicController {
     public String platformGamePost(@PathVariable String id, @RequestParam String platform, @RequestParam String game,
             @RequestParam String platformUrl, Model model, RedirectAttributes ra) {
         if (!id.equals("0")) {
-            PlatformGame pg = platformGameService.get(id);
+            PlatformGame pg = platformGameRepository.findOne(id);
             pg.setPlatformUrl(platformUrl);
-            platformGameService.update(pg);
+            platformGameRepository.save(pg);
         } else {
             PlatformGame pg = new PlatformGame();
-            pg.setPlatform(platformService.getByAbbr(platform));
-            pg.setGame(gameService.getByAbbr(game));
+            pg.setPlatform(platformRepository.findByAbbr(platform));
+            pg.setGame(gameRepository.findByAbbr(game));
             pg.setPlatformUrl(platformUrl);
-            platformGameService.create(pg);
+            platformGameRepository.save(pg);
         }
 
         return "redirect:/manage/platformgames";
@@ -100,7 +100,7 @@ public class ManageController extends BasicController {
 
     @RequestMapping(value = "/manage/platforms", method = RequestMethod.GET)
     public String platformsGet(Model model) {
-        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("platforms", platformRepository.findAll());
 
         return "platforms";
     }
@@ -108,7 +108,7 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.GET)
     public String platformsGet(@PathVariable String id, Model model) {
         if (!id.equals("0")) {
-            Platform platform = platformService.get(id);
+            Platform platform = platformRepository.findOne(id);
             model.addAttribute("platform", platform);
         }
 
@@ -118,11 +118,11 @@ public class ManageController extends BasicController {
     @RequestMapping(value = "/manage/platforms/{id}", method = RequestMethod.POST)
     public String platformsPost(@ModelAttribute Platform platform, @PathVariable String id, Model model,
             RedirectAttributes ra) {
-        model.addAttribute("platforms", platformService.listAll());
+        model.addAttribute("platforms", platformRepository.findAll());
         if (!id.equals("0")) {
             platform.setId(new ObjectId(id).toString());
         }
-        platformService.upsert(platform);
+        platformRepository.save(platform);
 
         return "redirect:/manage/platforms";
     }
@@ -131,8 +131,8 @@ public class ManageController extends BasicController {
     @ResponseBody
     public String platformsDelete(@PathVariable String id, Model model) {
         if (!id.equals("0")) {
-            Platform platform = platformService.get(id);
-            platformService.delete(platform);
+            Platform platform = platformRepository.findOne(id);
+            platformRepository.delete(platform);
         }
         return "ok";
     }

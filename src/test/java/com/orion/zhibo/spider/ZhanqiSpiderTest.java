@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.orion.zhibo.TestConfig;
-import com.orion.zhibo.service.ActorService;
 
 /**
  * description here
@@ -24,8 +23,6 @@ public class ZhanqiSpiderTest {
 
     @Autowired
     ZhanqiSpider zhanqiSpider;
-    @Autowired
-    ActorService actorService;
     
     @Test
     public void test() {

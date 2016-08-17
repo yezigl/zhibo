@@ -5,7 +5,7 @@ package com.orion.zhibo.dao;
 
 import java.util.List;
 
-import com.orion.mongodb.dao.MongoDao;
+import com.orion.mongodb.repository.OrionMongoRepository;
 import com.orion.zhibo.entity.Platform;
 import com.orion.zhibo.entity.PlatformGame;
 
@@ -15,7 +15,7 @@ import com.orion.zhibo.entity.PlatformGame;
  * @author lidehua
  * @since 2015年9月2日
  */
-public interface PlatformGameDao extends MongoDao<PlatformGame> {
+public interface PlatformGameRepository extends OrionMongoRepository<PlatformGame> {
 
     /**
      * @param platform

@@ -51,7 +51,7 @@ public class HuyaSpider extends AbstractSpider {
     @Override
     public Optional<LiveRoom> parse(String liveUrl) {
         Document document = Jsoup.parse(HttpUtils.get(liveUrl, header, "UTF-8"));
-        LiveRoom liveRoom = liveRoomService.getByUrl(liveUrl);
+        LiveRoom liveRoom = liveRoomRepository.findByLiveUrl(liveUrl);
 
         String chtopid, subchid;
         Elements scripts = document.select("script");
@@ -102,8 +102,7 @@ public class HuyaSpider extends AbstractSpider {
 
     @Override
     public void runFetch() {
-        Platform platform = platformService.getByAbbr("huya");
-        List<PlatformGame> pgs = platformGameService.listByPlatform(platform);
+        List<PlatformGame> pgs = platformGameRepository.findByPlatform(platform);
         for (PlatformGame pg : pgs) {
             if (pg.getGame().getAbbr().equals(GameCate.LOL.abbr)) {
                 loadByAjax(platform, pg.getGame());

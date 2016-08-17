@@ -13,13 +13,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.orion.zhibo.dao.ActorRepository;
+import com.orion.zhibo.dao.GameRepository;
+import com.orion.zhibo.dao.LiveRoomRepository;
+import com.orion.zhibo.dao.PlatformGameRepository;
+import com.orion.zhibo.dao.PlatformRepository;
 import com.orion.zhibo.entity.Game;
 import com.orion.zhibo.model.ActorTag;
-import com.orion.zhibo.service.ActorService;
-import com.orion.zhibo.service.GameService;
-import com.orion.zhibo.service.LiveRoomService;
-import com.orion.zhibo.service.PlatformGameService;
-import com.orion.zhibo.service.PlatformService;
 
 /**
  * description here
@@ -32,15 +32,15 @@ public abstract class BasicController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     
     @Autowired
-    protected GameService gameService;
+    protected GameRepository gameRepository;
     @Autowired
-    protected PlatformService platformService;
+    protected PlatformRepository platformRepository;
     @Autowired
-    protected PlatformGameService platformGameService;
+    protected PlatformGameRepository platformGameRepository;
     @Autowired
-    protected ActorService actorService;
+    protected ActorRepository actorRepository;
     @Autowired
-    protected LiveRoomService liveRoomService;
+    protected LiveRoomRepository liveRoomRepository;
     
     @Value("${profile}")
     String profile;
@@ -52,7 +52,7 @@ public abstract class BasicController {
     
     @ModelAttribute("games")
     public List<Game> games() {
-        return gameService.listAll();
+        return gameRepository.findAll();
     }
     
     @ModelAttribute("actorTags")

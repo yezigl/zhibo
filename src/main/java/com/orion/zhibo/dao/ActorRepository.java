@@ -5,7 +5,7 @@ package com.orion.zhibo.dao;
 
 import java.util.List;
 
-import com.orion.mongodb.dao.MongoDao;
+import com.orion.mongodb.repository.OrionMongoRepository;
 import com.orion.zhibo.entity.Actor;
 import com.orion.zhibo.entity.Platform;
 
@@ -15,7 +15,7 @@ import com.orion.zhibo.entity.Platform;
  * @author lidehua
  * @since 2015年10月19日
  */
-public interface ActorDao extends MongoDao<Actor> {
+public interface ActorRepository extends OrionMongoRepository<Actor> {
 
     /**
      * @return
