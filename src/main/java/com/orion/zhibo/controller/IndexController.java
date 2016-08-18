@@ -40,7 +40,7 @@ public class IndexController extends BasicController {
         return "index";
     }
     
-    @RequestMapping(value = "/{abbr:\\w+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{abbr:[^.]+}", method = RequestMethod.GET)
     public String games(@PathVariable String abbr, Model model) {
         setUpModel(model, abbr, 0, Pagination.PAGE_SIZE);
         return "index";
