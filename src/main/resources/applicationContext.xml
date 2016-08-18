@@ -12,5 +12,8 @@
     
 
     <mvc:resources mapping="/static/**" location="classpath:/static/" />
+    <mvc:resources mapping="/robots.txt" location="classpath:/static/robots.txt" />
+    <mvc:resources mapping="/**.html" location="classpath:/static/" />
+    <mvc:resources mapping="/sitemap.xml" location="classpath:/static/sitemap.xml" />
     
 </beans>

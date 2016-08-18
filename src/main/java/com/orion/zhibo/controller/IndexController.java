@@ -40,13 +40,13 @@ public class IndexController extends BasicController {
         return "index";
     }
     
-    @RequestMapping(value = "/{abbr}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{abbr:\\w+}", method = RequestMethod.GET)
     public String games(@PathVariable String abbr, Model model) {
         setUpModel(model, abbr, 0, Pagination.PAGE_SIZE);
         return "index";
     }
 
-    @RequestMapping(value = "/{abbr}/{offset}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{abbr:\\w+}/{offset:\\d+}", method = RequestMethod.GET)
     public String games(@PathVariable String abbr, @PathVariable int offset, Model model) {
         setUpModel(model, abbr, offset, Pagination.PAGE_SIZE);
         return "index";
